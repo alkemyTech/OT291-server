@@ -21,7 +21,7 @@ npx sequelize-cli db:migrate
 npx sequelize-cli db:seed:all
 ```
 
-## Start local server
+## Start local server HOLA
 
 ``` bash
 npm start
