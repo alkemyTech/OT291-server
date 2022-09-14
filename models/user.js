@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -11,47 +9,50 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       User.belongsTo(models.Role, {
-        as: 'role',
+        as: "role",
         foreignKey: 'id',
         sourceKey: 'roleId',
       });
     }
-  };
-  User.init({
-    id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
+  }
+  User.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+      },
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      image: {
+        type: DataTypes.STRING,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      roleId: {
+        type: DataTypes.INTEGER,
+      },
+      deletedAt: DataTypes.DATE,
     },
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-    image: {
-      type: DataTypes.STRING,
-    },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    roleId: {
-      type: DataTypes.INTEGER,
-    },
-    deletedAt: DataTypes.DATE
-  }, {
-    sequelize,
-    modelName: 'User',
-    timestamps: true,
-    paranoid: true,
-  });
+    {
+      sequelize,
+      modelName: 'User',
+      timestamps: true,
+      paranoid: true,
+    }
+  );
   return User;
 };
