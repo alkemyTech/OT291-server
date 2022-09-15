@@ -10,13 +10,13 @@ class AuthController {
       },
     });
     if (!userInfo[0]) {
-      return { message: 'Email not found!' };
+      return { ok: false };
     }
 
     //Validamos la passwords del body con la password hash de la DB
     const passDataBase = bcrypt.compareSync(pass, userInfo[0].password);
     if (!passDataBase) {
-      return { message: 'Incorrect password!' };
+      return { ok: false };
     }
 
     return userInfo;
