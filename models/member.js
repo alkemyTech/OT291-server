@@ -25,15 +25,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     facebookUrl: {
-      allowNull: true,
       type: DataTypes.STRING
     },
     instagramUrl: {
-      allowNull: true,
       type: DataTypes.STRING
     },
     linkedinUrl: {
-      allowNull: true,
       type: DataTypes.STRING
     },
     image: {
@@ -41,15 +38,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     description: {
-      allowNull: true,
       type: DataTypes.STRING
     }, 
-    deletedAt: {
-      type: DataTypes.DATE
-    }
+    deletedAt:DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'Member', paranoid: true
+    modelName: 'Member', 
+    paranoid: true
   });
   return Member;
 };
