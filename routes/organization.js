@@ -3,7 +3,7 @@ const router = express.Router();
 
 const OrganizationController = require('../controllers/organization.js');
 
-const organizationController = new OrganizationService();
+const organizationController = new OrganizationController();
 
 router.get('/public', async (req, res, next) => {
   try {
