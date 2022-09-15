@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const bcrypt = require('bcryptjs');
 
 class AuthController {
   async loginUser(email, pass) {
@@ -8,13 +9,14 @@ class AuthController {
         email: email,
       },
     });
-    if (!userInfo.length) {
+    if (!userInfo[0]) {
       return { message: 'Email not found!' };
     }
 
-    //Validamos la passwords
-    if (pass != userInfo.password) {
-      return { message: 'Wrong password' };
+    //Validamos la passwords del body con la password hash de la DB
+    const passDataBase = bcrypt.compareSync(pass, userInfo[0].password);
+    if (!passDataBase) {
+      return { message: 'Incorrect password!' };
     }
 
     return userInfo;
