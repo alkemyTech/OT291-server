@@ -1,1 +1,3 @@
-module.exports = class OrganizationController {};
+class OrganizationController {}
+
+module.exports = OrganizationController;
