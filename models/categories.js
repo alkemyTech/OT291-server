@@ -16,12 +16,12 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       description: DataTypes.STRING,
       image: DataTypes.STRING,
-      deletedAt: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: 'Categories',
       paranoid: true,
+      timestamps: true
     }
   );
   return Categories;

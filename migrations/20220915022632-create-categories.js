@@ -7,29 +7,27 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTERGER,
+        type: Sequelize.INTEGER,
       },
       name: {
         allowNull: false,
         type: Sequelize.STRING,
       },
       description: {
-        allowNull: true,
         type: Sequelize.STRING,
       },
       image: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.STRING,
       },
-      createdAt: {
-        allowNull: true,
+      deletedAt: {
         type: Sequelize.DATE,
       },
-      updatedAt: {
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      deletedAt: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
