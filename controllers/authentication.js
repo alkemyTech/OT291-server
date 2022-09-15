@@ -1,9 +1,23 @@
 const { User } = require('../models');
 
 class AuthController {
-  async loginUser() {
-    const findAuth = await User.findOne();
-    return findAuth;
+  async loginUser(email, pass) {
+    //Primero validamos el email
+    const userInfo = await User.findAll({
+      where: {
+        email: email,
+      },
+    });
+    if (!userInfo.length) {
+      return { message: 'Email not found!' };
+    }
+
+    //Validamos la passwords
+    if (pass != userInfo.password) {
+      return { message: 'Wrong password' };
+    }
+
+    return userInfo;
   }
 }
 
