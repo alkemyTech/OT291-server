@@ -8,6 +8,6 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-router.use('/users', deleteUser)
+router.use('/users', deleteUser);
 
 module.exports = router;
