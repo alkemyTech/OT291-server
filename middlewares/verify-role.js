@@ -8,10 +8,9 @@ const isOwner = (req, res = response, next) => {
         })
     }
 
-    const {idFromParams} = req.params;
     const {id, role, name} = req.user;
 
-    if(id !== idFromParams && role !== 'ADMIN_ROLE'){
+    if(id !== req.params.id && role !== 'ADMIN_ROLE'){
         return res.status(403).json({
             msg: `Resource not available for ${name}`
         })
