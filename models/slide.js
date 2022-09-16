@@ -11,18 +11,41 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Slide.belongsTo(models.Organization, { as: 'organization' })
+      Slide.belongsTo(models.Organization, {
+        as: 'organization',
+        foreignKey: 'id',
+        sourceKey: 'organizationId',
+      })
     }
   };
   Slide.init({
-    imageUrl: DataTypes.STRING,
-    text: DataTypes.STRING,
-    order: DataTypes.INTEGER,
-    organizationId: DataTypes.INTEGER,
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
+      primaryKey:true
+    },
+    imageUrl: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    text: {
+      allowNull: false,
+      type: DataTypes.STRING
+    },
+    order: {
+      allowNull: false,
+      type: DataTypes.INTEGER
+    },
+    organizationId: {
+      type: DataTypes.INTEGER
+    },
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'Slide',
-    omitNull: false
+    timestamps: true,
+    paranoid: true
   });
   return Slide;
 };

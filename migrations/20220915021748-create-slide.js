@@ -9,12 +9,15 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       imageUrl: {
+        allowNull:false,
         type: Sequelize.STRING
       },
       text: {
+        allowNull:false,
         type: Sequelize.STRING
       },
       order: {
+        allowNull:false,
         type: Sequelize.INTEGER
       },
       organizationId: {
