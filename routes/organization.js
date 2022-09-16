@@ -3,15 +3,10 @@ const router = express.Router();
 
 const OrganizationController = require('../controllers/organization.js');
 
-const organizationController = new OrganizationController();
-
 router.get('/public', async (req, res, next) => {
-  try {
-    const response = await organizationController.showPublicInformation();
-    res.status(200).json(response);
-  } catch (error) {
-    next(error);
-  }
+  const response = await OrganizationController.showPublicInformation();
+  if (response) return res.status(200).json(response);
+  else return res.status(404).json({ msg: 'Organization not found' });
 });
 
 module.exports = router;
