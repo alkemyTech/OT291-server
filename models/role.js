@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Role.init({
-    name: DataTypes.STRING,
+    name: DataTypes.STRING,    
     description: DataTypes.STRING,
     deletedAt: DataTypes.DATE
   }, {
