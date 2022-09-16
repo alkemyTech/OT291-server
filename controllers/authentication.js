@@ -2,13 +2,13 @@ const { User } = require('../models');
 const bcrypt = require('bcryptjs');
 
 class AuthController {
-  async loginUser(email, pass) {
+  static async loginUser(email, pass) {
     try {
       const userInfo = await User.findAll({
-        attributes: ['email', 'password'],
         where: {
           email: email,
         },
+        attributes: ['email', 'password'],
       });
 
       if (!userInfo[0]) {
