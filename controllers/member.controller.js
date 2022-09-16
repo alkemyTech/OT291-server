@@ -4,4 +4,4 @@ class MemberController {
 
 }
 
-module.exports = new MemberController
+module.exports = MemberController
