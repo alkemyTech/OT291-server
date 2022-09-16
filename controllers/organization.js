@@ -1,16 +1,17 @@
 const { Organization } = require('../models/');
 
 class OrganizationController {
-  async showPublicInformation() {
-    const findOrganization = await Organization.findOne();
-    return {
-      name: findOrganization.name,
-      image: findOrganization.image,
-      phone: findOrganization.phone,
-      address: findOrganization.address,
-    };
+  static async showPublicInformation() {
+    try {
+      const findOrganization = await Organization.findOne({
+        where: { name: 'Big Org' },
+        attributes: ['name', 'image', 'phone', 'address'],
+      });
+      return findOrganization;
+    } catch (error) {
+      return error;
+    }
   }
 }
 
 module.exports = OrganizationController;
-
