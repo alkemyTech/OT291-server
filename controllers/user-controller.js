@@ -1,19 +1,17 @@
-const db = require('../models');
 const { createUser } = require('../services/user');
 
-class UserController {
-  async post(req, res) {
+module.exports = {
+  post: async (req, res) => {
     try {
       const user = await createUser(req.body);
-      res.send({
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-      });
+      const response = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email
+      };
+      res.json(response);
     } catch (error) {
       console.log(error);
     }
-  }
-}
-
-module.exports = UserController;
+  },
+};
