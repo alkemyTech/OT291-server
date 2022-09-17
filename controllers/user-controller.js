@@ -1,7 +1,7 @@
 const { createUser } = require('../services/user');
 
-module.exports = {
-  post: async (req, res, next) => {
+class UserController {
+  async post(req, res, next) {
     try {
       const user = await createUser(req.body);
       const response = {
@@ -13,5 +13,7 @@ module.exports = {
     } catch (error) {
       next(error);
     }
-  },
-};
+  }
+}
+
+module.exports = UserController;
