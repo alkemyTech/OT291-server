@@ -5,10 +5,10 @@ module.exports = {
     await queryInterface.bulkInsert('Users', [{
       firstName: 'Usuario',
       lastName: 'Demo',
-      email: 'test@test.com',
+      email: 'test@testtoken.com',
       // Important: Password not encrypted yet! 
       password: '1234',
-      roleId: 1,
+      roleId: 20,
       image: 'https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png',
       createdAt: new Date,
       updatedAt: new Date
