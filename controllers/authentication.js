@@ -1,28 +1,21 @@
-const { User } = require('../models');
+const db = require('../models');
 const bcrypt = require('bcryptjs');
+const AuthDao = require('../dao/authentication');
 
 class AuthController {
-  static async loginUser(email, pass) {
+  static async loginUser(req, res) {
+    const { email } = req.body;
+    const { password } = req.body;
     try {
-      const userInfo = await User.findAll({
-        where: {
-          email: email,
-        },
-        attributes: ['email', 'password'],
-      });
+      const userData = await AuthDao._findUser(email);
 
-      if (!userInfo[0]) {
-        return { ok: false };
+      if (!userData || !bcrypt.compareSync(password, userData.password)) {
+        throw { ok: false };
       }
 
-      const passDataBase = bcrypt.compareSync(pass, userInfo[0].password);
-      if (!passDataBase) {
-        return { ok: false };
-      }
-
-      return userInfo;
+      return res.status(200).json(userData);
     } catch (error) {
-      console.log(error);
+      return res.status(400).json(error);
     }
   }
 }

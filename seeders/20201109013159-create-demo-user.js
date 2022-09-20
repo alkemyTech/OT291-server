@@ -2,17 +2,37 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('Users', [{
-      firstName: 'Usuario',
-      lastName: 'Demo',
-      email: 'test@test.com',
-      // Important: Password not encrypted yet! 
-      password: '1234',
-      roleId: 1,
-      image: 'https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png',
-      createdAt: new Date,
-      updatedAt: new Date
-    }], {});
+    await queryInterface.bulkInsert(
+      'Users',
+      [
+        {
+          firstName: 'Usuario',
+          lastName: 'Demo',
+          email: 'test@test.com',
+          // Important: Password not encrypted yet!
+          password: '1234',
+          roleId: 1,
+          image:
+            'https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          firstName: 'Login',
+          lastName: 'Demo',
+          email: 'login@test.com',
+          // Important: Password encrypted!
+          password:
+            '$2a$10$EIl1EVh.tNoASC4oipW4Re8Ta7LbQlTVCs.s/UCoAyoDqraisotpC', //'sssss'
+          roleId: 1,
+          image:
+            'https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ],
+      {}
+    );
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -22,5 +42,5 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
-  }
+  },
 };
