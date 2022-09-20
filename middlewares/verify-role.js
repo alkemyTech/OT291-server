@@ -1,25 +1,52 @@
-const { response } = require("express");
+const { response } = require('express');
+const db = require('../models');
+const { User } = db;
+const jwt = require('jsonwebtoken');
 
-const isOwner = (req, res = response, next) => {
-
-    if(!req.user){
-        return res.status(500).json({
-            msg: `Token not verified`
-        })
+class RoleMiddleware {
+  static async isOwner(req, res = response, next) {
+    const authToken = req.headers['authorization'];
+    if (!authToken) {
+      res.status(500).json({
+        msg: 'There is no token in request',
+      });
     }
 
-    const {id, role, name} = req.user;
+    try {
+      const { email } = jwt.verify(authToken, process.env.SECRETORPRIVATEKEY);
 
-    if(id !== req.params.id && role !== 'ADMIN_ROLE'){
+      const user = await User.findOne({
+        where: { email },
+        attributes: ['id', 'firstname'],
+        include: {
+          model: Role,
+          attributes: ['name'],
+        },
+      });
+
+      if (!user) {
+        return res.json({
+          msg: 'user not valid',
+        });
+      }
+
+      if (user.role.name === 'Admin') {
+        return next();
+      }
+
+      if (user.id !== req.params.id) {
         return res.status(403).json({
-            msg: `Resource not available for ${name}`
-        })
+          msg: 'id not valid',
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({
+        msg: 'token/user not valid',
+      });
     }
 
-    next();
+    return next();
+  }
 }
 
-
-module.exports = {
-    isOwner
-}
+module.exports = RoleMiddleware;
