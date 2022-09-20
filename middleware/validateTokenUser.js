@@ -1,15 +1,16 @@
 const { Token } = require("../helpers/token");
+const {Response} = require("express")
 
 class ValidatejWtUser {
 
-static decryptTokenUser(req, res){
+static async decryptTokenUser(req, res = Response, next){
     
-const decrypt =  Token.decryptJWT()
+Token.decryptJWT()
 
-console.log(decrypt)
 
  } 
 
+ 
 
 }
 
