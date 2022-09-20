@@ -1,5 +1,5 @@
-<<<<<<< HEAD
 const { createUser } = require('../services/user');
+const { User } = require('../models');
 
 class UserController {
   static async post(req, res, next) {
@@ -11,10 +11,10 @@ class UserController {
         email: user.email,
       };
       res.json(response);
-=======
-const { User } = require('../models');
-
-class UserController {
+    } catch (error) {
+      next(error);
+    }
+  }
   static async deleteUser(req, res, next) {
     const { id } = req.params;
     try {
@@ -24,7 +24,6 @@ class UserController {
       userDeleted
         ? res.status(200).json({ msg: 'User deleted successfully' })
         : res.status(404).json({ msg: 'Could not find user' });
->>>>>>> ba12dbc9bcbe7c0c68d377a0b8e87d996ec59cbc
     } catch (error) {
       next(error);
     }
