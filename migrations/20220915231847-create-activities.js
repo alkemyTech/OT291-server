@@ -9,15 +9,15 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       name: {
-        type: dataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       content: {
-        type: dataTypes.TEXT,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       image: {
-        type: dataTypes.STRING,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
