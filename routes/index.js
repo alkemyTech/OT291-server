@@ -1,17 +1,17 @@
 var express = require('express');
-const { ValidatejWtUser } = require('../middleware/validateTokenUser');
 var router = express.Router();
+
+const organization = require('./organization.js');
+const login = require('./login.js')
+const user = require('./users.js');
+
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-
-router.get('/singup', ValidatejWtUser.decryptTokenUser(), (req, res) => {
-
-
-res.send('prueba validate')
-
-})
+router.use('/organization', organization);
+router.use('/users', user);
+router.use('/signup', login)
 
 module.exports = router;

@@ -1,25 +1,19 @@
 const jwt = require('jsonwebtoken');
+const {sign} = require('jsonwebtoken');
 
 class Token {
   static generateJWT(email) {
-    return new Promise((resolve, reject) => {
+    try {
       const payload = { email };
 
-      jwt.sign(
-        payload,
-        process.env.SECRETORPRIVATEKEY,
-        {
-          expiresIn: '4h',
-        },
-        (err, token) => {
-          if (err) {
-            reject('No fue posible generar el JWT');
-          } else {
-            resolve(token);
-          }
-        }
-      );
-    });
+      const token = sign(payload, process.env.SECRETORPRIVATEKEY, {
+        expiresIn: '4h',
+      });
+
+      return token;
+    } catch (error) {
+      throw error;
+    }
   }
 
   static decryptJWT(req, res) {
