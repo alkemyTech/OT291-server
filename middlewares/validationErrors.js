@@ -1,8 +1,8 @@
 const { validationResult } = require('express-validator');
-const userSchema = require('../schemas/user');
+//const userSchema = require('../schemas/user');
 
 class ValidationErrors {
-  static async validateSchema(req, res, next) {
+  static async validateSchema(req, res, next, userSchema) {
     try {
       await Promise.all(userSchema.map((validation) => validation.run(req)));
       const errors = validationResult(req);

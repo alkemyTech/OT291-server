@@ -6,7 +6,7 @@ const UserController = require('../controllers/user-controller');
 
 router.post(
   '/register',
-  ValidationErrors.validateSchema,
+  ValidationErrors.validateSchema(userSchema),
   UserController.post
 );
 
