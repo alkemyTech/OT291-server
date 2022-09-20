@@ -2,6 +2,7 @@ const { response } = require('express');
 const db = require('../models');
 const { User } = db;
 const jwt = require('jsonwebtoken');
+const Token = require('../helpers/Token');
 
 class RoleMiddleware {
   static async isOwner(req, res = response, next) {
@@ -13,7 +14,7 @@ class RoleMiddleware {
     }
 
     try {
-      const { email } = jwt.verify(authToken, process.env.SECRETORPRIVATEKEY);
+      const { email } = Token.decryptJWT(req, res);
 
       const user = await User.findOne({
         where: { email },
@@ -57,7 +58,7 @@ class RoleMiddleware {
     }
 
     try {
-      const { email } = jwt.verify(authToken, process.env.SECRETORPRIVATEKEY);
+      const { email } = Token.decryptJWT(req, res);
 
       const user = await User.findOne({
         where: { email },
