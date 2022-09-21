@@ -4,7 +4,8 @@ const { User } = require('../models');
 class UserController {
   static async post(req, res, next) {
     try {
-      const user = await createUser(req.body); //destructurar.
+      const { firstName, lastName, email, password } = req.body;
+      const user = await createUser(firstName, lastName, email, password);
       const response = {
         firstName: user.firstName,
         lastName: user.lastName,
