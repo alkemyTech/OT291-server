@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const {sign} = require('jsonwebtoken');
+const { sign } = require('jsonwebtoken');
 
 class Token {
   static generateJWT(email) {
@@ -27,13 +27,9 @@ class Token {
 
       const decodeToken = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
 
-      if (!token || !decodeToken.email) {
-        res.status(401);
-      }
-
       return decodeToken;
     } catch (error) {
-      throw error;
+      res.status(401).json(error);
     }
   }
 }
