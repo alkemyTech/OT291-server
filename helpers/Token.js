@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const {sign} = require('jsonwebtoken');
 
+
 class Token {
   static generateJWT(email) {
     try {

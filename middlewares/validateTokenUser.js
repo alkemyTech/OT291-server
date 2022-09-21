@@ -1,12 +1,18 @@
 const { Token } = require("../helpers/token");
-const {Response} = require("express")
+
 
 class ValidatejWtUser {
 
-static async decryptTokenUser(req, res = Response, next){
-    
-Token.decryptJWT()
+static async decryptTokenUser(req, res, next){
+   
+const {email} = req.body     
+const token = Token.generateJWT(email)
 
+//const token = Token.decryptJWT(req, res)
+
+
+
+res.send(token)
 
  } 
 

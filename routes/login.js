@@ -1,8 +1,9 @@
 const express = require('express');
+const { ValidatejWtUser } = require('../middlewares/validateTokenUser');
 const router = express.Router();
 
 
-router.get('/login', (req, res) => {
+router.get('/', ValidatejWtUser.decryptTokenUser, (req, res) => {
 
 
 res.send('validate user')

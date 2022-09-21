@@ -13,7 +13,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Activities.init(
     {
-      id: DataTypes.INTEGER,
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+      },
       name: DataTypes.STRING,
       content:DataTypes.TEXT,
       image:DataTypes.STRING,
