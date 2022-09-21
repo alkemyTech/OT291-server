@@ -2,8 +2,53 @@ const { response } = require('express');
 const db = require('../models');
 const { User } = db;
 const jwt = require('jsonwebtoken');
+const Token = require('../helpers/Token');
 
 class RoleMiddleware {
+  static async isOwner(req, res = response, next) {
+    const authToken = req.headers['authorization'];
+    if (!authToken) {
+      res.status(500).json({
+        msg: 'There is no token in request',
+      });
+    }
+
+    try {
+      const { email } = Token.decryptJWT(req, res);
+
+      const user = await User.findOne({
+        where: { email },
+        attributes: ['id', 'firstname'],
+        include: {
+          model: Role,
+          attributes: ['name'],
+        },
+      });
+
+      if (!user) {
+        return res.json({
+          msg: 'user not valid',
+        });
+      }
+
+      if (user.role.name === 'Admin') {
+        return next();
+      }
+
+      if (user.id !== req.params.id) {
+        return res.status(403).json({
+          msg: 'id not valid',
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({
+        msg: 'token/user not valid',
+      });
+    }
+
+    return next();
+  }
+
   static async isAdminRole(req, res = response, next) {
     const authToken = req.headers['authorization'];
     if (!authToken) {
@@ -13,7 +58,7 @@ class RoleMiddleware {
     }
 
     try {
-      const { email } = jwt.verify(authToken, process.env.SECRETORPRIVATEKEY);
+      const { email } = Token.decryptJWT(req, res);
 
       const user = await User.findOne({
         where: { email },
