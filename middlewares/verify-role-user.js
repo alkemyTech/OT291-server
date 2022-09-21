@@ -31,6 +31,7 @@ class ValidatejWtUser {
       }
 
       next();
+      
     } catch (error) {
       res.status(404).json({ msg: 'db response error' });
     }
