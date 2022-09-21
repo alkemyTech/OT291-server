@@ -1,5 +1,7 @@
+const { response, request } = require('express');
 const jwt = require('jsonwebtoken');
 const {sign} = require('jsonwebtoken');
+
 
 
 class Token {
@@ -13,7 +15,7 @@ class Token {
 
       return token;
     } catch (error) {
-      throw error;
+      throw error
     }
   }
 
@@ -22,19 +24,17 @@ class Token {
       const authorization = req.get('Authorization');
       let token = '';
 
+
       if (authorization && authorization.toLowerCase().startsWith('bearer')) {
         token = authorization.substring(7);
       }
 
       const decodeToken = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
-
-      if (!token || !decodeToken.email) {
-        res.status(401);
-      }
-
+      
       return decodeToken;
     } catch (error) {
-      throw error;
+      res.status(401).json(error)
+      
     }
   }
 }
