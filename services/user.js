@@ -9,7 +9,10 @@ const createUser = async (firstName, lastName, email, password) => {
       firstName,
       lastName,
       email,
-      password: bcrypt.hashSync(password, 12),
+      password: bcrypt.hashSync(
+        password,
+        Number.parseInt(process.env.AUTH_ROUNDS)
+      ),
     });
     return user;
   } catch (error) {
