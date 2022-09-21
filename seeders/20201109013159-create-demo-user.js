@@ -23,7 +23,7 @@ module.exports = {
           email: 'login@test.com',
           // Important: Password encrypted!
           password:
-            '$2a$10$EIl1EVh.tNoASC4oipW4Re8Ta7LbQlTVCs.s/UCoAyoDqraisotpC', //'sssss'
+            '$2a$10$EIl1EVh.tNoASC4oipW4Re8Ta7LbQlTVCs.s/UCoAyoDqraisotpC',
           roleId: 1,
           image:
             'https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png',
