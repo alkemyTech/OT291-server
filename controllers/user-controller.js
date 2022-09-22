@@ -1,6 +1,6 @@
 const { User } = require('../models');
 const bcrypt = require('bcrypt');
-
+const NotifyViaEmail = require("../services/notifyViaEmail")
 class UserController {
   static async post(req, res, next) {
     try {
@@ -19,6 +19,7 @@ class UserController {
         lastName: user.lastName,
         email: user.email,
       };
+      NotifyViaEmail.sendEmail(response.email)
       res.json(response);
     } catch (error) {
       next(error);
