@@ -15,7 +15,7 @@ router.post(
 router.post(
   '/register',
   userSchema,
-  ValidationErrors.validateLogin,
+  ValidationErrors.validateSchema,
   UserController.post
 );
 
