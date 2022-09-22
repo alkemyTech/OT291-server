@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 const organization = require('./organization.js');
-const login = require('./login.js')
 const user = require('./users.js');
 
 /* GET home page. */

@@ -5,8 +5,8 @@ class ValidatejWtUser {
   static async decryptTokenUser(req, res, next) {
     const decryptToken = Token.decryptJWT(req, res);
 
-    if (!decryptToken) {
-      return;
+    if ( !decryptToken || !decryptToken.email ) {
+      return res.status(401).json('jwt must be provided or invalid');
     }
 
     try {
@@ -31,7 +31,6 @@ class ValidatejWtUser {
       }
 
       next();
-      
     } catch (error) {
       res.status(404).json({ msg: 'db response error' });
     }
