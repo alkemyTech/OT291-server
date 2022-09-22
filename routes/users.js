@@ -9,9 +9,6 @@ router.get('/', function (req, res, next) {
 });
 
 router.delete('/:id', UserController.deleteUser);
-//router.get('/:id', UserController.updateUser);
-router.get('/:id', (req,res)=> {
-  console.log('estoy en get')
-});
+router.patch('/:id', UserController.updateUser);
 
 module.exports = router;
