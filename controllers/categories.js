@@ -3,7 +3,6 @@ const { Category } = require('../models');
 class CategoriesController {
   static async post(req, res, next) {
     try {
-      console.log("hola")
       const { name, description, image } = req.body;
       const category = await Category.create({
         name,
@@ -17,7 +16,7 @@ class CategoriesController {
       };
       res.json(response);
     } catch (error) {
-      console.log(error);
+      next(error);
     }
   }
 }
