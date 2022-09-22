@@ -2,7 +2,7 @@ const { User } = require('../models');
 const bcrypt = require('bcrypt');
 
 class UserController {
-  
+
   static async post(req, res, next) {
     try {
       const { firstName, lastName, email, password } = req.body;
@@ -31,7 +31,7 @@ class UserController {
     const  body  = req.body;
     try {
       const userDeleted = await User.findByPk(id);
-      if(userDeleted)
+      if(userDeleted)      
         {
           await userDeleted.update(body)
           res.status(200).json({ msg: 'User update successfully' })
