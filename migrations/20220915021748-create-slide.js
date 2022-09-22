@@ -37,6 +37,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       },
+      deletedAt:Sequelize.DATE
     });
   },
   down: async (queryInterface, Sequelize) => {
