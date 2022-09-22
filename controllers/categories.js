@@ -1,6 +1,6 @@
 const {Category} =require("../models")
 
-class CategoryController {
+class CategoriesController {
     static async getAll(req,res){
         try {
             const categories=await Category.findAll({attributes: ['name']})
@@ -11,4 +11,4 @@ class CategoryController {
     }
 }
 
-module.exports = CategoryController;
+module.exports = CategoriesController;

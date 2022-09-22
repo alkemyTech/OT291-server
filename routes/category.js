@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const CategoryController=require("../controllers/category")
+const CategoriesController=require("../controllers/categories")
 const RoleMiddleware=require("../middlewares/verify-role")
-router.get('/', RoleMiddleware.isAdminRole ,CategoryController.getAll);
+router.get('/', RoleMiddleware.isAdminRole ,CategoriesController.getAll);
 
 module.exports = router;
