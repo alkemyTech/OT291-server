@@ -1,4 +1,3 @@
-const { response, request } = require('express');
 const jwt = require('jsonwebtoken');
 const { sign } = require('jsonwebtoken');
 
@@ -17,7 +16,7 @@ class Token {
     }
   }
 
-  static decryptJWT(req, res, next) {
+  static decryptJWT(req, res) {
     try {
       const authorization = req.get('Authorization');
       let token = '';
