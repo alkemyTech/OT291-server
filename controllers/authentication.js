@@ -6,10 +6,10 @@ class AuthController {
   static async loginUser(req, res) {
     const { email, password } = req.body;
     try {
-      const objKeyValues = { email: email };
-      const arrayAttributes = ['email', 'password'];
+      const where = { email: email };
+      const attributes = ['email', 'password'];
 
-      const userData = await AuthDao.findUser(objKeyValues, arrayAttributes);
+      const userData = await AuthDao.findUser(where, attributes);
 
       if (!userData || !bcrypt.compareSync(password, userData.password)) {
         throw { ok: false };
