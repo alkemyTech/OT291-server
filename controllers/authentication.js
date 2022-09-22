@@ -9,7 +9,7 @@ class AuthController {
       const objKeyValues = { email: email };
       const arrayAttributes = ['email', 'password'];
 
-      const userData = await AuthDao._findUser(objKeyValues, arrayAttributes);
+      const userData = await AuthDao.findUser(objKeyValues, arrayAttributes);
 
       if (!userData || !bcrypt.compareSync(password, userData.password)) {
         throw { ok: false };

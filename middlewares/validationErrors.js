@@ -14,6 +14,17 @@ class ValidationErrors {
       next(error);
     }
   }
+
+  static async validateLogin(req, res, next) {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = ValidationErrors;
