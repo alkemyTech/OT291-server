@@ -1,3 +1,5 @@
 node_modules
 .env
 docker-compose.yaml
+docker_schemas
+package-lock.json
