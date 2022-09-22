@@ -1,6 +1,29 @@
 const { User } = require('../models');
+const bcrypt = require('bcrypt');
 
 class UserController {
+  static async post(req, res, next) {
+    try {
+      const { firstName, lastName, email, password } = req.body;
+      const user = await User.create({
+        firstName,
+        lastName,
+        email,
+        password: bcrypt.hashSync(
+          password,
+          Number.parseInt(process.env.AUTH_ROUNDS)
+        ),
+      });
+      const response = {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      };
+      res.json(response);
+    } catch (error) {
+      next(error);
+    }
+  }
   static async deleteUser(req, res, next) {
     const { id } = req.params;
     try {
