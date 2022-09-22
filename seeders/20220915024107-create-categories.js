@@ -1,6 +1,6 @@
 'use strict';
 
-const { DATE } = require("sequelize");
+const { DATE } = require('sequelize');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -11,7 +11,6 @@ module.exports = {
           name: 'category1',
           description: 'description category 1',
           image: 'urlCategory1Img',
-          deletedAt: new Date,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -19,7 +18,6 @@ module.exports = {
           name: 'category2',
           description: 'description category 2',
           image: 'urlCategory2Img',
-          deletedAt: new Date,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
