@@ -19,7 +19,9 @@ class OrganizationController {
     try {
       const { name, image, phone, address, email, welcomeText, aboutUsText } =
         req.body;
-      const organization = await Organization.findByPk(1);
+      const organization = await Organization.findOne({
+        where: { name: 'Big Org' },
+      });
 
       if (!organization) {
         return res.status(404).json({
@@ -37,7 +39,7 @@ class OrganizationController {
         aboutUsText,
       });
 
-      return res.json({
+      return res.status(200).json({
         msg: `Organization info has been updated`,
       });
     } catch (error) {
