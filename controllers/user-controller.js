@@ -24,6 +24,21 @@ class UserController {
       next(error);
     }
   }
+  static async updateUser(req, res, next) {
+    const { id } = req.params;
+    const  body  = req.body;
+    try {
+      const userDeleted = await User.findByPk(id);
+      if(userDeleted)
+        {
+          await userDeleted.update(body)
+          res.status(200).json({ msg: 'User update successfully' })
+        }
+      res.status(404).json({ msg: 'Could not find user' });
+    } catch (error) {
+      next(error);
+    }
+  }  
   static async deleteUser(req, res, next) {
     const { id } = req.params;
     try {
