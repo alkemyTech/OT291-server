@@ -30,10 +30,10 @@ class UserController {
     const { id } = req.params;
     const  body  = req.body;
     try {
-      const userDeleted = await User.findByPk(id);
-      if(userDeleted)      
+      const updateUser = await User.findByPk(id);
+      if(updateUser)      
         {
-          await userDeleted.update(body)
+          await updateUser.update(body)
           res.status(200).json({ msg: 'User update successfully' })
         }else {
           res.status(404).json({ msg: 'Could not find user' });
