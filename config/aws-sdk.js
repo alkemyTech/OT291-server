@@ -1,19 +1,14 @@
-const AWS = require('aws-sdk');
 require('dotenv').config();
-const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = process.env;
+const S3 = require('aws-sdk/clients/s3');
 
-AWS.config.update({
-  accessKeyId: AWS_ACCESS_KEY_ID,
-  secretAccessKey: AWS_SECRET_ACCESS_KEY,
-  region: 'us-east-1',
-  apiVersion: '2006-03-01',
-  signatureVersion: 'v4',
+const accessKey = process.env.AWS_ACCESS_KEY_ID;
+const secretKey = process.env.AWS_SECRET_ACCESS_KEY;
+const bucketRegion = process.env.AWS_BUCKET_REGION;
+
+const s3 = new S3({
+  accessKey,
+  secretKey,
+  bucketRegion,
 });
 
-const s3Bucket = new AWS.S3({
-  params: { Bucket: 'cohorte-septiembre-5efe33c6' },
-});
-
-module.exports = s3Bucket;
-
-
+module.exports = s3;

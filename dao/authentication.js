@@ -5,6 +5,7 @@ class AuthDao {
    * Asynchronously return a user from the database (table Users)
    * @param {Object} where - To filter by attribute/s Ej: {email: 'user@mail'}
    * @param {string[]} attributes - Attributes we need Ej: ['username', 'age']
+   * @returns {boolean}
    */
   static async findUser(where, attributes) {
     try {
