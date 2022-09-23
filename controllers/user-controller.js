@@ -19,7 +19,7 @@ class UserController {
         lastName: user.lastName,
         email: user.email,
       };
-      NotifyViaEmail.sendEmail(response.email)
+      NotifyViaEmail.sendEmail(response.email,"Confirmación de Registro","Bienvenido")
       res.json(response);
     } catch (error) {
       next(error);
