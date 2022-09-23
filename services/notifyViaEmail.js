@@ -4,10 +4,10 @@ const fs = require("fs")
 const sgMail = require('@sendgrid/mail');
 class NotifyViaEmail {
   static logo = "https://firebasestorage.googleapis.com/v0/b/aplication1-35a9f.appspot.com/o/LOGO-SOMOS%20MAS.png?alt=media&token=0f852ec5-0c90-42af-aead-7ebe0f0b893a"
-  static subject="Confirmación de Registro"
-  static organizationName="SOMOS MAS"
-  static welcomeText="Bienvenido"
-  static contactData="ongsomosfundacionmas@gmail.com"
+  static subject = "Confirmación de Registro"
+  static organizationName = "SOMOS MAS"
+  static welcomeText = "Bienvenido"
+  static contactData = "ongsomosfundacionmas@gmail.com"
   static HtmlToString() {
     try {
 
@@ -21,7 +21,7 @@ class NotifyViaEmail {
       throw new Error(error)
     }
   }
-  static sendEmail = async (email,) => {
+  static async sendEmail(email,) {
     sgMail.setApiKey(process.env.API_KEY);
     await sgMail.send({
       to: email,
@@ -29,9 +29,10 @@ class NotifyViaEmail {
       subject: NotifyViaEmail.subject,
       html: NotifyViaEmail.HtmlToString(),
       personalizations: [
-        {to:[{
-          "email":email
-        }],
+        {
+          to: [{
+            "email": email
+          }],
           substitutions: {
             "ongLogo": NotifyViaEmail.logo,
             "organizationName": NotifyViaEmail.organizationName,
