@@ -9,12 +9,9 @@ class CategoriesController {
         description,
         image,
       });
-      const response = {
-        name: category.name,
-        description: category.description,
-        image: category.image,
-      };
-      res.json(response);
+      category
+        ? res.status(200).json({ msg: 'Category created successfully' })
+        : res.status(404).json({ msg: 'Error. Category not created.' });
     } catch (error) {
       next(error);
     }
