@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const authRouter = require('./authentication');
-const category = require('./category');
+const activitieRouter = require('./activitie');
+const categories = require('./categories');
 const organization = require('./organization.js');
 const user = require('./users.js');
 
@@ -12,7 +13,8 @@ router.get('/', function (req, res, next) {
 
 router.use('/auth', authRouter);
 router.use('/organization', organization);
+router.use('/activities',activitieRouter);
 router.use('/users', user);
-router.use('/categories', category);
+router.use('/categories', categories);
 
 module.exports = router;
