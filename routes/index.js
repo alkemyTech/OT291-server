@@ -14,10 +14,8 @@ router.get('/', function (req, res, next) {
 router.use('/auth', authRouter);
 router.use('/organization', organization);
 router.use('/users', user);
-<<<<<<< HEAD
 router.use('/activities' , activities )
-=======
 router.use('/categories', category);
->>>>>>> b5679d3e1638f14264e58fd3bb84a795af395492
+
 
 module.exports = router;
