@@ -15,7 +15,6 @@ class NotifyViaEmail {
         if (err) {
           return err
         }
-        console.log(data,typeof data);
         return data
       })
     } catch (error) {
