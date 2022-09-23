@@ -9,5 +9,6 @@ router.get('/', function (req, res, next) {
 });
 
 router.delete('/:id', UserController.deleteUser);
+router.patch('/:id',UserController.updateUser);
 
 module.exports = router;
