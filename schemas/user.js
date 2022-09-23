@@ -16,4 +16,9 @@ const userSchema = [
   body('email').isEmail().trim().withMessage('enter a valid email'),
 ];
 
-module.exports = userSchema;
+const loginSchema = [
+  body('email').notEmpty().isString().isEmail(),
+  body('password').notEmpty().isString().isLength({ min: 4 }),
+];
+
+module.exports = { userSchema, loginSchema };
