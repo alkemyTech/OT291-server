@@ -38,7 +38,7 @@ class UserController {
           res.status(404).json({ msg: 'Could not find user' });
         }
     } catch (error) {
-      next(error);
+      res.status(400).json(error);
     }
   }  
 
