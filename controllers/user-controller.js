@@ -1,10 +1,12 @@
 const { User } = require('../models');
+const { Token } = require('../helpers/Token');
 const bcrypt = require('bcrypt');
 
 class UserController {
   static async post(req, res, next) {
     try {
       const { firstName, lastName, email, password } = req.body;
+      const token = Token.generateJWT(email);
       const user = await User.create({
         firstName,
         lastName,
@@ -18,6 +20,7 @@ class UserController {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        token: token,
       };
       res.json(response);
     } catch (error) {
