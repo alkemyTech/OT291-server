@@ -8,7 +8,7 @@ module.exports = {
         content: 'Content for a new with title 1',
         Image:
           'https://is2-ssl.mzstatic.com/image/thumb/Purple112/v4/8b/a3/e9/8ba3e910-a240-549d-302c-7dacba2923d2/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/1200x630wa.png',
-        categorieId: 1,
+        CategoryId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
