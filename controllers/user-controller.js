@@ -24,6 +24,7 @@ class UserController {
       next(error);
     }
   }
+
   static async deleteUser(req, res, next) {
     const { id } = req.params;
     try {
@@ -35,6 +36,18 @@ class UserController {
         : res.status(404).json({ msg: 'Could not find user' });
     } catch (error) {
       next(error);
+    }
+  }
+
+  static async getData(req, res, next) {
+    const { email } = req;
+    try {
+      const dataUser = await User.findOne({
+        where: { email }
+      });
+      return res.status(200).json(dataUser)
+    } catch (error) {
+      res.status(404).json({ msg: 'Not user found' })
     }
   }
 }
