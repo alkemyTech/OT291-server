@@ -4,6 +4,7 @@ const authRouter = require('./authentication');
 const category = require('./category');
 const organization = require('./organization.js');
 const user = require('./users.js');
+const news = require('./news')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -14,5 +15,6 @@ router.use('/auth', authRouter);
 router.use('/organization', organization);
 router.use('/users', user);
 router.use('/categories', category);
+router.use('/news/', news )
 
 module.exports = router;
