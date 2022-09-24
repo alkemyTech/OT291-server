@@ -16,11 +16,15 @@ class RoleMiddleware {
 
       const user = await User.findOne({
         where: { email },
-        attributes: ['id', 'firstname'],
-        include: {
-          model: Role,
-          attributes: ['name'],
-        },
+        attributes: ['id', 'firstName'],
+        include: [
+          {
+            model: Role,
+            through: {
+              attributes: ['name'],
+            },
+          },
+        ],
       });
 
       if (!user) {
@@ -60,11 +64,15 @@ class RoleMiddleware {
 
       const user = await User.findOne({
         where: { email },
-        attributes: ['firstname'],
-        include: {
-          model: Role,
-          attributes: ['name'],
-        },
+        attributes: ['firstName'],
+        include: [
+          {
+            model: Role,
+            through: {
+              attributes: ['name'],
+            },
+          },
+        ],
       });
 
       if (!user) {
