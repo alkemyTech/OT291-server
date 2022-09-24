@@ -16,21 +16,9 @@ class Token {
     }
   }
 
-  static decryptJWT(req, res) {
-    try {
-      const authorization = req.get('Authorization');
-      let token = '';
-
-      if (authorization && authorization.toLowerCase().startsWith('bearer')) {
-        token = authorization.substring(7);
-      }
-
-      const decodeToken = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
-
-      return decodeToken;
-    } catch (error) {
-      return error;
-    }
+  static decryptJWT(authToken) {
+    const response = jwt.verify(authToken, process.env.SECRETORPRIVATEKEY)
+    return response;
   }
 }
 
