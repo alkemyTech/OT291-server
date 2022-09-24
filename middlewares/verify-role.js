@@ -12,7 +12,7 @@ class RoleMiddleware {
     }
 
     try {
-      const { email } = Token.decryptJWT(req, res);
+      const { email } = Token.decryptJWT(authToken);
 
       const user = await User.findOne({
         where: { email },
@@ -56,7 +56,7 @@ class RoleMiddleware {
     }
 
     try {
-      const { email } = Token.decryptJWT(req, res);
+      const { email } = Token.decryptJWT(authToken);
 
       const user = await User.findOne({
         where: { email },
