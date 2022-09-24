@@ -79,11 +79,11 @@ class RoleMiddleware {
 
       if (user.Role.name !== 'Admin') {
         return res.status(401).json({
-          msg: `User ${user.firstname} is not an Admin`,
+          msg: `User ${user.firstName} is not an Admin`,
         });
       }
       req.email = email;
-    } catch (err) {
+    } catch (error) {
       return res.status(401).json({
         msg: 'token not valid',
       });
