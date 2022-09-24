@@ -22,9 +22,9 @@ class UserController {
         email: user.email,
         token: token,
       };
-      res.json(response);
+      res.status(200).json(response);
     } catch (error) {
-      next(error);
+      res.status(500).json({ msg: 'Could not create user' });
     }
   }
   static async deleteUser(req, res, next) {
@@ -37,7 +37,7 @@ class UserController {
         ? res.status(200).json({ msg: 'User deleted successfully' })
         : res.status(404).json({ msg: 'Could not find user' });
     } catch (error) {
-      next(error);
+      res.status(500).json({ msg: 'Something went wrong' });
     }
   }
 }
