@@ -1,7 +1,5 @@
 const { response } = require('express');
-const db = require('../models');
-const { User } = db;
-const jwt = require('jsonwebtoken');
+const { User } = require('../models');
 const Token = require('../helpers/Token');
 
 class RoleMiddleware {
