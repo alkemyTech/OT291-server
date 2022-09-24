@@ -33,7 +33,8 @@ class RoleMiddleware {
         });
       }
 
-      if (user.role.name === 'Admin') {
+      if (user.Role.name === 'Admin') {
+        req.email = email;
         return next();
       }
 
@@ -81,11 +82,12 @@ class RoleMiddleware {
         });
       }
 
-      if (user.role.name !== 'Admin') {
+      if (user.Role.name !== 'Admin') {
         return res.status(401).json({
           msg: `User ${user.firstname} is not an Admin`,
         });
       }
+      req.email = email;
     } catch (err) {
       return res.status(401).json({
         msg: 'token not valid',
