@@ -38,11 +38,6 @@ class RoleMiddleware {
         return next();
       }
 
-      if (user.id !== req.params.id) {
-        return res.status(403).json({
-          msg: 'id not valid',
-        });
-      }
     } catch (error) {
       return res.status(500).json({
         msg: 'token/user not valid',
