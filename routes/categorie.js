@@ -6,6 +6,7 @@ const RoleMiddleware = require('../middlewares/verify-role');
 const ValidationErrors = require('../middlewares/validationErrors');
 const deleteSchema = require('../schemas/categories');
 
+router.get('/', RoleMiddleware.isAdminRole ,CategoriesController.getAll);
 router.delete(
   '/:id',
   deleteSchema,
