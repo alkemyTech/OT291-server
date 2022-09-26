@@ -1,10 +1,29 @@
+var express = require('express');
+var router = express.Router();
+const categorySchema = require('../schemas/category');
+const ValidationErrors = require('../middlewares/validationErrors');
+const CategoriesController = require('../controllers/categories');
+const RoleMiddleware = require('../middlewares/verify-role');
+const deleteSchema = require('../schemas/categories');
 
-const express = require('express');
-const router = express.Router();
+router.post(
+  '/',
+  categorySchema,
+  ValidationErrors.validateSchema,
+  CategoriesController.post
+);
 
-const CategoriesController=require("../controllers/categories")
-const RoleMiddleware=require("../middlewares/verify-role")
+router.delete(
+  '/:id',
+  deleteSchema,
+  ValidationErrors.validateSchema,
+  RoleMiddleware.isAdminRole,
+  CategoriesController.deleteCategory
+);
  
-router.get('/:id', RoleMiddleware.isAdminRole, CategoriesController.getOneCategory);
+router.get(
+  '/:id',
+  RoleMiddleware.isAdminRole, 
+  CategoriesController.getOneCategory);
 
 module.exports = router;
