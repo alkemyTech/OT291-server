@@ -1,16 +1,14 @@
-const { New } = require('../models');
+const NewDao = require('../dao/new.js');
 
 class NewsController {
-    static async findById(req,res){
-        const id=req.params.id
-        const detailNew =await New.findByPk(+id)
-        if(!detailNew){
-            res.status(404).send("New was not found")
-            return 
+    static async findById(req, res) {
+        try {
+            const id = req.params.id
+            const detailNew = await NewDao.findById(+id)
+            return res.status(200).json(detailNew)
+        } catch (error) {
+            res.status(404).send(error)
         }
-        res.status(200).json(detailNew)
-
-        return 
     }
 };
 

@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const authRouter = require('./authentication');
-const category = require('./category');const RoleMiddleware = require("../middlewares/verify-role")
+const categories = require('./categories');
+const RoleMiddleware = require("../middlewares/verify-role")
 const organization = require('./organization.js');
 const news = require('./news');
 const user = require('./users.js');
@@ -17,7 +18,7 @@ router.use('/organization', organization);
 router.use('/news',news);
 router.use('/users', user);
 router.use('/activities' , activities )
-router.use('/categories', category);
+router.use('/categories', categories);
 
 
 module.exports = router;
