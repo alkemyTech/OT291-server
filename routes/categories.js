@@ -21,4 +21,11 @@ router.delete(
   CategoriesController.deleteCategory
 );
 
+router.put(
+  '/:id',
+  categorySchema,
+  ValidationErrors.validateSchema,
+  CategoriesController.updateCategory
+);
+
 module.exports = router;
