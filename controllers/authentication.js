@@ -1,5 +1,5 @@
 const db = require('../models');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const AuthDao = require('../dao/authentication');
 
 class AuthController {
