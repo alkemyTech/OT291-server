@@ -1,5 +1,5 @@
 const { User } = require('../models');
-const { Token } = require('../helpers/Token');
+const Token = require('../helpers/Token');
 const bcrypt = require('bcrypt');
 
 class UserController {
@@ -43,15 +43,14 @@ class UserController {
   }
 
   static async getData(req, res, next) {
-    const { email } = req;
-    try {
-      const dataUser = await User.findOne({
-        where: { email }
-      });
-      return res.status(200).json(dataUser)
-    } catch (error) {
-      res.status(404).json({ msg: 'Not user found' })
-    }
+    const { user } = req;
+    return res.status(200).json({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      image: user.image,
+    });
   }
 }
 
