@@ -32,6 +32,18 @@ class CategoriesController {
       res.status(400).json(error);
     }
   }
+  static async getOneCategory(req, res){
+    const {id} = req.params
+    try {
+        const getOneCategory = await Category.findByPk(id,{
+          attributes: ['name','description','image']
+        });
+        if(getOneCategory) return res.status(200).json(getOneCategory);
+        return res.status(404).json({ msg: 'Could not find category'});
+    } catch (error) {
+      res.status(400).json(error);
+    }            
+}  
 }
 
 module.exports = CategoriesController;
