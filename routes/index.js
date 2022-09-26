@@ -5,6 +5,7 @@ const category = require('./category');const RoleMiddleware = require("../middle
 const organization = require('./organization.js');
 const news = require('./news');
 const user = require('./users.js');
+const activities = require('./activities.js')
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -15,6 +16,8 @@ router.use('/auth', authRouter);
 router.use('/organization', organization);
 router.use('/news',news);
 router.use('/users', user);
+router.use('/activities' , activities )
 router.use('/categories', category);
+
 
 module.exports = router;
