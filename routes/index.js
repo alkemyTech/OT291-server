@@ -6,7 +6,7 @@ const RoleMiddleware = require("../middlewares/verify-role")
 const organization = require('./organization.js');
 const news = require('./news');
 const user = require('./users.js');
-const activities = require('./activities.js')
+const activities = require('./activities.js');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
