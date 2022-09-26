@@ -25,6 +25,7 @@ router.put(
   '/:id',
   categorySchema,
   ValidationErrors.validateSchema,
+  RoleMiddleware.isAdminRole,
   CategoriesController.updateCategory
 );
 
