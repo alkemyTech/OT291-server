@@ -31,7 +31,7 @@ class sdkS3 {
 
       return s3.upload(uploadParams).promise();
     } catch (error) {
-      res.status(400).json(error);
+      throw error;
     }
   }
 }
