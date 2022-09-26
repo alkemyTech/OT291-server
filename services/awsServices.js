@@ -1,9 +1,8 @@
 require('dotenv').config();
-const s3 = require('../config/aws-sdk'); // Helper function that creates an Amazon S3 service client module.
+const s3 = require('../config/aws-sdk');
 const fs = require('fs');
 const bucketName = process.env.AWS_BUCKET_NAME;
 
-// Call S3 to list the buckets
 class sdkS3 {
   static testBucket() {
     s3.listBuckets(function (err, data) {
