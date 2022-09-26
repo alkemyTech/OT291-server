@@ -5,6 +5,7 @@ const ValidationErrors = require('../middlewares/validationErrors');
 const CategoriesController = require('../controllers/categories');
 const RoleMiddleware = require('../middlewares/verify-role');
 const deleteSchema = require('../schemas/categories');
+const getOneSchema = require('../schemas/categories');
 
 router.post(
   '/',
@@ -23,7 +24,9 @@ router.delete(
  
 router.get(
   '/:id',
+  getOneSchema,
   RoleMiddleware.isAdminRole, 
-  CategoriesController.getOneCategory);
+  CategoriesController.getOneCategory
+);
 
 module.exports = router;

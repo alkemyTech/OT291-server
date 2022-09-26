@@ -39,7 +39,7 @@ class CategoriesController {
           attributes: ['name','description','image']
         });
         if(getOneCategory) return res.status(200).json(getOneCategory);
-        res.status(404).json({ msg: 'Could not find category'});
+        return res.status(404).json({ msg: 'Could not find category'});
     } catch (error) {
       res.status(400).json(error);
     }            
