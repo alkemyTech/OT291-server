@@ -6,30 +6,23 @@ class News {
     const { name, content, image, CategoryId } = req.body;
 
     try {
-      await New.update(
-        {
-          name,
-          image,
-          content,
-          CategoryId,
-        },
-        {
-          where: {
-            id,
-          },
-        }
-      );
+      const newDB = await New.findByPk(id);
 
-      const response = await New.findByPk(id);
-
-      if (!response) {
+      if (!newDB) {
         return res.status(404).json({ msg: 'New does not exist' });
       }
+
+      const response = await newDB.update({
+        name,
+        image,
+        content,
+        CategoryId,
+      });
 
       return res.status(201).json(response);
     } catch (error) {
       return res.status(500).json({
-        error,
+        msg: 'Error in db',
       });
     }
   }
