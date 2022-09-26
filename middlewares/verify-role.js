@@ -1,7 +1,5 @@
 const { response } = require('express');
-const db = require('../models');
-const { User } = db;
-const jwt = require('jsonwebtoken');
+const { User } = require('../models');
 const Token = require('../helpers/Token');
 
 class RoleMiddleware {
@@ -14,15 +12,19 @@ class RoleMiddleware {
     }
 
     try {
-      const { email } = Token.decryptJWT(req, res);
+      const { email } = Token.decryptJWT(authToken);
 
       const user = await User.findOne({
         where: { email },
-        attributes: ['id', 'firstname'],
-        include: {
-          model: Role,
-          attributes: ['name'],
-        },
+        attributes: ['id', 'firstName'],
+        include: [
+          {
+            model: Role,
+            through: {
+              attributes: ['name'],
+            },
+          },
+        ],
       });
 
       if (!user) {
@@ -31,15 +33,11 @@ class RoleMiddleware {
         });
       }
 
-      if (user.role.name === 'Admin') {
+      if (user.Role.name === 'Admin') {
+        req.email = email;
         return next();
       }
 
-      if (user.id !== req.params.id) {
-        return res.status(403).json({
-          msg: 'id not valid',
-        });
-      }
     } catch (error) {
       return res.status(500).json({
         msg: 'token/user not valid',
@@ -58,15 +56,19 @@ class RoleMiddleware {
     }
 
     try {
-      const { email } = Token.decryptJWT(req, res);
+      const { email } = Token.decryptJWT(authToken);
 
       const user = await User.findOne({
         where: { email },
-        attributes: ['firstname'],
-        include: {
-          model: Role,
-          attributes: ['name'],
-        },
+        attributes: ['firstName'],
+        include: [
+          {
+            model: Role,
+            through: {
+              attributes: ['name'],
+            },
+          },
+        ],
       });
 
       if (!user) {
@@ -75,12 +77,13 @@ class RoleMiddleware {
         });
       }
 
-      if (user.role.name !== 'Admin') {
+      if (user.Role.name !== 'Admin') {
         return res.status(401).json({
-          msg: `User ${user.firstname} is not an Admin`,
+          msg: `User ${user.firstName} is not an Admin`,
         });
       }
-    } catch (err) {
+      req.email = email;
+    } catch (error) {
       return res.status(401).json({
         msg: 'token not valid',
       });
