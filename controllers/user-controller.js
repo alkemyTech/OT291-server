@@ -6,7 +6,7 @@ class UserController {
   static async post(req, res, next) {
     try {
       const { firstName, lastName, email, password } = req.body;
-      const token = Token.generateJWT(email);
+      const token = await Token.generateJWT(email);
       const user = await User.create({
         firstName,
         lastName,
