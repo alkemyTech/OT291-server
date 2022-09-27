@@ -1,4 +1,3 @@
-const {Contact} = require("../models")
 export class ContactDao{
 
 }
