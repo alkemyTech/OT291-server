@@ -25,7 +25,6 @@ class ValidatejWtUser {
       if (user.role.name !== 'Standard') {
         return res.status(403).json({ msg: 'unauthorized user' });
       }
-      req.user = user;
       next();
     } catch (error) {
       res.status(404).json({ msg: 'db response error' });
