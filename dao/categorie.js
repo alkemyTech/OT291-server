@@ -19,7 +19,8 @@ class CategoryDao {
 /**
    * Asynchronously delete a category from the database (table Category)
    * @param {string} fields - To filter by attribute/s Ej: {name: 'ong'}
-   */
+   * @returns {Promise}   
+*/
   static async filteringCategoryResultsByField(...fields) {
     try {
       const categoryData = await Category.findAll({
