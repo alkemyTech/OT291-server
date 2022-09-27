@@ -32,6 +32,15 @@ class CategoriesController {
       res.status(400).json(error);
     }
   }
+  static async getAll(req, res) {
+    try {
+      const categories = await CategoryDao.filteringCategoryResultsByField("name")
+      const format= categories.map(category=>category.name)
+      return res.status(200).json(format)
+    } catch (error) {
+      return res.status(500).send(error)
+    }
+  }
   static async updateCategory(req, res) {
     const { id } = req.params;
     const { name, description, image } = req.body;

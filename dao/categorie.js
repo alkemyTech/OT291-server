@@ -16,6 +16,21 @@ class CategoryDao {
       res.status(400).json(error);
     }
   }
+/**
+   * Asynchronously delete a category from the database (table Category)
+   * @param {string} fields - To filter by attribute/s Ej: {name: 'ong'}
+   * @returns {Promise}   
+*/
+  static async filteringCategoryResultsByField(...fields) {
+    try {
+      const categoryData = await Category.findAll({
+        attributes: fields,
+      });
+      return categoryData;
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
 }
 
 module.exports = CategoryDao;
