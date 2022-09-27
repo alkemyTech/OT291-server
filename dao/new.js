@@ -1,15 +1,25 @@
 const { New } = require('../models');
 
 class NewDao {
-    
-    static async findNewById(pk) {
-        try {
-            const newData = await New.findByPk(pk)
-            return newData;
-        } catch (error) {
-            throw new Error(error)
-        }
+  static async findNewById(pk) {
+    try {
+      const newData = await New.findByPk(pk);
+      return newData;
+    } catch (error) {
+      throw new Error(error);
     }
+  }
+  static async postNew(data) {
+    try {
+      data.type = 'news';
+      const { name, content, image, type } = data;
+      const newCreated = await New.create({ name, content, image, type });
+      return newCreated;
+    } catch (error) {
+      console.log(error);
+      throw new Error(error);
+    }
+  }
 }
 
 module.exports = NewDao;
