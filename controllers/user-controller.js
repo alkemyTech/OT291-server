@@ -43,13 +43,25 @@ class UserController {
   }
 
   static async getData(req, res, next) {
-    const { firstName, lastName, email, image } = req.user;
-    return res.status(200).json({
-      firstName,
-      lastName,
-      email,
-      image
-    });
+    const decryptToken = Token.decryptJWT(req, res);
+
+    if (!decryptToken || !decryptToken.email) {
+      return res.status(401).json('jwt must be provided or invalid');
+    }
+    const { email } = decryptToken;
+    try {
+      const user = await User.findOne({
+        where: { email },
+        attributes: ['firstName', 'lastName', 'email', 'image'],
+      });
+      console.log(user)
+      if (!user) {
+        return res.status(404).json({ msg: 'Could not find user' });
+      }
+      res.status(200).json(user)
+    } catch (error) {
+      res.status(500).json(error);
+    }
   }
 }
 
