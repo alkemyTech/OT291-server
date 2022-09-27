@@ -1,10 +1,12 @@
 const { User } = require('../models');
+const { Token } = require('../helpers/Token');
 const bcrypt = require('bcrypt');
-
+const NotifyViaEmail = require("../services/notifyViaEmail")
 class UserController {
   static async post(req, res, next) {
     try {
       const { firstName, lastName, email, password } = req.body;
+      const token = Token.generateJWT(email);
       const user = await User.create({
         firstName,
         lastName,
@@ -18,10 +20,12 @@ class UserController {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        token: token,
       };
-      res.json(response);
+      NotifyViaEmail.sendEmail(response.email,"Confirmación de Registro","Bienvenido")
+      res.status(200).json(response);
     } catch (error) {
-      next(error);
+      res.status(500).json({ msg: 'Could not create user' });
     }
   }
   static async deleteUser(req, res, next) {
@@ -34,7 +38,7 @@ class UserController {
         ? res.status(200).json({ msg: 'User deleted successfully' })
         : res.status(404).json({ msg: 'Could not find user' });
     } catch (error) {
-      next(error);
+      res.status(500).json({ msg: 'Something went wrong' });
     }
   }
 }

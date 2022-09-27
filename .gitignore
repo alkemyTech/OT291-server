@@ -1,4 +1,4 @@
 node_modules
 .env
 docker-compose.yaml
-package-lock.json
+docker_schemas
