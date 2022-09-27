@@ -3,8 +3,8 @@ var router = express.Router();
 const { userSchema, loginSchema } = require('../schemas/user');
 const ValidationErrors = require('../middlewares/validationErrors');
 const UserController = require('../controllers/user-controller');
-const RoleMiddleware = require('../middlewares/verify-role');
 const AuthController = require('../controllers/authentication.js');
+const ValidatejWtUser = require('../middlewares/verify-role-user');
 
 router.post(
   '/login',
@@ -20,6 +20,6 @@ router.post(
   UserController.post
 );
 
-router.get('/me', RoleMiddleware.isOwner, UserController.getData)
+router.get('/me', ValidatejWtUser.decryptTokenUser, UserController.getData)
 
 module.exports = router;
