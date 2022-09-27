@@ -13,6 +13,12 @@ router.get(
   News.DetailNew
 );
 
-router.post('/', newSchema, ValidationErrors.validateSchema, News.postNew);
+router.post(
+  '/',
+  RoleMiddleware.isAdminRole,
+  newSchema,
+  ValidationErrors.validateSchema,
+  News.postNew
+);
 
 module.exports = router;
