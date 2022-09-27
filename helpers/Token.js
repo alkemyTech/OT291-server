@@ -26,7 +26,7 @@ class Token {
       const decodeToken = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
       return decodeToken;
     } catch (error) {
-      res.status(500).json(error);
+      return error;
     }
   }
 }
