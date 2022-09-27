@@ -22,4 +22,12 @@ router.delete(
   CategoriesController.deleteCategory
 );
 
+router.put(
+  '/:id',
+  categorySchema,
+  ValidationErrors.validateSchema,
+  RoleMiddleware.isAdminRole,
+  CategoriesController.updateCategory
+);
+
 module.exports = router;

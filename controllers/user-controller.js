@@ -1,7 +1,7 @@
 const { User } = require('../models');
 const { Token } = require('../helpers/Token');
 const bcrypt = require('bcrypt');
-
+const NotifyViaEmail = require("../services/notifyViaEmail")
 class UserController {
   static async post(req, res, next) {
     try {
@@ -22,6 +22,7 @@ class UserController {
         email: user.email,
         token: token,
       };
+      NotifyViaEmail.sendEmail(response.email,"Confirmación de Registro","Bienvenido")
       res.status(200).json(response);
     } catch (error) {
       res.status(500).json({ msg: 'Could not create user' });
