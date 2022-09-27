@@ -20,6 +20,6 @@ router.post(
   UserController.post
 );
 
-router.get('/me', ValidatejWtUser.decryptTokenUser, UserController.getData)
+router.get('/me', UserController.getData)
 
 module.exports = router;
