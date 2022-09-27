@@ -18,5 +18,5 @@ router.use('/users', user);
 router.use('/activities', activities);
 router.use('/categories', categories);
 router.use('/contacts',contact);
-router.use('/news/', news );
+router.use('/news', news );
 module.exports = router;
