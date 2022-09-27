@@ -43,13 +43,12 @@ class UserController {
   }
 
   static async getData(req, res, next) {
-    const { user } = req;
+    const { firstName, lastName, email, image } = req.user;
     return res.status(200).json({
-      id: user.id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      image: user.image,
+      firstName,
+      lastName,
+      email,
+      image
     });
   }
 }
