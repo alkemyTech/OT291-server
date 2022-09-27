@@ -4,6 +4,7 @@ const authRouter = require('./authentication');
 const categories = require('./categories');
 const organization = require('./organization.js');
 const user = require('./users.js');
+const news = require('./news');
 const activities = require('./activities.js');
 const contact = require("./contact")
 /* GET home page. */
@@ -16,7 +17,6 @@ router.use('/organization', organization);
 router.use('/users', user);
 router.use('/activities', activities);
 router.use('/categories', categories);
-router.use("/contacts",contact)
-
-
+router.use('/contacts',contact);
+router.use('/news/', news );
 module.exports = router;
