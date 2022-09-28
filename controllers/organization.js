@@ -1,4 +1,5 @@
-const { Organization } = require('../models/');
+const { Organization, User } = require('../models/');
+const UserDao = require('../dao/user.js');
 
 class OrganizationController {
   static async findOrganization(req, res) {
@@ -46,6 +47,20 @@ class OrganizationController {
       return res.status(500).json({
         msg: 'Error in db',
       });
+    }
+  }
+
+  static async getUsersList(req, res) {
+    try {
+      const allUsers = await UserDao.getAllUsers([
+        'id',
+        'firstName',
+        'lastName',
+        'email',
+      ])
+      res.status(200).json(allUsers)
+    } catch (error) {
+      res.status(400).json(error);
     }
   }
 }
