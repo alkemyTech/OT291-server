@@ -5,7 +5,6 @@ const ValidationErrors = require('../middlewares/validationErrors');
 const organizationSchema = require('../schemas/organization');
 
 const OrganizationController = require('../controllers/organization.js');
-const RoleMiddleware = require('../middlewares/verify-role');
 
 router.get('/public', OrganizationController.findOrganization);
 
