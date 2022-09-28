@@ -6,7 +6,7 @@ const organization = require('./organization.js');
 const user = require('./users.js');
 const news = require('./news');
 const activities = require('./activities.js');
-const contact = require("./contact")
+const contact = require('./contact');
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
@@ -17,6 +17,6 @@ router.use('/organization', organization);
 router.use('/users', user);
 router.use('/activities', activities);
 router.use('/categories', categories);
-router.use('/contacts',contact);
-router.use('/news', news );
+router.use('/contacts', contact);
+router.use('/news', news);
 module.exports = router;

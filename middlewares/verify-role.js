@@ -1,5 +1,5 @@
 const { response } = require('express');
-const { User } = require('../models');
+const { User, Role } = require('../models');
 const Token = require('../helpers/Token');
 
 class RoleMiddleware {
@@ -12,17 +12,14 @@ class RoleMiddleware {
     }
 
     try {
-      const { email } = Token.decryptJWT(authToken);
-
+      const { email } = Token.decryptJWT(req, res);
       const user = await User.findOne({
         where: { email },
         attributes: ['id', 'firstName'],
         include: [
           {
             model: Role,
-            through: {
-              attributes: ['name'],
-            },
+            attributes: ['name'],
           },
         ],
       });
@@ -34,33 +31,36 @@ class RoleMiddleware {
       }
 
       if (user.Role.name === 'Admin') {
-        req.email = email;
         return next();
       }
+
+      if (user.id !== req.params.id) {
+        return res.status(400).json({ msg: 'User not valid' })
+      }
+
+      return next();
 
     } catch (error) {
       return res.status(500).json({
         msg: 'token/user not valid',
       });
     }
-
-    return next();
   }
 
   static async isAdminRole(req, res = response, next) {
     const authToken = req.headers['authorization'];
     if (!authToken) {
-      res.status(500).json({
+      return res.status(500).json({
         msg: 'There is no token in request',
       });
     }
 
     try {
-      const { email } = Token.decryptJWT(authToken);
+      const { email } = Token.decryptJWT(req, res);
 
       const user = await User.findOne({
         where: { email },
-        attributes: ['firstName'],
+        attributes: ['firstName', 'lastName', 'email', 'image'],
         include: [
           {
             model: Role,
@@ -82,7 +82,6 @@ class RoleMiddleware {
           msg: `User ${user.firstName} is not an Admin`,
         });
       }
-      req.email = email;
     } catch (error) {
       return res.status(401).json({
         msg: 'token not valid',
