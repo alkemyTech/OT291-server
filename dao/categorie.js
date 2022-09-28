@@ -32,7 +32,7 @@ class CategoryDao {
     }
   }
 
-  static async getOneCategory(id) {
+  static async getOneCategory(id) {    
     try {
       const getOneCategory = await Category.findByPk(id,
         {attributes: ['name','description','image']

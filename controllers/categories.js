@@ -62,7 +62,7 @@ class CategoriesController {
     try {
          getOneCategory = await CategoryDao.getOneCategory(id);
     } catch (error) {
-      return res.status(400).json(error);
+      return res.status(400).json(error);      
     }            
     if(getOneCategory) return res.status(200).json(getOneCategory);
       return res.status(404).json({ msg: 'Could not find category'});

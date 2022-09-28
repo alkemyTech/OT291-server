@@ -31,8 +31,9 @@ router.put(
 );
 
 router.get(
-  '/:id',CategoriesController.getOneCategory
+  '/:id', RoleMiddleware.isAdminRole,
+  CategoriesController.getOneCategory
 );
-//RoleMiddleware.isAdminRole, 
+ 
 
 module.exports = router;
