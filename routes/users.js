@@ -11,6 +11,6 @@ router.get('/', function (req, res, next) {
 
 router.delete('/:id', UserController.deleteUser);
 
-router.get('/users', UserController.getUsersList)
+router.get('/users', RoleMiddleware.isAdminRole, UserController.getUsersList)
 
 module.exports = router;
