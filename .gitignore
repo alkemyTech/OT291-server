@@ -1,3 +1,6 @@
 node_modules
 .env
+docker_schemas
 docker-compose.yaml
+docker_schemas
+files

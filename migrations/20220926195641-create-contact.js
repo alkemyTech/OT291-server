@@ -1,33 +1,31 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Slides', {
+    await queryInterface.createTable('Contacts', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      imageUrl: {
-        allowNull:false,
+      name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      text: {
-        allowNull:false,
-        type: Sequelize.STRING
-      },
-      order: {
-        allowNull:false,
+      phone: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
-      organizationId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Organizations',
-          key: 'id',
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+      email: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      message: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      deletedAt: {
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -36,11 +34,10 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      deletedAt:Sequelize.DATE
+      }
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Slides');
+    await queryInterface.dropTable('Contacts');
   }
 };
