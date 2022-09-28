@@ -64,6 +64,30 @@ class UserController {
       res.status(500).json(error);
     }
   }
+
+  static async updateUser(req, res) {
+    const { id } = req.params;
+    const { firstName, lastName, email, password, image } = req.body;
+    let updateUser;
+    try {
+         [updateUser] = await User.update({
+           firstName,
+           lastName,
+           email,
+           password : bcrypt.hashSync(password,Number.parseInt(process.env.AUTH_ROUNDS)),
+           image,
+          },
+          {
+            where:{ id }
+          })
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+    if(updateUser) {
+      return res.status(200).json({ msg: 'User update successfully'})
+    }
+    return res.status(404).json({ msg: 'Could not find user' });
+  }  
 }
 
 module.exports = UserController;
