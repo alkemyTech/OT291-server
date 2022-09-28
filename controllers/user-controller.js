@@ -61,7 +61,6 @@ class UserController {
         where: { email },
         attributes: ['firstName', 'lastName', 'email', 'image'],
       });
-      console.log(user);
       if (!user) {
         return res.status(404).json({ msg: 'Could not find user' });
       }
