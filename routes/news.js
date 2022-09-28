@@ -5,6 +5,7 @@ const ValidationErrors = require('../middlewares/validationErrors');
 const RoleMiddleware = require('../middlewares/verify-role');
 const { getByIdSchema, putNewsSchema } = require('../schemas/news');
 
+router.delete('/:id', RoleMiddleware.isAdminRole, News.deleteNew);
 router.get(
   '/:id',
   RoleMiddleware.isAdminRole,
