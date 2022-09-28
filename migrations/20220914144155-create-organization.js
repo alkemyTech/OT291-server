@@ -33,15 +33,6 @@ module.exports = {
       aboutUsText: {
         type: Sequelize.TEXT,
       },
-      urlFacebook: {
-        type: Sequelize.STRING,
-      },
-      urlInstagram: {
-        type: Sequelize.STRING,
-      },
-      urlLinkedin: {
-        type: Sequelize.STRING,
-      },
       deletedAt: {
         type: Sequelize.DATE,
       },
@@ -53,7 +44,16 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-    });
+    }),
+      queryInterface.addColumn('Organizations', 'urlFacebook', {
+        type: Sequelize.STRING,
+      }),
+      queryInterface.addColumn('Organizations', 'urlInstagram', {
+        type: Sequelize.STRING,
+      }),
+      queryInterface.addColumn('Organizations', 'urlLinkedin', {
+        type: Sequelize.STRING,
+      });
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('Organizations');
