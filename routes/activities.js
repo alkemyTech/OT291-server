@@ -13,4 +13,9 @@ router.post(
   ActivitiesController.createActivities
 );
 
+router.put('/:id', 
+  RoleMiddleware.isAdminRole,
+  ActivitiesController.updateActivities
+);
+
 module.exports = router;

@@ -19,6 +19,20 @@ class ActivitiesController {
       res.status(400).json(error);
     }
   }
+
+  static async updateActivities(req, res, next) {
+    const { id } = req.params;
+    const  body  = req.body;
+    let updateActivities;
+    try {
+         [updateActivities] = await Activities.update(body,{where:{id}})
+    } catch (error) {
+      return res.status(400).json(error);
+    }
+    if(updateActivities) return res.status(200).json(body)
+    return res.status(404).json({ msg: 'Could not find Activitie' });
+  }  
+
 }
 
 module.exports = ActivitiesController;
