@@ -14,10 +14,10 @@ router.post(
 );
 
 router.put('/:id', 
-  RoleMiddleware.isAdminRole,
-  activitiesSchema,
-  ValidationErrors.validateSchema,
-  ActivitiesController.updateActivities
+RoleMiddleware.isAdminRole,
+activitiesSchema,
+ValidationErrors.validateSchema,
+ActivitiesController.updateActivities
 );
 
 module.exports = router;
