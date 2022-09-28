@@ -10,6 +10,7 @@ router.get(
   '/:id',
   slideIdSchema,
   ValidationErrors.validateSchema,
+  verifyRole.isAdminRole,
   SlidesController.getDetails
 );
 
