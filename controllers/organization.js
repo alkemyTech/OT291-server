@@ -1,4 +1,4 @@
-const { Organization, User } = require('../models/');
+const { Organization } = require('../models/');
 
 class OrganizationController {
   static async findOrganization(req, res) {
