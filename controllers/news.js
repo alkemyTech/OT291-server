@@ -13,12 +13,10 @@ class News {
   static async postNew(req, res, next) {
     try {
       const { name, content, image } = req.body;
-      const newCreated = await NewDao.postNew({ name, content, image });
-      newCreated
-        ? res.status(200).json({ msg: 'New created successfully' })
-        : res.status(404).json({ msg: 'Error. New not created.' });
+      await NewDao.postNew({ name, content, image });
+      return res.status(200).json({ msg: 'New created successfully' });
     } catch (error) {
-      next(error);
+      return res.status(500).json({ msg: 'Error. New not created.' });
     }
   }
 }

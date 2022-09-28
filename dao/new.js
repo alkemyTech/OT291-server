@@ -16,7 +16,6 @@ class NewDao {
       const newCreated = await New.create({ name, content, image, type });
       return newCreated;
     } catch (error) {
-      console.log(error);
       throw new Error(error);
     }
   }
