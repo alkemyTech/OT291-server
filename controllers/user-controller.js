@@ -3,6 +3,7 @@ const Token = require('../helpers/Token');
 const bcrypt = require('bcrypt');
 const NotifyViaEmail = require("../services/notifyViaEmail")
 const AuthDao = require('../dao/authentication')
+const UserDao = require('../dao/user');
 
 class UserController {
   static async post(req, res, next) {
@@ -24,7 +25,11 @@ class UserController {
         email: user.email,
         token: token,
       };
-      NotifyViaEmail.sendEmail(response.email,"Confirmación de Registro","Bienvenido")
+      NotifyViaEmail.sendEmail(
+        response.email,
+        'Confirmación de Registro',
+        'Bienvenido'
+      );
       res.status(200).json(response);
     } catch (error) {
       res.status(500).json({ msg: 'Could not create user' });
@@ -58,6 +63,20 @@ class UserController {
       res.status(200).json(dataUser)
     } catch (error) {
       res.status(404).json({ msg: 'Could not find user' })
+    }
+  }
+
+  static async getUsersList(req, res) {
+    try {
+      const allUsers = await UserDao.getAllUsers([
+        'id',
+        'firstName',
+        'lastName',
+        'email',
+      ]);
+      res.status(200).json(allUsers);
+    } catch (error) {
+      res.status(400).json(error);
     }
   }
 }
