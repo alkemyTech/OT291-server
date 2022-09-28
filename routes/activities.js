@@ -13,4 +13,11 @@ router.post(
   ActivitiesController.createActivities
 );
 
+router.put('/:id', 
+RoleMiddleware.isAdminRole,
+activitiesSchema,
+ValidationErrors.validateSchema,
+ActivitiesController.updateActivities
+);
+
 module.exports = router;

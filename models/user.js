@@ -8,10 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      User.belongsTo(models.Role, {
-        as: 'role',
-        sourceKey: 'roleId',
-      });
+      User.belongsTo(models.Role);
     }
   }
   User.init(
@@ -20,8 +17,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         allowNull: false,
-        primaryKey: true
-
+        primaryKey: true,
       },
       firstName: {
         type: DataTypes.STRING,
