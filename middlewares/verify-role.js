@@ -6,7 +6,7 @@ class RoleMiddleware {
   static async isOwner(req, res = response, next) {
     const authToken = req.headers['authorization'];
     if (!authToken) {
-      res.status(500).json({
+      return res.status(500).json({
         msg: 'There is no token in request',
       });
     }
@@ -16,12 +16,10 @@ class RoleMiddleware {
       const user = await User.findOne({
         where: { email },
         attributes: ['id', 'firstName'],
-        include: [
-          {
-            model: Role,
-            attributes: ['name'],
-          },
-        ],
+        include: {
+          model: Role,
+          attributes: ['name'],
+        },
       });
 
       if (!user) {
@@ -35,11 +33,10 @@ class RoleMiddleware {
       }
 
       if (user.id !== req.params.id) {
-        return res.status(400).json({ msg: 'User not valid' })
+        return res.status(400).json({ msg: 'User not valid' });
       }
 
       return next();
-
     } catch (error) {
       return res.status(500).json({
         msg: 'token/user not valid',
@@ -60,17 +57,14 @@ class RoleMiddleware {
 
       const user = await User.findOne({
         where: { email },
-        attributes: ['firstName', 'lastName', 'email', 'image'],
+        attributes: ['id', 'firstName'],
         include: [
           {
             model: Role,
-            through: {
-              attributes: ['name'],
-            },
+            attributes: ['name'],
           },
         ],
       });
-
       if (!user) {
         return res.json({
           msg: 'user not valid',
