@@ -17,6 +17,4 @@ router.post(
   OrganizationController.updateOrganization
 );
 
-router.get('/users', RoleMiddleware.isAdminRole ,OrganizationController.getUsersList)
-
 module.exports = router;
