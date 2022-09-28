@@ -13,7 +13,6 @@ module.exports = {
         type: Sequelize.STRING
       },
       phone: {
-        allowNull: false,
         type: Sequelize.INTEGER
       },
       email: {
@@ -21,7 +20,6 @@ module.exports = {
         type: Sequelize.STRING
       },
       message: {
-        allowNull: false,
         type: Sequelize.STRING
       },
       deletedAt: {
