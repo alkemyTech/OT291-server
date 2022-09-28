@@ -33,7 +33,7 @@ class ActivitiesController {
       return res.status(400).json(error);
     }
     if(updateActivities) return res.status(200).json({activities:{name,content,image}})
-    return res.status(404).json({ msg: 'Could not find Activitie' });
+    return res.status(404).json({ msg: 'could not find Activitie' });
   }  
 }
 
