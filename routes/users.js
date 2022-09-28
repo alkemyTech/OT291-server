@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const UserController = require('../controllers/user-controller.js');
+const RoleMiddleware = require('../middlewares/verify-role.js');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
@@ -9,5 +10,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.delete('/:id', UserController.deleteUser);
+
+router.get('/users', UserController.getUsersList)
 
 module.exports = router;
