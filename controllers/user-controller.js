@@ -46,7 +46,8 @@ class UserController {
   }
 
   static async getData(req, res, next) {
-    const { email } = req;
+
+    const { email } = Token.decryptJWT(req, res);
     try {
       const dataUser = await AuthDao.findUser({ email }, [
         'firstName',
