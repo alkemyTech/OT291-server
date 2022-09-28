@@ -5,7 +5,9 @@ class SlidersController {
     try {
       const where = { id: id };
 
-      const slideData = await SlidesDao.findSlide(where);
+      const slideData = await SlidesDao.findSlide({
+        where: where,
+      });
 
       if (!slideData) {
         res.status(404).json({ message: 'Could not find the slide' });
