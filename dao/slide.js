@@ -30,6 +30,17 @@ class SlidesDap {
       throw new Error(error);
     }
   }
+  static async deleteSlides(where) {
+    try {
+      const deleteSlide = await Slide.destroy({
+        where,
+      });
+
+      return deleteSlide;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
 
 module.exports = SlidesDap;
