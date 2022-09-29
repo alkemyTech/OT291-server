@@ -1,5 +1,6 @@
 const SlidesDao = require('../dao/slide');
-const { Slide } = require('../models');
+const SlideHelper = require('../helpers/Slide');
+
 class SlidersController {
   static async getDetails(req, res) {
     const { id } = req.params;
@@ -20,27 +21,15 @@ class SlidersController {
     }
   }
   static async postSlide(req, res) {
-    const { imageUrl, text } = req.body;
-    let { order } = req.body;
-
-    let allSlides;
-    let slidesOrder;
+    const { imageUrl, text, order } = req.body;
+    const getOrder = await SlideHelper.orderSlides(order);
+    const decodedImage = await SlideHelper.decodeImage(imageUrl);
 
     try {
-      allSlides = await Slide.findAll();
-      slidesOrder = allSlides
-        .map(e => e.toJSON())
-        .map(o => o.order)
-    } catch(error) {
-      res.status(400).json({ msg: 'Could not find slides' })
-    }
-
-    try {
-    if (!order) order = slidesOrder.length + 1
     const newSlide = await SlidesDao.createSlide({
-      imageUrl,
-      text,
-      order,
+        imageUrl: decodedImage,
+        order: getOrder,
+        text,
     }, { fields: ['imageUrl', 'text', 'order'] })
       res.status(200).json(newSlide)
     } catch (error) {
