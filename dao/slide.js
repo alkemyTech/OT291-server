@@ -19,6 +19,19 @@ class SlidesDap {
       throw new Error(error);
     }
   }
+  static async findSlidebyOrganization({ where, exclude = [], order = [] }) {
+    try {
+      console.log(where)
+      const SlideData = await Slide.findAll({
+        where: where,
+        attributes: { exclude: exclude },
+        order: [order]
+      });
+      return SlideData;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
 
 module.exports = SlidesDap;
