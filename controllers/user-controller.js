@@ -1,7 +1,8 @@
 const { User } = require('../models');
 const Token = require('../helpers/Token');
 const bcrypt = require('bcrypt');
-const NotifyViaEmail = require('../services/notifyViaEmail');
+const NotifyViaEmail = require("../services/notifyViaEmail")
+const AuthDao = require('../dao/authentication')
 const UserDao = require('../dao/user');
 
 class UserController {
@@ -50,23 +51,18 @@ class UserController {
   }
 
   static async getData(req, res, next) {
-    const decryptToken = Token.decryptJWT(req, res);
 
-    if (!decryptToken || !decryptToken.email) {
-      return res.status(401).json('jwt must be provided or invalid');
-    }
-    const { email } = decryptToken;
+    const { email } = Token.decryptJWT(req, res);
     try {
-      const user = await User.findOne({
-        where: { email },
-        attributes: ['firstName', 'lastName', 'email', 'image'],
-      });
-      if (!user) {
-        return res.status(404).json({ msg: 'Could not find user' });
-      }
-      res.status(200).json(user);
+      const dataUser = await AuthDao.findUser({ email }, [
+        'firstName',
+        'lastName',
+        'email',
+        'image'
+      ]);
+      res.status(200).json(dataUser)
     } catch (error) {
-      res.status(500).json(error);
+      res.status(404).json({ msg: 'Could not find user' })
     }
   }
 
