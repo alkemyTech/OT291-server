@@ -1,24 +1,21 @@
 const { response } = require('express');
-const db = require('../models');
-const { User } = db;
-const jwt = require('jsonwebtoken');
+const { User, Role } = require('../models');
 const Token = require('../helpers/Token');
 
 class RoleMiddleware {
   static async isOwner(req, res = response, next) {
     const authToken = req.headers['authorization'];
     if (!authToken) {
-      res.status(500).json({
+      return res.status(500).json({
         msg: 'There is no token in request',
       });
     }
 
     try {
       const { email } = Token.decryptJWT(req, res);
-
       const user = await User.findOne({
         where: { email },
-        attributes: ['id', 'firstname'],
+        attributes: ['id', 'firstName'],
         include: {
           model: Role,
           attributes: ['name'],
@@ -31,28 +28,26 @@ class RoleMiddleware {
         });
       }
 
-      if (user.role.name === 'Admin') {
+      if (user.Role.name === 'Admin') {
         return next();
       }
 
       if (user.id !== req.params.id) {
-        return res.status(403).json({
-          msg: 'id not valid',
-        });
+        return res.status(400).json({ msg: 'User not valid' });
       }
+
+      return next();
     } catch (error) {
       return res.status(500).json({
         msg: 'token/user not valid',
       });
     }
-
-    return next();
   }
 
   static async isAdminRole(req, res = response, next) {
     const authToken = req.headers['authorization'];
     if (!authToken) {
-      res.status(500).json({
+      return res.status(500).json({
         msg: 'There is no token in request',
       });
     }
@@ -62,25 +57,26 @@ class RoleMiddleware {
 
       const user = await User.findOne({
         where: { email },
-        attributes: ['firstname'],
-        include: {
-          model: Role,
-          attributes: ['name'],
-        },
+        attributes: ['id', 'firstName'],
+        include: [
+          {
+            model: Role,
+            attributes: ['name'],
+          },
+        ],
       });
-
       if (!user) {
         return res.json({
           msg: 'user not valid',
         });
       }
 
-      if (user.role.name !== 'Admin') {
+      if (user.Role.name !== 'Admin') {
         return res.status(401).json({
-          msg: `User ${user.firstname} is not an Admin`,
+          msg: `User ${user.firstName} is not an Admin`,
         });
       }
-    } catch (err) {
+    } catch (error) {
       return res.status(401).json({
         msg: 'token not valid',
       });
