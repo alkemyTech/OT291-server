@@ -21,7 +21,6 @@ class SlidesDap {
   }
   static async findSlidebyOrganization({ where, exclude = [], order = [] }) {
     try {
-      console.log(where)
       const SlideData = await Slide.findAll({
         where: where,
         attributes: { exclude: exclude },
