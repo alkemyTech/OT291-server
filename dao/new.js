@@ -19,6 +19,25 @@ class NewDao {
       throw new Error(error);
     }
   }
+  static async updateNew(name, image, content, CategoryId, id) {
+    try {
+      await New.update(
+        {
+          name,
+          image,
+          content,
+          CategoryId,
+        },
+        {
+          where: {
+            id,
+          },
+        }
+      );
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
 
 module.exports = NewDao;

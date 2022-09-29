@@ -13,14 +13,14 @@ class CategoryDao {
       });
       return categoryData;
     } catch (error) {
-      res.status(400).json(error);
+      throw new Error(error);
     }
   }
-/**
+  /**
    * Asynchronously delete a category from the database (table Category)
    * @param {string} fields - To filter by attribute/s Ej: {name: 'ong'}
-   * @returns {Promise}   
-*/
+   * @returns {Promise}
+   */
   static async filteringCategoryResultsByField(...fields) {
     try {
       const categoryData = await Category.findAll({
@@ -28,7 +28,7 @@ class CategoryDao {
       });
       return categoryData;
     } catch (error) {
-      throw new Error(error)
+      throw new Error(error);
     }
   }
 }

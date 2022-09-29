@@ -15,7 +15,7 @@ class AuthDao {
 
       return userData;
     } catch (error) {
-      res.status(400).json(error);
+      throw new Error(error);
     }
   }
 }

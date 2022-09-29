@@ -3,8 +3,9 @@ const router = express.Router();
 const News = require('../controllers/news');
 const ValidationErrors = require('../middlewares/validationErrors');
 const RoleMiddleware = require('../middlewares/verify-role');
-const { getByIdSchema, newSchema } = require('../schemas/news');
+const { getByIdSchema, newSchema, putNewsSchema } = require('../schemas/news');
 
+router.delete('/:id', RoleMiddleware.isAdminRole, News.deleteNew);
 router.get(
   '/:id',
   RoleMiddleware.isAdminRole,
@@ -19,6 +20,14 @@ router.post(
   newSchema,
   ValidationErrors.validateSchema,
   News.postNew
+);
+
+router.put(
+  '/:id',
+  RoleMiddleware.isAdminRole,
+  putNewsSchema,
+  ValidationErrors.validateSchema,
+  News.putNew
 );
 
 module.exports = router;

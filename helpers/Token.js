@@ -17,16 +17,13 @@ class Token {
   }
 
   static decryptJWT(req, res) {
+    let token;
     try {
       const authorization = req.get('Authorization');
-      let token = '';
-
       if (authorization && authorization.toLowerCase().startsWith('bearer')) {
         token = authorization.substring(7);
       }
-
       const decodeToken = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
-
       return decodeToken;
     } catch (error) {
       return error;
@@ -34,6 +31,4 @@ class Token {
   }
 }
 
-module.exports = {
-  Token,
-};
+module.exports = Token;

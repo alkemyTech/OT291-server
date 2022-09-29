@@ -4,6 +4,7 @@ const { userSchema, loginSchema } = require('../schemas/user');
 const ValidationErrors = require('../middlewares/validationErrors');
 const UserController = require('../controllers/user-controller');
 const AuthController = require('../controllers/authentication.js');
+const ValidatejWtUser = require('../middlewares/verify-role-user');
 
 router.post(
   '/login',
@@ -18,5 +19,7 @@ router.post(
   ValidationErrors.validateSchema,
   UserController.post
 );
+
+router.get('/me', ValidatejWtUser.decryptTokenUser, UserController.getData)
 
 module.exports = router;
