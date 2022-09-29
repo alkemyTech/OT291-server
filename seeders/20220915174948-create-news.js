@@ -17,11 +17,7 @@ module.exports = {
         content: 'Content for a new with title 2',
         Image:
           'https://previews.123rf.com/images/alhovik/alhovik1709/alhovik170900028/86470277-antecedentes-de-las-noticias-de-%C3%BAltima-hora-world-global-tv-news-banner-design.jpg',
-<<<<<<< HEAD
-        categorieId: 1,
-=======
         CategoryId: 1,
->>>>>>> 90a3586d05669d88ef488d7f2e4b3c5dde98af8a
         createdAt: new Date(),
         updatedAt: new Date(),
       },
