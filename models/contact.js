@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     phone: {
-      allowNull: false,
       type: DataTypes.INTEGER
     },
     email: {
@@ -21,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     message: {
-      allowNull: false,
       type: DataTypes.STRING
     },
     deletedAt: {

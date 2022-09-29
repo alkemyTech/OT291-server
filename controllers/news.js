@@ -11,6 +11,15 @@ class News {
       return res.status(500).send(error.message);
     }
   }
+  static async postNew(req, res, next) {
+    try {
+      const { name, content, image } = req.body;
+      await NewDao.postNew({ name, content, image });
+      return res.status(200).json({ msg: 'New created successfully' });
+    } catch (error) {
+      return res.status(500).json({ msg: 'Error. New not created.' });
+    }
+  }
 
   static async putNew(req, res) {
     const { id } = req.params;
