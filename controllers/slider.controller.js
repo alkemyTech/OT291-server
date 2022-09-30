@@ -23,6 +23,12 @@ class SlidersController {
 
   static async getLastSlide(order) {
     if (order) return order;
+    try {
+      const lastSlide =
+        (await SlidesDao.sortSlides('order', 'DESC')).map((o) => o.order)[0];
+      return lastSlide + 1;
+    } catch (error) {
+    }
   }
 
   static async postSlide(req, res) {
