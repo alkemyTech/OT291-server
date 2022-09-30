@@ -4,6 +4,6 @@ const verifyRole = require('../middlewares/verify-role');
 
 const MemberController = require('../controllers/member.controller');
 
-router.get('', verifyRole.isAdminRole, MemberController.getMembers);
+router.get('/', verifyRole.isAdminRole, MemberController.getMembers);
 
 module.exports = router;

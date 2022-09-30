@@ -3,7 +3,7 @@ const { request, response } = require('express');
 const { Member } = require('../models');
 
 class MemberController {
-  static async getMembers(req = request, res = response) {
+  static async getMembers(req, res) {
     try {
       const members = await Member.findAll({
         attributes: [
