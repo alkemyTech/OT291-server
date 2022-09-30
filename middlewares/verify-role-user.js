@@ -15,14 +15,13 @@ class ValidatejWtUser {
         attributes: ['firstName', 'lastName', 'email', 'image'],
         include: {
           model: Role,
-          as: 'role',
           attributes: ['name'],
         },
       });
       if (!user) {
         return res.status(404).json({ msg: 'Could not find user' });
       }
-      if (user.role.name !== 'Standard') {
+      if (user.Role.name !== 'Standard') {
         return res.status(403).json({ msg: 'unauthorized user' });
       }
       next();

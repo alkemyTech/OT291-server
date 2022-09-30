@@ -1,15 +1,21 @@
 const { Organization } = require('../models/');
+const SlidesDao = require('../dao/slide');
 
 class OrganizationController {
   static async findOrganization(req, res) {
     try {
       const response = await Organization.findOne({
         where: { name: 'Big Org' },
-        attributes: ['name', 'image', 'phone', 'address'],
+        attributes: ['id', 'name', 'image', 'phone', 'address'],
+      });
+      const slides = await SlidesDao.findSlidebyOrganization({
+        where: { organizationId: response.id },
+        exclude: ['createdAt', 'updatedAt', 'deletedAt'],
+        order: ['order', 'ASC'],
       });
       response === null
         ? res.status(404).json({ msg: 'Could not find information' })
-        : res.status(200).json(response);
+        : res.status(200).json({ response, slides });
     } catch (error) {
       return error;
     }

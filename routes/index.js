@@ -10,6 +10,7 @@ const contact = require('./contact');
 const slidesRouter = require('./slides');
 
 const members = require('./members');
+const testimonialsRouter = require('./testimonials');
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
@@ -25,4 +26,5 @@ router.use('/news', news);
 router.use('/slides', slidesRouter);
 
 router.use('/members', members);
+router.use('/testimonials', testimonialsRouter);
 module.exports = router;
