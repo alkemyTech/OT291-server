@@ -21,7 +21,9 @@ class SlidersController {
     }
   }
 
-  static async getLastSlide(order) {}
+  static async getLastSlide(order) {
+    if (order) return order;
+  }
 
   static async postSlide(req, res) {
     const { imageUrl, text, order } = req.body;
