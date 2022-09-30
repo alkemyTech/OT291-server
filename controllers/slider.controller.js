@@ -20,6 +20,9 @@ class SlidersController {
       res.status(400).json(error);
     }
   }
+
+  static async getSlidesOrder() {}
+
   static async postSlide(req, res) {
     const { imageUrl, text, order } = req.body;
     const getOrder = await SlideHelper.orderSlides(order);
