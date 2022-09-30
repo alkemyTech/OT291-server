@@ -19,6 +19,40 @@ class SlidesDap {
       throw new Error(error);
     }
   }
+  static async findSlidebyOrganization({ where, exclude = [], order = [] }) {
+    try {
+      const SlideData = await Slide.findAll({
+        where: where,
+        attributes: { exclude: exclude },
+        order: [order],
+      });
+      return SlideData;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  static async getSlides(attributes) {
+    try {
+      const slidesList = await Slide.findAll({
+        attributes,
+      });
+
+      return slidesList;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  static async deleteSlides(where) {
+    try {
+      const deleteSlide = await Slide.destroy({
+        where,
+      });
+
+      return deleteSlide;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
 
 module.exports = SlidesDap;

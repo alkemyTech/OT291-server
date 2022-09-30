@@ -8,6 +8,7 @@ const news = require('./news');
 const activities = require('./activities.js');
 const contact = require('./contact');
 const slidesRouter = require('./slides');
+const testimonialsRouter = require('./testimonials');
 const membersRouter = require('./members');
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -22,6 +23,6 @@ router.use('/categories', categories);
 router.use('/contacts', contact);
 router.use('/news', news);
 router.use('/slides', slidesRouter);
-router.use('/members',membersRouter);
-
+router.use('/testimonials', testimonialsRouter);
+router.use('/members', membersRouter);
 module.exports = router;

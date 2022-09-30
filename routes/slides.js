@@ -1,10 +1,11 @@
-var express = require('express');
-var router = express.Router();
-
+const express = require('express');
+const router = express.Router();
 const slideIdSchema = require('../schemas/slides');
 const ValidationErrors = require('../middlewares/validationErrors');
 const SlidesController = require('../controllers/slider.controller');
 const verifyRole = require('../middlewares/verify-role');
+
+router.get('/', verifyRole.isAdminRole, SlidesController.getSlides);
 
 router.get(
   '/:id',
@@ -12,6 +13,13 @@ router.get(
   ValidationErrors.validateSchema,
   verifyRole.isAdminRole,
   SlidesController.getDetails
+);
+
+router.delete(
+  '/:id',
+  slideIdSchema,
+  ValidationErrors.validateSchema,
+  SlidesController.deleteSlide
 );
 
 module.exports = router;

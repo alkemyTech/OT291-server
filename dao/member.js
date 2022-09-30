@@ -1,11 +1,10 @@
 const {Member} = require('../models');
 
 class MemberDao {
-  static async deleteMember(id) { 
-     let deletedMember;
+  static async deleteMember(where) { 
      try {
-        deletedMember = await Member.destroy({
-            where: { id },
+          let deletedMember = await Member.destroy({
+          where: where,
         });
         return deletedMember;
      } catch (error) {
@@ -13,4 +12,5 @@ class MemberDao {
      }
   }
 }
+
 module.exports = MemberDao;
