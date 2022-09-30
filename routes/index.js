@@ -8,6 +8,7 @@ const news = require('./news');
 const activities = require('./activities.js');
 const contact = require('./contact');
 const slidesRouter = require('./slides');
+const members = require('./members.js');
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
@@ -21,4 +22,5 @@ router.use('/categories', categories);
 router.use('/contacts', contact);
 router.use('/news', news);
 router.use('/slides', slidesRouter);
+router.use('/members', members);
 module.exports = router;
