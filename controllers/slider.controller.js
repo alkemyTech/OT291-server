@@ -33,8 +33,10 @@ class SlidersController {
   }
 
   static async postSlide(req, res) {
-    const { imageUrl, text, order } = req.body;
-    const getOrder = await SlideHelper.orderSlides(order);
+    const { imageUrl, text } = req.body;
+    let { order } = req.body;
+
+    order = await SlidersController.getLastSlide(order);
     const decodedImage = await SlideHelper.decodeImage(imageUrl);
 
     try {
