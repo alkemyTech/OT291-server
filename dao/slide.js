@@ -35,6 +35,18 @@ class SlidesDap {
     }
 
   }
+
+  static async sortSlides(column, direction) {
+    try {
+      const allSlides = await Slide.findAll({
+        order: [column, direction],
+      });
+      return allSlides;
+    } catch (error) {
+      return error
+    }
+  }
+
 }
 
 module.exports = SlidesDap;
