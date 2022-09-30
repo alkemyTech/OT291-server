@@ -9,7 +9,22 @@ const activities = require('./activities.js');
 const contact = require('./contact');
 const slidesRouter = require('./slides');
 const testimonialsRouter = require('./testimonials');
-/* GET home page. */
+
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Returns and Render a object.
+ *     description: Exaple swagger
+ *     tags:
+ *       - Home
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: { title: 'Express' }
+ *
+ */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
 });
