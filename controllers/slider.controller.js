@@ -31,6 +31,24 @@ class SlidersController {
       });
     }
   }
+
+  static async deleteSlide(req, res) {
+    const { id } = req.params;
+    const where = { id } ;
+    
+    try {
+      const response = await SlidesDao.deleteSlides(where);
+      
+      response ? res.status(200).json({ msg: 'Slide deleted successfully' })
+      : res.status(404).json({ msg: 'Could not find Slide' })
+
+    } catch (error) {
+      return res.status(500).json({
+        error,
+        msg: 'error in db',
+      });
+    }
+  }
 }
 
 module.exports = SlidersController;
