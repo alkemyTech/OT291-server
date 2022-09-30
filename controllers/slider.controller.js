@@ -37,12 +37,11 @@ class SlidersController {
     let { order } = req.body;
 
     order = await SlidersController.getLastSlide(order);
-    const decodedImage = await SlideHelper.decodeImage(imageUrl);
 
     try {
     const newSlide = await SlidesDao.createSlide({
-        imageUrl: decodedImage,
-        order: getOrder,
+        imageUrl,
+        order,
         text,
     }, { fields: ['imageUrl', 'text', 'order'] })
       res.status(200).json(newSlide)
