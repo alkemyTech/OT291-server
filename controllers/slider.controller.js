@@ -28,6 +28,7 @@ class SlidersController {
         (await SlidesDao.sortSlides('order', 'DESC')).map((o) => o.order)[0];
       return lastSlide + 1;
     } catch (error) {
+      return error
     }
   }
 
