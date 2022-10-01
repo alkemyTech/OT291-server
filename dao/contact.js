@@ -11,6 +11,12 @@ class ContactDao {
       throw new Error(error);
     }
   }
+  /**
+   * Asynchronously return all contacts from the database (table Contacts)
+   * @param {string[]} attributes - Attributes we need Ej: ['email', 'phone']
+   *
+   * @returns {Array}
+   */
   static async getAllContacts() {}
 }
 
