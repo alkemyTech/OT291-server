@@ -17,7 +17,16 @@ class ContactDao {
    *
    * @returns {Array}
    */
-  static async getAllContacts() {}
+  static async getAllContacts(attributes) {
+    try {
+      const allContacts = await Contact.findAll({
+        attributes,
+      });
+      return allContacts;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 module.exports = ContactDao;
