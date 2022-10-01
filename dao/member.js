@@ -1,16 +1,22 @@
 const {Member} = require('../models');
 
 class MemberDao {
-   static async deleteMember(id) { 
-     let deletedMember;
+Create_migration_comments_model   
+  /**
+  * Asynchronously delete a member from the database (table Member)
+  * @param   {Object} where - To filter by attribute/s Ej: {id: '1'}
+  * @returns {boolean}
+  */
+  static async deleteMember(where) { 
      try {
-          deletedMember = await Member.findByPk(id);
+          let deletedMember = await Member.destroy({
+          where: where,
+        });
+        return deletedMember;
      } catch (error) {
         throw error;
      }
-     if(deletedMember) await deletedMember.destroy();
-     return deletedMember;
-   }
+  }
 }
 
 module.exports = MemberDao;
