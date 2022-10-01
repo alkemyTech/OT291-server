@@ -13,7 +13,7 @@ router.post(
 );
 
 router.get(
-  '/contacts',
+  '/',
   RoleMiddleware.isAdminRole,
   ContactController.getContacts
 );
