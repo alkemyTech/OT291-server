@@ -25,9 +25,9 @@ class ContactController {
         'email',
         'message',
       ]);
-
+      res.status(200).json(contacts);
     } catch (error) {
-      res.status(404).json({ msg: 'Contacts not found' })
+      res.status(404).json({ msg: 'Contacts not found' });
     }
   }
 }
