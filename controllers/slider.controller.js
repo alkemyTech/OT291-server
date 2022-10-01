@@ -1,5 +1,4 @@
 const SlidesDao = require('../dao/slide');
-const SlideHelper = require('../helpers/Slide');
 
 class SlidersController {
   static async getDetails(req, res) {
