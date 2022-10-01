@@ -2,7 +2,7 @@ const {Member} = require('../models');
 
 class MemberDao {
   /**
-  * Asynchronously delete a member from the database (table Member)
+  * Asynchronously delete a member from the database (table Members)
   * @param   {Object} where - To filter by attribute/s Ej: {id: '1'}
   * @returns {boolean}
   */
