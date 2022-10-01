@@ -15,7 +15,21 @@ class ContactController {
     }
   }
 
-  static async getContacts(req, res) {}
+  static async getContacts(req, res) {
+    const { name, phone, email, message } = req.body;
+
+    try {
+      const contacts = await ContactDao.getAllContacts([
+        'name',
+        'phone',
+        'email',
+        'message',
+      ]);
+
+    } catch (error) {
+      res.status(404).json({ msg: 'Contacts not found' })
+    }
+  }
 }
 
 module.exports = ContactController;
