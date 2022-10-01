@@ -2,11 +2,6 @@ const { Member } = require("../models");
 const MemberDao = require('../dao/member');
 
 class MemberController {
-    /**
-    * Asynchronously delete a category from the database (table Category)
-    * @param {Object} where - To filter by attribute/s Ej: {name: 'ong'}
-    * @returns {boolean}
-    */
     static async deleteMember (req, res) {
        let { id } = req.params;
        let deletedMember;
