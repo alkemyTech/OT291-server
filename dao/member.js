@@ -3,8 +3,8 @@ const {Member} = require('../models');
 class MemberDao {
 Create_migration_comments_model   
   /**
-  * Asynchronously delete a category from the database (table Category)
-  * @param   {Object} where - To filter by attribute/s Ej: {name: 'ong'}
+  * Asynchronously delete a member from the database (table Members)
+  * @param   {Object} where - To filter by attribute/s Ej: {id: '1'}
   * @returns {boolean}
   */
   static async deleteMember(where) { 
