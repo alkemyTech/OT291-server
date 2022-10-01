@@ -11,6 +11,7 @@ class ContactDao {
       throw new Error(error);
     }
   }
+  static async getAllContacts() {}
 }
 
 module.exports = ContactDao;
