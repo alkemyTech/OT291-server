@@ -14,6 +14,8 @@ class ContactController {
       return res.status(500).json(error);
     }
   }
+
+  static async getContacts(req, res) {}
 }
 
 module.exports = ContactController;
