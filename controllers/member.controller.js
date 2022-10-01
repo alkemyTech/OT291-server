@@ -5,9 +5,8 @@ class MemberController {
     static async deleteMember (req, res) {
        let { id } = req.params;
        let deletedMember;
-       const where = { id };
         try {
-            deletedMember = await MemberDao.deleteMember(where);
+            deletedMember = await MemberDao.deleteMember(id);
         } catch (error) {
           return res.status(400).json(error);
         }
