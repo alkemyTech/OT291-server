@@ -1,7 +1,6 @@
 const {Member} = require('../models');
 
 class MemberDao {
-Create_migration_comments_model   
   /**
   * Asynchronously delete a member from the database (table Member)
   * @param   {Object} where - To filter by attribute/s Ej: {id: '1'}
