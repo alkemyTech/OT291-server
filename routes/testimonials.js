@@ -14,4 +14,6 @@ router.put(
   TestimonialController.updateTestimonials
 );
 
+router.get('/', verifyRole.isAdminRole, TestimonialController.getTestimonials);
+
 module.exports = router;
