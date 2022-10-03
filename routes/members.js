@@ -1,8 +1,18 @@
 const express = require('express');
+const router = express.Router();
 const MemberController = require('../controllers/member.controller');
 const RoleMiddleware = require('../middlewares/verify-role');
-const router = express.Router();
+const membersByIdSchema = require('../schemas/members');
+const ValidationErrors = require('../middlewares/validationErrors');
 
 router.get('/', RoleMiddleware.isAdminRole, MemberController.getMembers);
+
+router.delete(
+  '/:id',
+  membersByIdSchema,
+  ValidationErrors.validateSchema,
+  RoleMiddleware.isAdminRole,
+  MemberController.deleteMember
+);
 
 module.exports = router;

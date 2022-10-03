@@ -15,4 +15,11 @@ router.get(
   SlidesController.getDetails
 );
 
+router.delete(
+  '/:id',
+  slideIdSchema,
+  ValidationErrors.validateSchema,
+  SlidesController.deleteSlide
+);
+
 module.exports = router;
