@@ -53,7 +53,7 @@ class SlidersController {
     const { imageUrl, text } = req.body;
     let { order } = req.body;
 
-    order = await SlidersController.getLastSlide(order);
+    order = await SlidersController.sortSlides();
 
     try {
     const newSlide = await SlidesDao.createSlide({
