@@ -13,6 +13,11 @@ router.get('/', function (req, res, next) {
 
 router.delete('/:id', UserController.deleteUser);
 router.patch('/:id', RoleMiddleware.isOwner, UserController.updateUser);
-router.get('/users', RoleMiddleware.isAdminRole, UserController.getUsersList);
+router.get('/users',
+loginSchema,
+userSchema, 
+ValidationErrors.validateSchema,
+RoleMiddleware.isAdminRole, 
+UserController.getUsersList);
 
 module.exports = router;
