@@ -13,9 +13,11 @@ router.get('/', function (req, res, next) {
 
 router.delete('/:id', UserController.deleteUser);
 router.patch('/:id', 
+loginSchema,
+userSchema, 
 ValidationErrors.validateSchema,
 RoleMiddleware.isAdminRole, 
-RoleMiddleware.isOwner, UserController.updateUser);
+UserController.updateUser);
 router.get('/users',
 loginSchema,
 userSchema, 
