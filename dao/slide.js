@@ -52,6 +52,21 @@ class SlidesDap {
     } catch (error) {
       throw new Error(error);
     }
+  } 
+  /**
+   * Asynchronously and extensible function return a Slide from the database.
+   * @param {Object} attributes
+   * @param {Object} fields -  limit what attributes can be setted by user
+   *
+   * @returns {Object}
+   */
+  static async createSlide(attributes, fields) {
+    try {
+      const newSlide = await Slide.create(attributes, fields);
+      return newSlide;
+    } catch (error) {
+      return error;
+    }
   }
 }
 
