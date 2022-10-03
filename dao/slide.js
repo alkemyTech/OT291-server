@@ -68,6 +68,24 @@ class SlidesDap {
       return error;
     }
   }
+  /**
+   * Asynchronously and extensible function return Slide table sort by choosen direction.
+   * @param {string} column - table to be sorted
+   * @param {string} direction -  direction that column will be sort
+   * EJ: `sortSlides('slides', 'ASC')`
+   *
+   * @returns {Array}
+   */
+  static async sortSlides(column, direction) {
+    try {
+      const allSlides = await Slide.findAll({
+        order: [ [column, direction] ]
+      });
+      return allSlides;
+    } catch (error) {
+      return error
+    }
+  }
 }
 
 module.exports = SlidesDap;
