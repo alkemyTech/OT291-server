@@ -31,6 +31,18 @@ class CategoryDao {
       throw new Error(error);
     }
   }
+
+  static async getOneCategory(id) {    
+    try {
+      const getOneCategory = await Category.findByPk(id,
+        {attributes: ['name','description','image']
+      });
+      return getOneCategory;
+    } catch (error) {
+     throw (error);
+    }
+  }    
+  
 }
 
 module.exports = CategoryDao;
