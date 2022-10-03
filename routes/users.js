@@ -12,7 +12,10 @@ router.get('/', function (req, res, next) {
 });
 
 router.delete('/:id', UserController.deleteUser);
-router.patch('/:id', RoleMiddleware.isOwner, UserController.updateUser);
+router.patch('/:id', 
+ValidationErrors.validateSchema,
+RoleMiddleware.isAdminRole, 
+RoleMiddleware.isOwner, UserController.updateUser);
 router.get('/users',
 loginSchema,
 userSchema, 
