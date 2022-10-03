@@ -49,6 +49,23 @@ class SlidersController {
       });
     }
   }
+  static async postSlide(req, res) {
+    const { imageUrl, text } = req.body;
+    let { order } = req.body;
+
+    order = await SlidersController.getLastSlide(order);
+
+    try {
+    const newSlide = await SlidesDao.createSlide({
+        imageUrl,
+        order,
+        text,
+    }, { fields: ['imageUrl', 'text', 'order'] })
+      res.status(200).json(newSlide)
+    } catch (error) {
+      res.status(400).json({ msg: 'Could not create a Slide' })
+    }
+  }
 }
 
 module.exports = SlidersController;
