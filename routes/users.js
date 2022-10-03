@@ -18,8 +18,8 @@ loginSchema,
 userSchema, 
 ValidationErrors.validateSchema,
 RoleMiddleware.isAdminRole, 
-
 UserController.updateUser);
+
 router.get('/users',
 loginSchema,
 userSchema, 
