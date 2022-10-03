@@ -28,7 +28,19 @@ class TestimonialController {
       res.status(200).json(testimonial);
     }
   }
-
+  static async postTestimonial(req, res) {
+    try {
+      const { name, image, content } = req.body;
+      await TestimonialDao.postTestimonial({
+        name,
+        image,
+        content,
+      });
+      res.status(200).json('Testimonial created successfully.');
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  }
   static async getTestimonials(req, res) {
     try {
       const testimonials = await Testimonial.findAll({

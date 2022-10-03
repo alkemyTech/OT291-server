@@ -36,6 +36,18 @@ class TestimonialDao {
       throw new Error(error);
     }
   }
+  static async postTestimonial({ name, image, content }) {
+    try {
+      await Testimonial.create({
+        name,
+        image,
+        content,
+      });
+      return;
+    } catch (error) {
+      throw new Error('Error. Testimonial not created.');
+    }
+  }
 }
 
 module.exports = TestimonialDao;
