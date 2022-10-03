@@ -19,6 +19,14 @@ class SlidesDap {
       throw new Error(error);
     }
   }
+  static async findSlidebyPk(id) {
+    try {
+      const SlideData = await Slide.findByPk(+id);
+      return SlideData;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
   static async findSlidebyOrganization({ where, exclude = [], order = [] }) {
     try {
       const SlideData = await Slide.findAll({
@@ -51,6 +59,17 @@ class SlidesDap {
       return deleteSlide;
     } catch (error) {
       throw new Error(error);
+    }
+  }
+  static async updateSLide(data,id){
+    try {
+      const slide=await this.findSlidebyPk(id)
+      if(!slide){
+        throw new Error("Slide wasn't found")
+      }      
+      return await slide.update(data)
+    } catch (error) {
+      throw new Error(error)
     }
   }
 }
