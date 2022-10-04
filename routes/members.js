@@ -7,19 +7,19 @@ const ValidationErrors = require('../middlewares/validationErrors');
 
 router.get('/', RoleMiddleware.isAdminRole, MemberController.getMembers);
 
-// router.delete(
-//   '/:id',
-//   membersByIdSchema,
-//   ValidationErrors.validateSchema,
-//   RoleMiddleware.isAdminRole,
-//   MemberController.deleteMember
-// );
+router.delete(
+  '/:id',
+  membersByIdSchema,
+  ValidationErrors.validateSchema,
+  RoleMiddleware.isAdminRole,
+  MemberController.deleteMember
+);
 
-// router.post(
-//   '/',
-//   newMemberSchema,
-//   ValidationErrors.validateSchema,
-//   MemberController.postNewMember
-// );
+router.post(
+  '/',
+  newMemberSchema,
+  ValidationErrors.validateSchema,
+  MemberController.postNewMember
+);
 
 module.exports = router;
