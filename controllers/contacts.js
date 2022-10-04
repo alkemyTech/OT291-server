@@ -1,4 +1,5 @@
 const ContactDao = require('../dao/contact');
+
 class ContactController {
   static async createContact(req, res) {
     try {
