@@ -1,11 +1,11 @@
-const { Contact } = require('../models');
+const ContactDao = require('../dao/contact');
+const HTML = require('../helpers/HTML');
 
 class BackofficeController {
   static async getContacts(req, res) {
     try {
-      const contacts = await Contact.findAll({
-        attributes: ['name', 'phone', 'email', 'message', 'createdAt'],
-      });
+      const attributes = ['name', 'phone', 'email', 'message'];
+      const contacts = await ContactDao.getAllContacts(attributes);
 
       if (!contacts) {
         return res.status(404).json({
@@ -13,25 +13,9 @@ class BackofficeController {
         });
       }
 
-      res.write(`
-            <table> 
-            <tr> 
-                <th> Name </th> <th> Phone </th> <th> Email </th> <th> message </th> 
-            <tr> 
-            `);
+      const htmlTableContact = HTML.generateHtmlTable(contacts, attributes);
 
-      contacts.forEach((contact) => {
-        res.write(`<tr>`);
-        res.write(`<td>` + contact.name + `</td>`);
-        res.write(`<td>` + contact.phone + `</td>`);
-        res.write(`<td>` + contact.email + `</td>`);
-        res.write(`<td>` + contact.message + `</td>`);
-
-        res.write(`</tr>`);
-      });
-      res.write(`</table>`);
-
-      res.end();
+      return res.send(htmlTableContact);
     } catch (error) {
       return res.status(500).json({
         msg: 'Error while searching in db',
