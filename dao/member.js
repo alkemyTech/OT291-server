@@ -28,6 +28,28 @@ class MemberDao {
       throw error;
     }
   }
+  static async postNewMember({
+    name,
+    facebookUrl,
+    instagramUrl,
+    linkedinUrl,
+    image,
+    description,
+  }) {
+    try {
+      await Member.create({
+        name,
+        facebookUrl,
+        instagramUrl,
+        linkedinUrl,
+        image,
+        description,
+      });
+      return;
+    } catch (error) {
+      throw new Error('Error. Member not created.');
+    }
+  }
 }
 
 module.exports = MemberDao;

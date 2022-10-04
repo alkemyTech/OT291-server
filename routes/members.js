@@ -15,4 +15,11 @@ router.delete(
   MemberController.deleteMember
 );
 
+router.post(
+  '/',
+  newMemberSchema,
+  ValidationErrors.validateSchema,
+  MemberController.postNewMember
+);
+
 module.exports = router;
