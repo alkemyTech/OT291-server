@@ -9,10 +9,25 @@ const swaggerConfig = {
     servers: [
       {
         url: 'http://localhost:3000/',
+        description: 'V1 ONG API',
+      },
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
       },
     ],
   },
-  apis: ['./routes/*.js'],
+  apis: ['./routes/*.js', './docs/*.yaml'],
 };
 
 module.exports = swaggerConfig;
