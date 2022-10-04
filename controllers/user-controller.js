@@ -83,9 +83,9 @@ class UserController {
   static async updateUser(req, res) {
     const { id } = req.params;
     const { firstName, lastName, email, password, image } = req.body;
-    let updateUser;
+    let updatedUser;
     try {
-         [updateUser] = await User.update({
+         [updatedUser] = await User.update({
            firstName,
            lastName,
            email,
@@ -98,7 +98,7 @@ class UserController {
     } catch (error) {
       return res.status(400).json(error);
     }
-    if(updateUser) {
+    if(updatedUser) {
       return res.status(200).json({ msg: 'User update successfully'})
     }
     return res.status(404).json({ msg: 'Could not find user' });

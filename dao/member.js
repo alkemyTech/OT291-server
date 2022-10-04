@@ -1,6 +1,18 @@
 const { Member } = require('../models');
 
 class MemberDao {
+  static async getMembers(attributes) {
+    try {
+      const members = await Member.findAll({
+        attributes,
+      });
+
+      return members;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   /**
    * Asynchronously delete a member from the database (table Members)
    * @param   {Object} where - To filter by attribute/s Ej: {id: '1'}
