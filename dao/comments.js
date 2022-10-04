@@ -1,23 +1,23 @@
 const { Comments } = require('../models');
 
 class CommentsDao {
-
- //   static async getAllComments({ where, include = [], order = [] })  {
-    static async getAllComments()  {
-        console.log('estoy en dao getAllComments')
+  /**
+   * Asynchronously getAllComments comments from the database (table Comments)
+   * @param   {Object} attributes - Attributes fields Ej: ['body', 'createdAt']
+   * @returns {boolean}
+   * @param   {Object} order - Order fields Ej: ['createdAt', 'ASC']
+   * @returns {boolean}
+   */
+    static async getAllComments(attributes, order)  {
         try {
-            const getAllComments = await Comments.findAll()
-            //     where: {id:true},
-            //     attributes: {include:['body']},
-            //     //order,
-            // })
-            console.log(getAllComments)            
+            const getAllComments = await Comments.findAll({
+              attributes,
+              order,
+            })
+            return getAllComments;
         } catch (error) {
-            console.log(error)
           throw error;              
         }
-        return getAllComments;
-
     }
 }
 

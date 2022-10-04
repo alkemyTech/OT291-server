@@ -3,11 +3,11 @@ const CommentsDao = require('../dao/comments')
 
 class CommentsController {
     static async getAllComments(req, res)  {
-        console.log('estoy en getAllComments controllers')
         const attributes = ['body'];
+        const order = [['createdAt','ASC']]
         let getAllComments;
         try {
-            getAllComments = await CommentsDao.getAllComments();
+            getAllComments = await CommentsDao.getAllComments(attributes, order);
         } catch (error) {
           return res.status(404).json(error)
         }
