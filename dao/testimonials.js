@@ -48,6 +48,14 @@ class TestimonialDao {
       throw new Error('Error. Testimonial not created.');
     }
   }
+  /**
+   * Asynchronously and extensible function return a OK state from the database.
+   * @param {Object} where - Filter by attributes
+   *
+   * EJ: `deleteTestimonial({ where: {id: 1} })`
+   * @returns {Number}
+   */
+  static async deleteTestimonial() {}
 }
 
 module.exports = TestimonialDao;
