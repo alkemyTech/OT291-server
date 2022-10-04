@@ -2,6 +2,21 @@ const { Member } = require('../models');
 const MemberDao = require('../dao/member');
 
 class MemberController {
+  static async getMembers(req, res) {
+    const attributes = ['name', 'image'];
+
+    try {
+      const response = await MemberDao.getMembers(attributes);
+
+      return res.status(200).json(response);
+    } catch (error) {
+      return res.status(500).json({
+        error,
+        msg: 'error in db',
+      });
+    }
+  }
+
   static async deleteMember(req, res) {
     const where = { id: req.params.id };
     let deletedMember;
@@ -14,33 +29,27 @@ class MemberController {
       ? res.status(200).json({ msg: 'Member deleted successfully' })
       : res.status(404).json({ msg: 'Could not find member' });
   }
-
-  static async getMembers(req, res) {
+  static async postNewMember(req, res) {
     try {
-      const members = await Member.findAll({
-        attributes: [
-          'name',
-          'facebookUrl',
-          'instagramUrl',
-          'linkedinUrl',
-          'image',
-          'description',
-        ],
+      const {
+        name,
+        facebookUrl,
+        instagramUrl,
+        linkedinUrl,
+        image,
+        description,
+      } = req.body;
+      await MemberDao.postNewMember({
+        name,
+        facebookUrl,
+        instagramUrl,
+        linkedinUrl,
+        image,
+        description,
       });
-
-      if (!members) {
-        return res.status(404).json({
-          msg: 'There is no registered members',
-        });
-      }
-      return res.status(200).json({
-        members,
-      });
+      res.status(200).json('Member created successfully.');
     } catch (error) {
-      return res.status(500).json({
-        msg: 'error while searching in db',
-        error,
-      });
+      res.status(400).json(error);
     }
   }
 }
