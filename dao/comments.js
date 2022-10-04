@@ -7,7 +7,7 @@ class CommentsDao {
    * @returns {boolean}
    * @param   {Object} order - Order fields Ej: ['createdAt', 'ASC']
    * @returns {boolean}
-   */
+   */  
     static async getAllComments(attributes, order)  {
         try {
             const getAllComments = await Comments.findAll({
