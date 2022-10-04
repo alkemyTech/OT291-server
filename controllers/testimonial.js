@@ -62,6 +62,7 @@ class TestimonialController {
       });
     }
   }
+  static async deleteTestimonial(req, res) {}
 }
 
 module.exports = TestimonialController;
