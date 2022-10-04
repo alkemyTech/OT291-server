@@ -55,7 +55,16 @@ class TestimonialDao {
    * EJ: `deleteTestimonial({ where: {id: 1} })`
    * @returns {Number}
    */
-  static async deleteTestimonial() {}
+  static async deleteTestimonial(id) {
+    try {
+      const deletedTestimonial = await Testimonial.destroy({
+        where: { id },
+      });
+      return deletedTestimonial;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 module.exports = TestimonialDao;
