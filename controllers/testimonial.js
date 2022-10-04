@@ -62,6 +62,17 @@ class TestimonialController {
       });
     }
   }
+  static async deleteTestimonial(req, res) {
+    const { id } = req.params;
+    try {
+      const testimonial = await TestimonialDao.deleteTestimonial(id);
+      testimonial
+        ? res.status(200).json({ msg: 'Testimonial deleted successfully' })
+        : res.status(400).json({ msg: 'Could not find testimonial' });
+    } catch (error) {
+      res.status(400).json({ msg: 'Something went wrong' });
+    }
+  }
 }
 
 module.exports = TestimonialController;
