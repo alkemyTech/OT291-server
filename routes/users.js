@@ -17,7 +17,7 @@ router.patch('/:id',
 loginSchema,
 userSchema, 
 ValidationErrors.validateSchema,
-RoleMiddleware.isAdminRole, 
+RoleMiddleware.isOwner, 
 UserController.updateUser);
 
 router.get('/users',
