@@ -1,84 +1,85 @@
-#Primero creamos los schemas. Los schemas son aquellos objetos que vamos a utilizar tanto
-#en el request o response de una ruta determinada. Este ejemplo es para una ruta /user:
+# #Primero creamos los schemas. Los schemas son aquellos objetos que vamos a utilizar tanto
+# #en el request o response de una ruta determinada. Este ejemplo es para una ruta /user:
+# DESCOMENTAR DE DESPUES DE ESTA LINEA PARA VER EL EJEMPLO:
 
-#De este modo estructuramos los schemas:
-components:
-  schemas:
-    User: #Este es un schema
-      type: object
-      properties:
-        id:
-          type: integer
-          example: 1
-        name:
-          type: string
-          example: Arthur Dent
-      required:
-        - id
-    UserData: #Podemos crear otros schemas
-      type: object
-      properties:
-        name:
-          type: string
-          example: Arthur Dent
-      required:
-        - name
+# #De este modo estructuramos los schemas:
+# components:
+#   schemas:
+#     User: #Este es un schema
+#       type: object
+#       properties:
+#         id:
+#           type: integer
+#           example: 1
+#         name:
+#           type: string
+#           example: Arthur Dent
+#       required:
+#         - id
+#     UserData: #Podemos crear otros schemas
+#       type: object
+#       properties:
+#         name:
+#           type: string
+#           example: Arthur Dent
+#       required:
+#         - name
 
-#De este modo estructuramos la documentacion de cada ruta
-paths:
-  /users/{userId}: #Esta es una ruta
-    get:
-      summary: Returns a user by ID.
-      tags: #Necesario respetar el tag para poder unnificar las rutas de User en swagger
-        - User
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-      parameters:
-        - name: userId
-          in: query
-          required: true
-          description: The Id of the user to return.
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A user object.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserData'
-        '400':
-          description: The specified user ID is invalid (not a number).
-        '404':
-          description: A user with the specified ID was not found.
-        default:
-          description: Unexpected error
-  /users?userName={userName}: #Podemos crear varias rutas
-    get:
-      summary: Returns a user by name.
-      tags:
-        - User
-      parameters:
-        - name: userName
-          in: query
-          required: true
-          description: The Name of the user to return.
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A user object.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserData'
-        '400':
-          description: The specified user ID is invalid (not a number).
-        '404':
-          description: A user with the specified ID was not found.
-        default:
-          description: Unexpected error
+# #De este modo estructuramos la documentacion de cada ruta
+# paths:
+#   /users/{userId}: #Esta es una ruta
+#     get:
+#       summary: Returns a user by ID.
+#       tags: #Necesario respetar el tag para poder unnificar las rutas de User en swagger
+#         - User
+#       requestBody:
+#         required: true
+#         content:
+#           application/json:
+#             schema:
+#               $ref: '#/components/schemas/User'
+#       parameters:
+#         - name: userId
+#           in: query
+#           required: true
+#           description: The Id of the user to return.
+#           schema:
+#             type: string
+#       responses:
+#         '200':
+#           description: A user object.
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/UserData'
+#         '400':
+#           description: The specified user ID is invalid (not a number).
+#         '404':
+#           description: A user with the specified ID was not found.
+#         default:
+#           description: Unexpected error
+#   /users?userName={userName}: #Podemos crear varias rutas
+#     get:
+#       summary: Returns a user by name.
+#       tags:
+#         - User
+#       parameters:
+#         - name: userName
+#           in: query
+#           required: true
+#           description: The Name of the user to return.
+#           schema:
+#             type: string
+#       responses:
+#         '200':
+#           description: A user object.
+#           content:
+#             application/json:
+#               schema:
+#                 $ref: '#/components/schemas/UserData'
+#         '400':
+#           description: The specified user ID is invalid (not a number).
+#         '404':
+#           description: A user with the specified ID was not found.
+#         default:
+#           description: Unexpected error
