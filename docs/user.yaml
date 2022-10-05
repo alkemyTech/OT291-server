@@ -1,0 +1,129 @@
+components:
+  schemas:
+    UserUpdate:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: Arthur
+        lastName:
+          type: string
+          example: Dent
+        email:
+          type: string
+          example: arthur@dent.com
+        image:
+          type: string
+          example: image.jpg
+        password:
+          type: string
+          example: arthur123
+    ArrayOfUsers:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+            example: 1
+          firstName:
+            type: string
+            example: Arthur
+          lastName:
+            type: string
+            example: Dent
+          email:
+            type: string
+            example: arthur@dent.com
+      example:
+        - id: 1
+          firstName: Jessica
+          lastName: Smith
+          email: Jessica@Smith.com
+        - id: 2
+          firstName: Ron
+          lastName: Stewart
+          email: Ron@Stewart.com
+
+paths:
+  /users/users:
+    get:
+      summary: Returns a list of users.
+      tags:
+        - User
+      responses:
+        '200':
+          description: Array of user objects.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfUsers'
+        '400':
+          description: Error.
+        default:
+          description: Unexpected error
+  /users/{id}:
+    patch:
+      summary: Edit a user and returns a object message
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The Id of the user to return.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A message of confirmation.
+          content:
+            application/json:
+              type: object
+              example: { msg: 'User update successfully' }
+        '404':
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Could not find user' }
+        '400':
+          description: Error.
+        default:
+          description: Unexpected error
+  /users/{id2}:
+    delete:
+      summary: Delete a user from data base.
+      tags:
+        - User
+      parameters:
+        - name: id2
+          in: path
+          required: true
+          description: The Id of the user to delete.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A message of confirmation.
+          content:
+            application/json:
+              type: object
+              example: { msg: 'User deleted successfully' }
+        '404':
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Could not find user' }
+        '400':
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Something went wrong' }
+        default:
+          description: Unexpected error
