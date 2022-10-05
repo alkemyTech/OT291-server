@@ -19,7 +19,7 @@ class NotifyViaEmail {
       throw new Error(error)
     }
   }
-  static async sendEmail(email,subject,welcomeText) {
+  static async sendEmail(email,subject,body) {
     sgMail.setApiKey(process.env.API_KEY);
     await sgMail.send({
       to: email,
@@ -34,7 +34,7 @@ class NotifyViaEmail {
           substitutions: {
             "ongLogo": NotifyViaEmail.logo,
             "organizationName": NotifyViaEmail.organizationName,
-            "welcomeText": welcomeText,
+            "body": body,
             "contactData": NotifyViaEmail.contactData
           },
         }
