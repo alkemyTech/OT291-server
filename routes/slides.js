@@ -19,6 +19,7 @@ router.delete(
   '/:id',
   slideIdSchema,
   ValidationErrors.validateSchema,
+  verifyRole.isAdminRole,
   SlidesController.deleteSlide
 );
 
