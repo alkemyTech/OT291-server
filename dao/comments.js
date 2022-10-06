@@ -12,7 +12,7 @@ class CommentsDao {
         try {
             const getAllComments = await Comments.findAll({
               attributes,
-              order,
+              order,              
             })
             return getAllComments;
         } catch (error) {
