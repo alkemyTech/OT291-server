@@ -11,6 +11,7 @@ const slidesRouter = require('./slides');
 const backoffice = require('./backoffice');
 const testimonialsRouter = require('./testimonials');
 const membersRouter = require('./members');
+const commentsRouter = require('./comments');
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
@@ -27,4 +28,5 @@ router.use('/slides', slidesRouter);
 router.use('/backoffice', backoffice);
 router.use('/testimonials', testimonialsRouter);
 router.use('/members', membersRouter);
+router.use('/comments',commentsRouter);
 module.exports = router;
