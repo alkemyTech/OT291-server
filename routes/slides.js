@@ -17,7 +17,6 @@ router.get(
 
 router.put(
   '/:id',
-  verifyRole.isAdminRole,
   slideIdSchema,
   ValidationErrors.validateSchema,
   SlidesController.updateSlide

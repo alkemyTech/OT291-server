@@ -1,4 +1,5 @@
 const { Slide } = require('../models');
+const MapperResponse = require("../utils/formatResponse")
 class SlidesDap {
   /**
    * Asynchronously and extensible function return a Slid from the database.
@@ -67,7 +68,8 @@ class SlidesDap {
       if(!slide){
         throw new Error("Slide wasn't found")
       }      
-      return await slide.update(data)
+      const formatResponse = MapperResponse.cleanDataDb(await slide.update(data))
+      return formatResponse
     } catch (error) {
       throw new Error(error)
     }

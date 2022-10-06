@@ -1,6 +1,6 @@
 class MapperResponse{
     static cleanDataDb(res){
-        const {deleteAt,updatedAt,...clean}=res.dataValues
+        const {deletedAt,updatedAt,...clean}=res.dataValues
         return clean
     }
 }
