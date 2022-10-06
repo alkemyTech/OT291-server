@@ -1,4 +1,7 @@
 const SlidesDao = require('../dao/slide');
+const UploadFiles = require('../helpers/UploadFiles.js');
+const FileManager = require('../helpers/FileManager.js');
+
 class SlidersController {
   static async getDetails(req, res) {
     const { id } = req.params;
@@ -49,7 +52,37 @@ class SlidersController {
       });
     }
   }
-  static async postSlide(req, res) {}
+
+  static async postSlide(req, res) {
+    const { base64Image, text } = req.body;
+    let { order } = req.body;
+    let decodedImage;
+
+    try {
+      decodedImage = await UploadFiles.decodeImage(base64Image)
+    } catch(error) {
+      res.status(400).json({ msg: 'Could not decode image' })
+    }
+
+    if (!order) {
+      order = (await SlidesDao.sortSlides('order', 'DESC')).map(o => o.order)[0] + 1
+      console.log(typeof order, 'TIPO DE ORDER')
+    }
+
+    try {
+      const newSlide = await SlidesDao.createSlide(
+        {
+          imageUrl: 'hola',
+          order,
+          text,
+        },
+        [ 'imageUrl', 'order', 'text' ]
+      );
+      res.status(200).json({ msg: 'Slide created successfully' })
+    } catch (error) {
+      res.status(400).json({ msg: 'Could not create a slide' })
+    }
+  }
 }
 
 module.exports = SlidersController;
