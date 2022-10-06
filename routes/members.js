@@ -22,4 +22,11 @@ router.post(
   MemberController.postNewMember
 );
 
+router.put(
+  '/:id',
+  membersByIdSchema,
+  ValidationErrors.validateSchema,
+  MemberController.updateMember
+);
+
 module.exports = router;
