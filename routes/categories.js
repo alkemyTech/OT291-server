@@ -30,4 +30,10 @@ router.put(
   CategoriesController.updateCategory
 );
 
+router.get(
+  '/:id', RoleMiddleware.isAdminRole,
+  CategoriesController.getOneCategory
+);
+ 
+
 module.exports = router;

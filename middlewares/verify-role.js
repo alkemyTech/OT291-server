@@ -32,7 +32,7 @@ class RoleMiddleware {
         return next();
       }
 
-      if (user.id !== req.params.id) {
+      if (user.id !== parseInt(req.params.id)) {
         return res.status(400).json({ msg: 'User not valid' });
       }
 
