@@ -4,7 +4,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
-const fileUpload = require('express-fileupload');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
@@ -13,12 +12,6 @@ const authRouter = require('./routes/authentication');
 
 const app = express();
 app.use(cors());
-app.use(fileUpload({
-  limits: 50 * 1024 * 1024,
-  createParentPath: true,
-  abortOnLimit: true,
-  responseOnLimit: 'File size limite has been reached',
-}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
