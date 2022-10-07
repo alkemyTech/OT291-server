@@ -12,15 +12,20 @@ class UploadFiles {
     return { decodedFile, extension };
   }
 
-  static async decodeImage(image) {
+  static async decodeImage(image, name) {
     try {
       if (image.startsWith('data:')) {
         const decodedImageWithExtension = UploadFiles.getExtensions(image);
-        const imageFromB64toBuffer = UploadFiles.fromBase64ToBuffer(decodedImageWithExtension.decodedFile);
-        const createdFileWithExtension = FileManager.createFile(imageFromB64toBuffer, decodedImageWithExtension.extension)
-        return createdFileWithExtension
+        const imageFromB64toBuffer = UploadFiles.fromBase64ToBuffer(
+          decodedImageWithExtension.decodedFile
+        );
+        const createdFileWithExtension = FileManager.createFile(
+          imageFromB64toBuffer,
+          decodedImageWithExtension.extension, name
+        );
+        return { createdFileWithExtension, name };
       }
-      return UploadFiles.fromBase64ToBuffer(decodedImage);
+      throw Error('Image must have an extension');
     } catch (error) {
       return error;
     }

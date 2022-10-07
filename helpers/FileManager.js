@@ -12,41 +12,38 @@ class FileManager {
     }
   }
 
-  static async createFile(payload, extension) {
+  static async createFile(payload, extension, name) {
     try {
       await FileManager.createDir();
     } catch (error) {
       throw new Error('Could not create a new directory');
     }
     try {
-      if (extension) {
-        return await fs.writeFile(
-          path.resolve('tempFiles', `test.${extension}`),
-          payload
-        );
-      }
-      throw new Error('A file extension is required');
+      await fs.writeFile(
+        path.resolve('tempFiles', `${name}.${extension}`),
+        payload
+      );
     } catch (error) {
-      console.error(`Could not create a file: ${error.message}`);
+      return error.message;
     }
     try {
-      await FileManager.uploadToS3();
+      await FileManager.uploadToS3(name);
     } catch (error) {
       return error;
     }
   }
 
-  static async uploadToS3() {
+  static async uploadToS3(name) {
     try {
       await Sdk3.uploadFile({
-        filename: 'pichicho.jpg',
-        path: '../tempFiles/test.jpg',
+        filename: `${Date().split(' ').slice(0, 5).join(' ')}.jpg`,
+        path: `../tempFiles/${name}.jpg`,
       });
     } catch (error) {
       return error;
     }
     try {
-      await fs.unlink(path.resolve('tempFiles', 'test.jpg'));
+      await fs.unlink(path.resolve('tempFiles', `${new Date()}.jpg`));
     } catch (error) {
       return error;
     }
