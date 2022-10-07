@@ -61,10 +61,8 @@ class SlidesDap {
    * @returns {Object}
    */
   static async createSlide(attributes, direction) {
-    console.log('entra al createSlide,,,')
     try {
       const newSlide = await Slide.create(attributes, direction);
-      console.log(newSlide)
       return newSlide;
     } catch (error) {
       throw Error(error)
