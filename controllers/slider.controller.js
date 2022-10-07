@@ -54,25 +54,28 @@ class SlidersController {
   }
 
   static async postSlide(req, res) {
-    const { base64Image, text } = req.body;
+    const { base64Image, text, name } = req.body;
     let { order } = req.body;
     let decodedImage;
 
+    if (!name) return res.status(400).json({
+      msg: 'A name is required',
+    });
+
     try {
-      decodedImage = await UploadFiles.decodeImage(base64Image)
+      decodedImage = await UploadFiles.decodeImage(base64Image, name)
     } catch(error) {
       res.status(400).json({ msg: 'Could not decode image' })
     }
 
     if (!order) {
       order = (await SlidesDao.sortSlides('order', 'DESC')).map(o => o.order)[0] + 1
-      console.log(typeof order, 'TIPO DE ORDER')
     }
 
     try {
       const newSlide = await SlidesDao.createSlide(
         {
-          imageUrl: 'hola',
+          imageUrl: decodedImage,
           order,
           text,
         },
