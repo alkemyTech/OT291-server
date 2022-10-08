@@ -6,18 +6,17 @@ class CommentDao {
    * @param {Object} where - To filter by attribute/s Ej: {name: 'ong'}
    * @returns {boolean}
    */
-  static async deleteComment(where) {
-    try {
-      const comment = await CommentDao.findComment(where)
-      const deleteComment = await Comment.destroy(comment.id)
-    } catch (error) {
-      throw Error('Something went wrong');
-    }
+  static async deleteComment(id) {
+    const comment = await CommentDao.findComment(id);
+      const deletedComment = await Comment.destroy({
+        where: { id: comment.id },
+      });
+    return deletedComment;
   }
 
   static async findComment(id) {
-    const foo = await Comment.findByPk(id)
-    return foo;
+      const foundComment = await Comment.findByPk(id);
+      return foundComment;
   }
 }
 
