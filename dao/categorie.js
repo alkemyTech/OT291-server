@@ -32,17 +32,30 @@ class CategoryDao {
     }
   }
 
-  static async getOneCategory(id) {    
+  static async getOneCategory(id) {
     try {
-      const getOneCategory = await Category.findByPk(id,
-        {attributes: ['name','description','image']
+      const getOneCategory = await Category.findByPk(id, {
+        attributes: ['name', 'description', 'image'],
       });
       return getOneCategory;
     } catch (error) {
-     throw (error);
+      throw error;
     }
-  }    
-  
+  }
+
+  static async paginationCategorie(offset) {
+    try {
+      const pagination = await Category.findAll({
+        attributes: ['name', 'description', 'image'],
+        offset,
+        limit: 10,
+      });
+
+      return pagination;
+    } catch (error) {
+      throw error;;
+    }
+  }
 }
 
 module.exports = CategoryDao;

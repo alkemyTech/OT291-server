@@ -4,9 +4,10 @@ const categorySchema = require('../schemas/category');
 const ValidationErrors = require('../middlewares/validationErrors');
 const CategoriesController = require('../controllers/categories');
 const RoleMiddleware = require('../middlewares/verify-role');
-const deleteSchema = require('../schemas/categories');
+const {deleteSchema , catPaginationSchema} = require('../schemas/categories');
+const ValidatejWtUser = require('../middlewares/verify-role-user');
 
-router.get('/', RoleMiddleware.isAdminRole ,CategoriesController.getAll);
+//router.get('/', RoleMiddleware.isAdminRole ,CategoriesController.getAll);
 router.post(
   '/',
   categorySchema,
@@ -16,7 +17,7 @@ router.post(
 
 router.delete(
   '/:id',
-  deleteSchema,
+ // deleteSchema,
   ValidationErrors.validateSchema,
   RoleMiddleware.isAdminRole,
   CategoriesController.deleteCategory
@@ -35,5 +36,7 @@ router.get(
   CategoriesController.getOneCategory
 );
  
+
+router.get('/', catPaginationSchema, ValidationErrors.validateSchema, CategoriesController.paginationCategory)
 
 module.exports = router;
