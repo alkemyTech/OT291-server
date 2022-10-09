@@ -1,5 +1,7 @@
 const { Category } = require('../models');
 const CategoryDao = require('../dao/categorie');
+const Pagination = require('../helpers/Pagination');
+const { TokenFileWebIdentityCredentials } = require('aws-sdk');
 
 class CategoriesController {
   static async post(req, res, next) {
@@ -33,14 +35,22 @@ class CategoriesController {
     }
   }
   static async getAll(req, res) {
-    try {
-      const categories = await CategoryDao.filteringCategoryResultsByField(
-        'name'
-      );
-      const format = categories.map((category) => category.name);
-      return res.status(200).json(format);
-    } catch (error) {
-      return res.status(500).send(error);
+    const { page } = req.query;
+
+    if (page) {
+      let pagination = new Pagination(page, 10, 'categories');
+
+      await pagination.pages(req, res, CategoryDao.paginationCategorie);
+    } else {
+      try {
+        const categories = await CategoryDao.filteringCategoryResultsByField(
+          'name'
+        );
+        const format = categories.map((category) => category.name);
+        return res.status(200).json(format);
+      } catch (error) {
+        return res.status(500).send(error);
+      }
     }
   }
   static async updateCategory(req, res) {
@@ -68,78 +78,6 @@ class CategoriesController {
     }
     if (getOneCategory) return res.status(200).json(getOneCategory);
     return res.status(404).json({ msg: 'Could not find category' });
-  }
-
-  static async paginationCategory(req, res) {
-    const { page } = req.query;
-
-    let offset;
-    let pageInt = parseInt(page);
-    let aux = pageInt * 10 - 10;
-    let next = pageInt + 1;
-    let previous = pageInt - 1;
-
-    if (parseInt(page) < 1) {
-      res.status(404).json({ msg: 'Page must be greater than 0' });
-    }
-
-    if (page && parseInt(page) === 1) {
-      offset = 0;
-      let categories;
-
-      try {
-        categories = await CategoryDao.paginationCategorie(offset);
-      } catch (error) {
-        return res.status(400).json(error);
-      }
-
-      categories.length > 0
-        ? res.send({
-            categories,
-            next: `http://localhost:3000/categories?page=${next}`,
-          })
-        : res.status(404).json({ msg: 'Could not find categories' });
-    }
-
-    if (page && parseInt(page) > 1) {
-      offset = aux;
-      let finalOffset= aux + 10
-      let categories;
-      let finalpage;
-
-
-
-     try {
-      
-     finalpage = await await CategoryDao.paginationCategorie(finalOffset);
-
-     } catch ( error ) {
-      return res.status(400).json(error);
-     }
-
-     if ( finalpage.length === 0 ) {
-      
-     }
-
-
-
-
-
-
-      try {
-        categories = await CategoryDao.paginationCategorie(offset);
-      } catch (error) {
-        return res.status(400).json(error);
-      }
-
-      categories.length > 0
-        ? res.send({
-            categories,
-            previous: `http://localhost:3000/categories?page=${previous}`,
-            next: `http://localhost:3000/categories?page=${next}`,
-          })
-        : res.status(404).json({ msg: 'Could not find categories' });
-    }
   }
 }
 
