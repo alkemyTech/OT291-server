@@ -1,6 +1,6 @@
 const { body } = require('express-validator');
 const createCommentSchema = [
-    body('news_id')
+    body('post_id')
         .notEmpty()
         .withMessage('news_id is required'),
     body('user_id')
