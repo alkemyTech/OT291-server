@@ -35,8 +35,7 @@ class CategoriesController {
   static async getAll(req, res) {
     try {
       const categories = await CategoryDao.filteringCategoryResultsByField("name")
-      const format= categories.map(category=>category.name)
-      return res.status(200).json(format)
+      return res.status(200).json(categories)
     } catch (error) {
       return res.status(500).send(error)
     }
