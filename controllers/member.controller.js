@@ -52,6 +52,33 @@ class MemberController {
       res.status(400).json(error);
     }
   }
+  static async updateMember(req, res) {
+    try {
+      const {
+        name,
+        facebookUrl,
+        instagramUrl,
+        linkedinUrl,
+        image,
+        description,
+      } = req.body;
+      const { id } = req.params;
+      const resultUpdate = await MemberDao.updateMember(
+        { id },
+        {
+          name,
+          facebookUrl,
+          instagramUrl,
+          linkedinUrl,
+          image,
+          description,
+        }
+      );
+      res.status(200).json(resultUpdate);
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  }
 }
 
 module.exports = MemberController;
