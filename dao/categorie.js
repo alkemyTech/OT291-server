@@ -49,7 +49,6 @@ class CategoryDao {
    * @returns {Array}
    */
   static async paginationCategorie(offset, limit) {
-    console.log(limit);
     try {
       const pagination = await Category.findAll({
         attributes: ['name', 'description', 'image'],
