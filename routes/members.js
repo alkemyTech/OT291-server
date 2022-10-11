@@ -29,4 +29,12 @@ router.put(
   MemberController.updateMember
 );
 
+router.get(
+  '/:id',
+  membersByIdSchema,
+  ValidationErrors.validateSchema,
+  RoleMiddleware.isAdminRole,
+  MemberController.getMemberById
+);
+
 module.exports = router;

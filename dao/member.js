@@ -62,6 +62,21 @@ class MemberDao {
       throw new Error('Error. Member not updated.');
     }
   }
+
+  static async getMembersById(id, attributes) {
+    try {
+      const member = await Member.findAll({
+        where: {
+          id,
+        },
+        attributes,
+      });
+
+      return member;
+    } catch (error) {
+      throw new Error('Error. Member not found');
+    }
+  }
 }
 
 module.exports = MemberDao;
