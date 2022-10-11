@@ -1,5 +1,6 @@
 const { New } = require('../models');
 const NewDao = require('../dao/new');
+const buildPaginator = require('pagination-apis');
 class News {
   static async DetailNew(req, res) {
     try {
@@ -62,6 +63,27 @@ class News {
         error,
         msg: 'error in db',
       });
+    }
+  }
+
+  static async findAllNews(req, res) {
+    try {
+      const { page, size } = req.query;
+
+      const { limit, skip, paginate } = buildPaginator({
+        page: page,
+        limit: size,
+        maximumLimit: 10,
+        url: '/news',
+      });
+
+      const newData = await NewDao.findAllNews(limit, skip);
+      const rows = newData.rows;
+      const count = newData.count;
+
+      return res.status(200).json(paginate(rows, count));
+    } catch (error) {
+      return res.status(500).send(error.message);
     }
   }
 }

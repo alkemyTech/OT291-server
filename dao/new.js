@@ -38,6 +38,17 @@ class NewDao {
       throw new Error(error);
     }
   }
+  static async findAllNews(limit, skip) {
+    try {
+      const newsData = await New.findAndCountAll({
+        limit,
+        offset: skip,
+      });
+      return newsData;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
 
 module.exports = NewDao;
