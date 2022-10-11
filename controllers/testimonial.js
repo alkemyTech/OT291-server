@@ -1,5 +1,6 @@
 const TestimonialDao = require('../dao/testimonials');
 const { Testimonial } = require('../models');
+const Pagination = require('../helpers/pagination');
 class TestimonialController {
   static async updateTestimonials(req, res) {
     const { id } = req.params;
@@ -43,20 +44,40 @@ class TestimonialController {
   }
   static async getTestimonials(req, res) {
     try {
-      const testimonials = await Testimonial.findAll({
-        attributes: ['name', 'image', 'content'],
-      });
+      const { page, size } = Pagination.getPaginationParams(req, res);
 
-      if (!testimonials) {
+      const testimonials = await Testimonial.findAndCountAll({
+        attributes: ['name', 'image', 'content'],
+        limit: size,
+        offset: page * size,
+      });
+      let totalPages = Pagination.getNumberOfTotalPages(
+        testimonials.count,
+        size
+      );
+
+      if (testimonials.count < 1) {
         return res.status(404).json({
           msg: 'There is no testimonials',
         });
       }
 
+      const { nextPage, previousPage } = Pagination.getNextAndPreviousPage(
+        req,
+        res,
+        page,
+        size,
+        totalPages
+      );
+
       return res.status(200).json({
-        testimonials,
+        content: testimonials.rows,
+        totalPages,
+        nextPage,
+        previousPage,
       });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         msg: 'error while searching in db',
       });
