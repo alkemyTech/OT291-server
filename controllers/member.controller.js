@@ -79,6 +79,23 @@ class MemberController {
       res.status(400).json(error);
     }
   }
+
+  static async getMemberById(req, res) {
+    const attributes = ['name', 'image'];
+    const { id } = req.params;
+
+    let member;
+
+    try {
+      member = await MemberDao.getMembersById(id, attributes);
+    } catch (error) {
+      res.status(400).json(error);
+    }
+
+    member.length === 0
+      ? res.status(404).json({ msg: 'Could not find member' })
+      : res.status(200).json(member);
+  }
 }
 
 module.exports = MemberController;
