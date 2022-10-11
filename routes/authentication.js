@@ -11,7 +11,6 @@ router.post(
   '/login',
   loginSchema,
   ValidationErrors.validateSchema,
-  RoleMiddleware.isAdminRole,
   AuthController.loginUser
 );
 
@@ -19,7 +18,6 @@ router.post(
   '/register',
   userSchema,
   ValidationErrors.validateSchema,
-  RoleMiddleware.isAdminRole,
   UserController.post
 );
 

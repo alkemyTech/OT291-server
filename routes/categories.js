@@ -6,7 +6,7 @@ const CategoriesController = require('../controllers/categories');
 const RoleMiddleware = require('../middlewares/verify-role');
 const deleteSchema = require('../schemas/categories');
 
-router.get('/', RoleMiddleware.isAdminRole, CategoriesController.getAll);
+router.get('/', CategoriesController.getAll);
 router.post(
   '/',
   categorySchema,
