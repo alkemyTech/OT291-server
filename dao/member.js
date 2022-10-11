@@ -50,6 +50,33 @@ class MemberDao {
       throw new Error('Error. Member not created.');
     }
   }
+  static async updateMember(where, data) {
+    try {
+      const memberUpdated = await Member.update(data, {
+        where: where,
+      });
+      return memberUpdated[0] === 0
+        ? 'Member not found.'
+        : 'Member updated successfully';
+    } catch (error) {
+      throw new Error('Error. Member not updated.');
+    }
+  }
+
+  static async getMembersById(id, attributes) {
+    try {
+      const member = await Member.findAll({
+        where: {
+          id,
+        },
+        attributes,
+      });
+
+      return member;
+    } catch (error) {
+      throw new Error('Error. Member not found');
+    }
+  }
 }
 
 module.exports = MemberDao;
