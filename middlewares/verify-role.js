@@ -1,88 +1,70 @@
 const { response } = require('express');
 const { User, Role, Comment } = require('../models');
 const Token = require('../helpers/Token');
+const UserDao = require('../dao/user');
 
 class RoleMiddleware {
-  static async isOwner(req, res = response, next) {
+  static async checkValidUser(req, res) {
     const authToken = req.headers['authorization'];
     if (!authToken) {
-      return res.status(500).json({
-        msg: 'There is no token in request',
-      });
+      return res.status(400).json({ msg: 'There is not token in the request' });
     }
-
     try {
       const { email } = Token.decryptJWT(req, res);
-      const user = await User.findOne({
-        where: { email },
-        attributes: ['id', 'firstName'],
-        include: {
-          model: Role,
-          attributes: ['name'],
-        },
+      const user = await UserDao.findOneUser({ email }, ['id', 'firstName'], {
+        model: Role,
+        attributes: ['name'],
       });
-
-      if (!user) {
-        return res.json({
-          msg: 'user not valid',
-        });
-      }
-
-      if (user.Role.name === 'Admin') {
-        return next();
-      }
-
-      if (user.id !== parseInt(req.params.id)) {
-        return res.status(400).json({ msg: 'User not valid' });
-      }
-
-      return next();
+      return user ? user : { msg: 'User not valid' };
     } catch (error) {
-      return res.status(500).json({
-        msg: 'token/user not valid',
-      });
+      return { msg: 'Token or user not valid' };
     }
   }
 
-  static async isAdminRole(req, res = response, next) {
-    const authToken = req.headers['authorization'];
-    if (!authToken) {
-      return res.status(500).json({
-        msg: 'There is no token in request',
-      });
-    }
-
+  static async isOwner(req, res, next) {
+    const { id } = req.params;
     try {
-      const { email } = Token.decryptJWT(req, res);
-
-      const user = await User.findOne({
-        where: { email },
-        attributes: ['id', 'firstName'],
-        include: [
-          {
-            model: Role,
-            attributes: ['name'],
-          },
-        ],
-      });
-      if (!user) {
-        return res.json({
-          msg: 'user not valid',
-        });
-      }
-
-      if (user.Role.name !== 'Admin') {
-        return res.status(401).json({
-          msg: `User ${user.firstName} is not an Admin`,
-        });
-      }
+      const user = await RoleMiddleware.checkValidUser(req, res);
+      return (
+        (user.Role.name === 'Admin' && next()) || (user.id === id && next())
+      );
     } catch (error) {
-      return res.status(401).json({
-        msg: 'token not valid',
-      });
+      res.status(400).json({ msg: 'User not valid' });
     }
+  }
 
-    return next();
+  static async isAdminRole(req, res, next) {
+    try {
+      const adminUser = await RoleMiddleware.checkValidUser(req, res);
+      return adminUser?.Role?.name === 'Admin'
+        ? next()
+        : res.status(400).json({ msg: 'Invalid user or not an admin' });
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static async handleComments(req, res, next) {
+    const { id } = req.params;
+    let comment, user;
+    try {
+      user = await RoleMiddleware.checkValidUser(req);
+      if (user?.Role?.name === 'Admin') return next();
+    } catch (error) {
+      return error;
+    }
+    try {
+      comment = await Comment.findByPk(id);
+      return !comment
+        ? res.status(404).json({ msg: 'Could not find a comment' })
+        : comment && user.id === comment.user_id
+        ? next()
+        : res.status(400).json({
+            msg: `User is not comment owner or not an admin`,
+          });
+    } catch (error) {
+      return error;
+    }
   }
   static async isOwnerOfComment(req, res, next) {
     const authToken = req.headers['authorization'];
