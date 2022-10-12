@@ -71,10 +71,8 @@ class News {
       const pagination = new Pagination(req, res);
       const { page, size } = pagination.getPaginationParams(req, res);
 
-      const allNews = await NewDao.findAllNewsPages({
-        limit: size,
-        offset: page * size,
-      });
+      const allNews = await NewDao.findAllNewsPages(size, page);
+      console.log(allNews);
 
       let totalPages = pagination.getNumberOfTotalPages(allNews.count, size);
 
