@@ -27,4 +27,10 @@ router.post(
 
 router.get('/', verifyRole.isAdminRole, TestimonialController.getTestimonials);
 
+router.delete(
+  '/:id',
+  verifyRole.isAdminRole,
+  TestimonialController.deleteTestimonial
+);
+
 module.exports = router;

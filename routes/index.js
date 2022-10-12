@@ -8,10 +8,12 @@ const news = require('./news');
 const activities = require('./activities.js');
 const contact = require('./contact');
 const slidesRouter = require('./slides');
-
 const members = require('./members');
+const backoffice = require('./backoffice');
 const testimonialsRouter = require('./testimonials');
 const membersRouter = require('./members');
+const comments = require('./comment');
+const commentsRouter = require('./comments');
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
@@ -25,8 +27,10 @@ router.use('/categories', categories);
 router.use('/contacts', contact);
 router.use('/news', news);
 router.use('/slides', slidesRouter);
-
 router.use('/members', members);
+router.use('/backoffice', backoffice);
 router.use('/testimonials', testimonialsRouter);
 router.use('/members', membersRouter);
+router.use('/comments', comments);
+router.use('/posts', commentsRouter);
 module.exports = router;
