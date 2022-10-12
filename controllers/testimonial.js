@@ -43,15 +43,40 @@ class TestimonialController {
     }
   }
   static async getTestimonials(req, res) {
-    try {
-      const { page, size } = Pagination.getPaginationParams(req, res);
+    if (!req.query.page) {
+      try {
+        const testimonials = await TestimonialDao.getTestimonials([
+          'name',
+          'image',
+          'content',
+        ]);
 
+        if (!testimonials) {
+          return res.status(404).json({
+            msg: 'There is no testimonials',
+          });
+        }
+
+        return res.json({
+          testimonials,
+        });
+      } catch (error) {
+        return res.status(500).json({
+          msg: 'Error while searching testimonials ',
+        });
+      }
+    }
+    const pagination = new Pagination(req, res);
+    const { page, size } = pagination.getPaginationParams(req, res);
+
+    try {
       const testimonials = await Testimonial.findAndCountAll({
         attributes: ['name', 'image', 'content'],
         limit: size,
         offset: page * size,
       });
-      let totalPages = Pagination.getNumberOfTotalPages(
+
+      let totalPages = pagination.getNumberOfTotalPages(
         testimonials.count,
         size
       );
@@ -62,9 +87,7 @@ class TestimonialController {
         });
       }
 
-      const { nextPage, previousPage } = Pagination.getNextAndPreviousPage(
-        req,
-        res,
+      const { nextPage, previousPage } = pagination.getNextAndPreviousPage(
         page,
         size,
         totalPages
@@ -77,9 +100,8 @@ class TestimonialController {
         previousPage,
       });
     } catch (error) {
-      console.log(error);
       return res.status(500).json({
-        msg: 'error while searching in db',
+        msg: 'Error while searching testimonials in db',
       });
     }
   }
