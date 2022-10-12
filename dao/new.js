@@ -38,11 +38,10 @@ class NewDao {
       throw new Error(error);
     }
   }
-  static async findAllNews(limit, skip) {
+  static async findAllNews(attributes) {
     try {
       const newsData = await New.findAndCountAll({
-        limit,
-        offset: skip,
+        attributes,
       });
       return newsData;
     } catch (error) {

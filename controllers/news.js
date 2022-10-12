@@ -1,6 +1,6 @@
 const { New } = require('../models');
 const NewDao = require('../dao/new');
-const buildPaginator = require('pagination-apis');
+const Pagination = require('../helpers/pagination');
 class News {
   static async DetailNew(req, res) {
     try {
@@ -68,22 +68,38 @@ class News {
 
   static async findAllNews(req, res) {
     try {
-      const { page, size } = req.query;
+      const pagination = new Pagination(req, res);
+      const { page, size } = pagination.getPaginationParams(req, res);
 
-      const { limit, skip, paginate } = buildPaginator({
-        page: page,
+      const allNews = await NewDao.findAllNewsPages({
         limit: size,
-        maximumLimit: 10,
-        url: '/news',
+        offset: page * size,
       });
 
-      const newData = await NewDao.findAllNews(limit, skip);
-      const rows = newData.rows;
-      const count = newData.count;
+      let totalPages = pagination.getNumberOfTotalPages(allNews.count, size);
 
-      return res.status(200).json(paginate(rows, count));
+      const { nextPage, previousPage } = pagination.getNextAndPreviousPage(
+        page,
+        size,
+        totalPages
+      );
+
+      if (allNews.count < 1) {
+        return res.status(404).json({
+          msg: 'There is no news',
+        });
+      }
+
+      return res.status(200).json({
+        content: allNews.rows,
+        totalPages,
+        nextPage,
+        previousPage,
+      });
     } catch (error) {
-      return res.status(500).send(error.message);
+      return res.status(500).json({
+        msg: 'Error while searching news in db',
+      });
     }
   }
 }
