@@ -38,7 +38,7 @@ class NewDao {
       throw new Error(error);
     }
   }
-  static async findAllNews(attributes) {
+  static async findAllNewsPages(attributes) {
     try {
       const newsData = await New.findAndCountAll({
         attributes,
