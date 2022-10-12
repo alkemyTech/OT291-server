@@ -9,6 +9,7 @@ router.post(
   '/',
   createContactSchema,
   ValidationErrors.validateSchema,
+  RoleMiddleware.isAdminRole,
   ContactController.createContact
 );
 
