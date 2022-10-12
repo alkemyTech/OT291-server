@@ -7,16 +7,15 @@ class CommentDao {
    * @returns {boolean}
    */
   static async deleteComment(id) {
-    const comment = await CommentDao.findComment(id);
+    try {
       const deletedComment = await Comment.destroy({
-        where: { id: comment.id },
+        where: { id },
       });
-    return deletedComment;
-  }
-
-  static async findComment(id) {
-      const foundComment = await Comment.findByPk(id);
-      return foundComment;
+      return deletedComment;
+    } catch (error) {
+      return error;
+    }
+      
   }
 }
 

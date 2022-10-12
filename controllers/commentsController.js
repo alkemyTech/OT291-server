@@ -5,9 +5,12 @@ class CommentsControllers {
     const { id } = req.params;
     try {
       const deletedComment = await CommentDao.deleteComment(id);
-      res.status(200).json({ msg: 'Comment deleted successfully' });
+      if (deletedComment) {
+        return res.status(200).json({ msg: 'Comment deleted successfully' });
+      }
+      return res.status(404).json({ msg: 'Comment not found' })
     } catch (error) {
-      res.status(400).json({ msg: 'Could not find a comment' });
+      res.status(400).json({ msg: 'Something went wrong' });
     }
   }
 }
