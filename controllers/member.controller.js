@@ -3,16 +3,21 @@ const MemberDao = require('../dao/member');
 
 class MemberController {
   static async getMembers(req, res) {
-    const attributes = ['name', 'image'];
+    const attributes = [
+      'name',
+      'facebookUrl',
+      'instagramUrl',
+      'linkedinUrl',
+      'image',
+      'description',
+    ];
 
     try {
       const response = await MemberDao.getMembers(attributes);
-
       return res.status(200).json(response);
     } catch (error) {
       return res.status(500).json({
-        error,
-        msg: 'error in db',
+        msg: 'error while searching members in db',
       });
     }
   }
