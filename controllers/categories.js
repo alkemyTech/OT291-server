@@ -2,7 +2,6 @@ const { Category } = require('../models');
 const CategoryDao = require('../dao/categorie');
 const Pagination = require('../helpers/pagination');
 
-
 class CategoriesController {
   static async post(req, res, next) {
     try {
@@ -53,10 +52,9 @@ class CategoriesController {
     }
 
     if (req.query.page) {
-      const pagination = new Pagination(req, res); 
+      const pagination = new Pagination(req, res);
       const { page, size } = pagination.getPaginationParams(req, res);
       const offset = page * size;
-
 
       let paginationCategory;
 
@@ -65,51 +63,37 @@ class CategoriesController {
           offset,
           size
         );
-
-        
       } catch (error) {
         return res.status(500).json({
           msg: 'error while searching in db',
           msg: 'Error while searching categories in db',
         });
       }
-      
-     
-     
-      if (paginationCategory) {
-         let totalPages = pagination.getNumberOfTotalPages(
-          paginationCategory.count,
-          size
-          );
-        }
-          
-         
 
-        if (paginationCategory.count < 1) {
-          return res.status(404).json({
-            msg: 'There is not categories',
-          });
-        }
+      let totalPages = pagination.getNumberOfTotalPages(
+        paginationCategory.count,
+        size
+      );
 
-        
-
-        const { nextPage, previousPage } = pagination.getNextAndPreviousPage(
-          page,
-          size,
-          totalPages
-        );
-
-        console.log(nextPage)
-
-
-        return res.status(200).json({
-          paginationCategory,
-          content: paginationCategory.rows,
-          totalPages,
-          nextPage,
-          previousPage,
+      if (paginationCategory.count < 1) {
+        return res.status(404).json({
+          msg: 'There is not categories',
         });
-      
+      }
+
+      const { nextPage, previousPage } = pagination.getNextAndPreviousPage(
+        page,
+        size,
+        totalPages
+      );
+
+      return res.status(200).json({
+        paginationCategory,
+        content: paginationCategory.rows,
+        totalPages,
+        nextPage,
+        previousPage,
+      });
     }
   }
 
