@@ -65,6 +65,18 @@ class TestimonialDao {
       return error;
     }
   }
+
+  static async getTestimonials(attributes) {
+    try {
+      const testimonials = await Testimonial.findAll({
+        attributes,
+      });
+
+      return testimonials;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 module.exports = TestimonialDao;

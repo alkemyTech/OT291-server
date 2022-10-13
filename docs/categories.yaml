@@ -1,0 +1,189 @@
+components:
+  schemas:
+    Categories:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Category name
+        description:
+          type: string
+          example: Category description
+        image:
+          type: string
+          example: Category image
+      required:
+        - name 
+      example: 
+        name: Category name one
+        description: Category description one
+        image: https://imagens/CategoryImageOne.jpg
+    CategoriesAll:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            example: Category name
+      example:          
+        - name: Category one
+        - name: Category two
+        - name: Category three
+    CategoriesAllById:
+      type: array
+      items: 
+        type : object
+        properties:
+          id:
+            type: integer
+            example: 1
+          name:
+            type: string
+            example: Category name
+          description:
+            type: string
+            example: Category description
+          image:
+            type: string
+      example: 
+        - id : 1
+          name: Category name one
+          description: Category description one
+          image: https://imagens/CategoryImageOne.jpg
+paths:
+  /categories/:
+    get:
+      summary: all categories
+      tags: [Categories]
+      responses:
+        200:
+          description: all categories
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CategoriesAll'
+        500:
+          description: message of error 
+        default:
+          description: message of unexpected error
+  /categories/{id}:
+    get:
+      summary: one category
+      tags: [Categories]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id of the category to display
+      responses:
+        200:
+          description: one category
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/CategoriesAllById'
+        404:
+          description: message category does not exist
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Could not find category' }
+        400:
+          description: message of error
+          default:
+            description: message of unexpected error
+  /categories:
+    post:
+      summary: create a new category
+      tags: [Categories]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/Categories'     
+      responses:
+        200:
+          description: message category was created 
+          content:
+            application/json:
+              schema:
+                example: { msg: 'Category created successfully' }
+        404:
+          description: message category was not created
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Error. Category not created.'}
+        500:
+          description: message of error
+        default:
+          description: message of unexpected error
+  /categories/{id2}:
+    delete:
+      summary: delete one category
+      tags: [Categories]
+      parameters:
+        - in: path
+          name: id2
+          schema:
+            type: integer
+          required: true
+          description: id of the category to delete
+      responses:
+        200:
+          description: message category was deleted
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Category deleted successfully' }
+        404:
+          description: message category was not found
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Could not find category' }
+        400:
+          description: message of error
+          default:
+            description: message of unexpected error          
+/categories/{id3}:
+    put:
+      summary: update one category
+      tags: [Categories]
+      parameters:
+        - in: path
+          name: id3
+          schema:
+            type: integer
+          required: true
+          description: id of the category to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/Categories'    
+      responses:
+        200:
+          description: message category was updated
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Category updated successfully' }
+        404:
+          description: message category was not found
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Could not find category' }
+        400:
+          description: message of error
+          default:
+            description: Message of unexpected error                      
