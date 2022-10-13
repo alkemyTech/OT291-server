@@ -67,13 +67,26 @@ class News {
   }
 
   static async findAllNews(req, res) {
+    if (!req.query.page) {
+      try {
+        const allNews = await NewDao.findAll();
+        return res.status(200).json(allNews);
+      } catch (error) {
+        return res.status(500).json({
+          msg: 'Error while searching news in db',
+        });
+      }
+    }
     try {
       const pagination = new Pagination(req, res);
       const { page, size } = pagination.getPaginationParams(req, res);
 
-      const allNews = await NewDao.findAllNewsPages(size, page);
+      const allNewsPage = await NewDao.findAllNewsPages(size, page);
 
-      let totalPages = pagination.getNumberOfTotalPages(allNews.count, size);
+      let totalPages = pagination.getNumberOfTotalPages(
+        allNewsPage.count,
+        size
+      );
 
       const { nextPage, previousPage } = pagination.getNextAndPreviousPage(
         page,
@@ -81,14 +94,14 @@ class News {
         totalPages
       );
 
-      if (allNews.count < 1) {
+      if (allNewsPage.count < 1) {
         return res.status(404).json({
           msg: 'There is no news',
         });
       }
 
       return res.status(200).json({
-        content: allNews.rows,
+        content: allNewsPage.rows,
         totalPages,
         nextPage,
         previousPage,

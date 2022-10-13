@@ -38,6 +38,16 @@ class NewDao {
       throw new Error(error);
     }
   }
+
+  static async findAll() {
+    try {
+      const newsData = await New.findAll();
+      return newsData;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
   static async findAllNewsPages(size, page) {
     try {
       const newsData = await New.findAndCountAll({
