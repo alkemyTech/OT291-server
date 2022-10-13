@@ -3,16 +3,21 @@ const MemberDao = require('../dao/member');
 
 class MemberController {
   static async getMembers(req, res) {
-    const attributes = ['name', 'image'];
+    const attributes = [
+      'name',
+      'facebookUrl',
+      'instagramUrl',
+      'linkedinUrl',
+      'image',
+      'description',
+    ];
 
     try {
       const response = await MemberDao.getMembers(attributes);
-
       return res.status(200).json(response);
     } catch (error) {
       return res.status(500).json({
-        error,
-        msg: 'error in db',
+        msg: 'error while searching members in db',
       });
     }
   }
@@ -78,6 +83,23 @@ class MemberController {
     } catch (error) {
       res.status(400).json(error);
     }
+  }
+
+  static async getMemberById(req, res) {
+    const attributes = ['name', 'image'];
+    const { id } = req.params;
+
+    let member;
+
+    try {
+      member = await MemberDao.getMembersById(id, attributes);
+    } catch (error) {
+      res.status(400).json(error);
+    }
+
+    member.length === 0
+      ? res.status(404).json({ msg: 'Could not find member' })
+      : res.status(200).json(member);
   }
 }
 

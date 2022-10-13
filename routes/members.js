@@ -19,6 +19,7 @@ router.post(
   '/',
   newMemberSchema,
   ValidationErrors.validateSchema,
+  RoleMiddleware.isAdminRole,
   MemberController.postNewMember
 );
 
@@ -26,7 +27,16 @@ router.put(
   '/:id',
   membersByIdSchema,
   ValidationErrors.validateSchema,
+  RoleMiddleware.isAdminRole,
   MemberController.updateMember
+);
+
+router.get(
+  '/:id',
+  membersByIdSchema,
+  ValidationErrors.validateSchema,
+  RoleMiddleware.isAdminRole,
+  MemberController.getMemberById
 );
 
 module.exports = router;

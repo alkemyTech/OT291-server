@@ -6,11 +6,12 @@ const CategoriesController = require('../controllers/categories');
 const RoleMiddleware = require('../middlewares/verify-role');
 const deleteSchema = require('../schemas/categories');
 
-router.get('/' ,CategoriesController.getAll);
+router.get('/', CategoriesController.getAll);
 router.post(
   '/',
   categorySchema,
   ValidationErrors.validateSchema,
+  RoleMiddleware.isAdminRole,
   CategoriesController.post
 );
 
@@ -31,9 +32,9 @@ router.put(
 );
 
 router.get(
-  '/:id', RoleMiddleware.isAdminRole,
+  '/:id',
+  RoleMiddleware.isAdminRole,
   CategoriesController.getOneCategory
 );
- 
 
 module.exports = router;
