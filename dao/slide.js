@@ -61,6 +61,39 @@ class SlidesDap {
     } catch (error) {
       throw new Error(error);
     }
+  } 
+  /**
+   * Asynchronously and extensible function return a Slide from the database.
+   * @param {Object} attributes
+   * @param {Array} fields -  limit what attributes can be setted by user
+   *
+   * @returns {Object}
+   */
+  static async createSlide(attributes, direction) {
+    try {
+      const newSlide = await Slide.create(attributes, direction);
+      return newSlide;
+    } catch (error) {
+      throw Error(error)
+    }
+  }
+  /**
+   * Asynchronously and extensible function return Slide table sort by choosen direction.
+   * @param {string} column - table to be sorted
+   * @param {string} direction -  direction that column will be sort
+   * EJ: `sortSlides('slides', 'ASC')`
+   *
+   * @returns {Array}
+   */
+  static async sortSlides(column, direction) {
+    try {
+      const allSlides = await Slide.findAll({
+        order: [ [column, direction] ]
+      });
+      return allSlides;
+    } catch (error) {
+      return error
+    }
   }
   static async updateSLide(data,id){
     try {

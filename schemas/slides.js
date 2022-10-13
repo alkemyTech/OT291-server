@@ -1,8 +1,7 @@
-const { param,body } = require('express-validator');
+const { param } = require('express-validator');
 
 const slideIdSchema = [
-  param('id').notEmpty().isNumeric().withMessage('id must be a number'),
+  param('id').notEmpty().isNumeric().isInt().withMessage('id must be a number'),
 ];
 
-
-module.exports = {slideIdSchema};
+module.exports = slideIdSchema;
