@@ -1,0 +1,150 @@
+components:
+  schemas:
+    new:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Title New
+        content:
+          type: string
+          example: Content for a new
+        image:
+          type: string
+          example: https://is2-ssl.mzstatic.com/image/thumb/Purple112/v4/8b/a3/e9/8ba3e910-a240-549d-302c-7dacba2923d2/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/1200x630wa.png
+    putNew:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Title New
+        content:
+          type: string
+          example: Content for a new
+        image:
+          type: string
+          example: https://is2-ssl.mzstatic.com/image/thumb/Purple112/v4/8b/a3/e9/8ba3e910-a240-549d-302c-7dacba2923d2/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/1200x630wa.png
+        CategoryId:
+          type: integer
+          example: 1
+
+paths:
+  /news/{id}:
+    get:
+      summary: Returns a new by id.
+      tags:
+        - News
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+        description: id of the new to display
+      responses:
+        '200':
+          description: Object with new details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/new'
+        '404':
+          description: New wasn't found.
+        '500':
+          description: Error.
+        default:
+          description: Unexpected error
+
+  /news:
+    post:
+      summary: create a new
+      tags:
+        - News
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/new'     
+      responses:
+        '200':
+          description: message new was created 
+          content:
+            application/json:
+              schema:
+                example: { msg: 'New created successfully' }
+        '500':
+          description: message new was not created
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Error. New not created..'}
+
+  /news/{id2}:
+    delete:
+      summary: delete one new
+      tags:
+        - News
+      parameters:
+        - in: path
+          name: id2
+          schema:
+            type: integer
+          required: true
+          description: id of the new to delete
+      responses:
+        200:
+          description: message new was deleted
+          content:
+            application/json:
+              type: object
+              example: { msg: 'New with 1 has been deleted succesfully' }
+        404:
+          description: message new was not found
+          content:
+            application/json:
+              type: object
+              example: { msg: 'new not found' }
+        500:
+          description: message of error
+          default:
+            description: message of unexpected error
+
+  /news/{id3}:
+    put:
+      summary: update one new
+      tags:
+        - News
+      parameters:
+        - in: path
+          name: id3
+          schema:
+            type: integer
+          required: true
+          description: id of the new to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/putNew'    
+      responses:
+        '200':
+          description: message new was updated
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/putNew'  
+        '404':
+          description: message new was not found
+          content:
+            application/json:
+              type: object
+              example: { msg: 'New does not exist' }
+        '500':
+          description: message of error
+          default:
+            description: Message of unexpected error                      
