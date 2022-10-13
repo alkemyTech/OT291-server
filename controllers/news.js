@@ -76,40 +76,41 @@ class News {
           msg: 'Error while searching news in db',
         });
       }
-    }
-    try {
-      const pagination = new Pagination(req, res);
-      const { page, size } = pagination.getPaginationParams(req, res);
+    } else {
+      try {
+        const pagination = new Pagination(req, res);
+        const { page, size } = pagination.getPaginationParams(req, res);
 
-      const allNewsPage = await NewDao.findAllNewsPages(size, page);
+        const allNewsPage = await NewDao.findAllNewsPages(size, page);
 
-      let totalPages = pagination.getNumberOfTotalPages(
-        allNewsPage.count,
-        size
-      );
+        let totalPages = pagination.getNumberOfTotalPages(
+          allNewsPage.count,
+          size
+        );
 
-      const { nextPage, previousPage } = pagination.getNextAndPreviousPage(
-        page,
-        size,
-        totalPages
-      );
+        const { nextPage, previousPage } = pagination.getNextAndPreviousPage(
+          page,
+          size,
+          totalPages
+        );
 
-      if (allNewsPage.count < 1) {
-        return res.status(404).json({
-          msg: 'There is no news',
+        if (allNewsPage.count < 1) {
+          return res.status(404).json({
+            msg: 'There is no news',
+          });
+        }
+
+        return res.status(200).json({
+          content: allNewsPage.rows,
+          totalPages,
+          nextPage,
+          previousPage,
+        });
+      } catch (error) {
+        return res.status(500).json({
+          msg: 'Error while searching news in db',
         });
       }
-
-      return res.status(200).json({
-        content: allNewsPage.rows,
-        totalPages,
-        nextPage,
-        previousPage,
-      });
-    } catch (error) {
-      return res.status(500).json({
-        msg: 'Error while searching news in db',
-      });
     }
   }
 }
