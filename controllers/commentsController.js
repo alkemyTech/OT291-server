@@ -42,7 +42,7 @@ class CommentsControllers {
   }
 
   static async getAllComments(req, res)  {
-    const attributes = ['body'];
+    const attributes = ['body'];    
     const order = [['createdAt','DESC']];
     let getAllComments;
     try {

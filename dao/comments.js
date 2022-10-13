@@ -54,7 +54,6 @@ class CommentDao {
    * @returns {boolean}
    */  
   static async getAllComments(attributes, order)  {
-    console.log('estoy en dao')
     try {
       const getAllComments = await Comment.findAll({
         attributes,

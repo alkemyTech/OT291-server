@@ -17,7 +17,7 @@ router.get(
 );
 
 router.get('/',  
-RoleMiddleware.isAdminRole, 
+//RoleMiddleware.isAdminRole, 
 CommentsController.getAllComments);
 
 module.exports = router;
