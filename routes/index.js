@@ -34,6 +34,5 @@ router.use('/testimonials', testimonialsRouter);
 router.use('/members', membersRouter);
 router.use('/comments', comments);
 router.use('/posts', commentsRouter);
-router.use('/comments',commentsRouter);
 
 module.exports = router;
