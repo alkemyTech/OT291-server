@@ -42,6 +42,25 @@ class CategoryDao {
      throw (error);
     }
   }    
+
+  /**
+   * Asynchronously retunr a array with 10 categories from the database (table Category)
+   * @param {number} offset - to take categories since a determinate row of the table Category
+   * @returns {Array}
+   */
+   static async paginationCategorie(offset, limit) {
+    try {
+      const pagination = await Category.findAndCountAll({
+        attributes: ['name', 'description', 'image'],
+        offset,
+        limit,
+      });
+
+      return pagination;
+    } catch (error) {
+      throw error;
+    }
+  }
   
 }
 
