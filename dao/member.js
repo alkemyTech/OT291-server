@@ -6,7 +6,6 @@ class MemberDao {
       const members = await Member.findAll({
         attributes,
       });
-
       return members;
     } catch (error) {
       throw new Error(error);
@@ -75,6 +74,18 @@ class MemberDao {
       return member;
     } catch (error) {
       throw new Error('Error. Member not found');
+    }
+  }
+
+  static async findAllMembersPage(size, page) {
+    try {
+      const membersData = await Member.findAndCountAll({
+        limit: size,
+        offset: page * size,
+      });
+      return membersData;
+    } catch (error) {
+      throw new Error(error);
     }
   }
 }
