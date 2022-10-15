@@ -1,0 +1,44 @@
+components:
+  schemas:
+    login:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test1@user.com
+        password:
+          type: string
+          example: user
+paths:
+  /auth/login:
+    post:
+      summary: login a user
+      tags:
+        - login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/login'
+      responses:
+        '200':
+          description: login correctly
+          content:
+            application/json:
+              example:
+                {
+                  user: 'test1@user.com',
+                  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6xQHVzZXIuY29tIiwiaWF0IjoxNjY1ODYzNzkxLCJleHAiOjE2NjU4NzgxOTF9.I8BIj6OYGVhfZSVVzD3SbnHgpWZwSfdLW35rFTn3g2I',
+                }
+        '400':
+          description: Login error
+          content:
+            application/json:
+              type: object
+              example: { ok: 'false' }
+        '500':
+          description: message of error
+        default:
+          description: message of unexpected error
