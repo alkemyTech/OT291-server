@@ -1,5 +1,6 @@
 const { Category } = require('../models');
 const CategoryDao = require('../dao/categorie');
+const Pagination = require('../helpers/pagination');
 
 class CategoriesController {
   static async post(req, res, next) {
@@ -33,14 +34,69 @@ class CategoriesController {
     }
   }
   static async getAll(req, res) {
-    try {
-      const categories = await CategoryDao.filteringCategoryResultsByField("name")
-      const format= categories.map(category=>category.name)
-      return res.status(200).json(format)
-    } catch (error) {
-      return res.status(500).send(error)
+    if (!req.query.page) {
+      let categories;
+
+      try {
+        categories = await CategoryDao.filteringCategoryResultsByField('name');
+      } catch (error) {
+        return res.status(500).send(error);
+      }
+
+      const format = categories.map((category) => category.name);
+
+      if (!categories)
+        return res.status(404).json({ msg: 'Could not find categories' });
+
+      return res.status(200).json(format);
+    }
+
+    if (req.query.page) {
+      const pagination = new Pagination(req, res);
+      const { page, size } = pagination.getPaginationParams(req, res);
+      const offset = page * size;
+
+      let paginationCategory;
+
+      try {
+        paginationCategory = await CategoryDao.paginationCategorie(
+          offset,
+          size
+        );
+      } catch (error) {
+        return res.status(500).json({
+          msg: 'error while searching in db',
+          msg: 'Error while searching categories in db',
+        });
+      }
+
+      let totalPages = pagination.getNumberOfTotalPages(
+        paginationCategory.count,
+        size
+      );
+
+      if (paginationCategory.count < 1) {
+        return res.status(404).json({
+          msg: 'There is not categories',
+        });
+      }
+
+      const { nextPage, previousPage } = pagination.getNextAndPreviousPage(
+        page,
+        size,
+        totalPages
+      );
+
+      return res.status(200).json({
+        paginationCategory,
+        content: paginationCategory.rows,
+        totalPages,
+        nextPage,
+        previousPage,
+      });
     }
   }
+
   static async updateCategory(req, res) {
     const { id } = req.params;
     const { name, description, image } = req.body;
@@ -57,16 +113,16 @@ class CategoriesController {
   }
 
   static async getOneCategory(req, res) {
-    const {id} = req.params;
-    let getOneCategory
+    const { id } = req.params;
+    let getOneCategory;
     try {
-         getOneCategory = await CategoryDao.getOneCategory(id);
+      getOneCategory = await CategoryDao.getOneCategory(id);
     } catch (error) {
-      return res.status(400).json(error);      
-    }            
-    if(getOneCategory) return res.status(200).json(getOneCategory);
-      return res.status(404).json({ msg: 'Could not find category'});
-  }  
+      return res.status(400).json(error);
+    }
+    if (getOneCategory) return res.status(200).json(getOneCategory);
+    return res.status(404).json({ msg: 'Could not find category' });
+  }
 }
 
 module.exports = CategoriesController;

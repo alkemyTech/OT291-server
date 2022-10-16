@@ -1,6 +1,5 @@
 const SlidesDao = require('../dao/slide');
 const UploadFiles = require('../helpers/UploadFiles.js');
-const FileManager = require('../helpers/FileManager.js');
 
 class SlidersController {
   static async getDetails(req, res) {
@@ -32,19 +31,6 @@ class SlidersController {
         error,
         msg: 'error in db',
       });
-    }
-  }
-  static async updateSlide(req, res) {
-    const { id } = req.params;
-    const { imageUrl, text, order, organizationId } = req.body;
-    try {
-      const slideUpdated = await SlidesDao.updateSLide(
-        { imageUrl, text, order, organizationId },
-        +id
-      );
-      return res.status(200).json(slideUpdated);
-    } catch (error) {
-      res.status(500).send(error.message);
     }
   }
 

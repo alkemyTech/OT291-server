@@ -14,12 +14,6 @@ router.get(
   verifyRole.isAdminRole,
   SlidesController.getDetails
 );
-router.put(
-  '/:id',
-  slideIdSchema,
-  ValidationErrors.validateSchema,
-  SlidesController.updateSlide
-);
 
 router.delete(
   '/:id',

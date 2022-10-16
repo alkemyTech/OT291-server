@@ -51,20 +51,7 @@ class SlidesDap {
       throw new Error(error);
     }
   }
-  static async updateSLide(data, id) {
-    try {
-      const slide = await this.findSlidebyPk(id);
-      if (!slide) {
-        throw new Error("Slide wasn't found");
-      }
-      const formatResponse = MapperResponse.cleanDataDb(
-        await slide.update(data)
-      );
-      return formatResponse;
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
+
   static async deleteSlides(where) {
     try {
       const deleteSlide = await Slide.destroy({
