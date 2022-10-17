@@ -1,0 +1,140 @@
+components:
+  schemas:
+    Testimonials:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          image:
+            type: string
+          content:
+            type: string
+      example:
+        - name: testimonial1
+          image: www.image.com/image1.jpg
+          content: content Testimonial1
+        - name: testimonial2
+          image: www.image.com/image2.jpg
+          content: content Testimonial2
+        - name: testimonial3
+          image: www.image.com/image3.jpg
+          content: content Testimonial3
+    Testimonial:
+      type: object
+      properties:
+        name:
+          type: string
+          example: testimonial1
+        image:
+          type: string
+          example: www.image.com/image1.jpg
+        content:
+          type: string
+          example: Content of testimonial 1
+      required:
+        - name
+        - image
+      example:
+        name: Testimonial1
+        image: www.image.com/image1.jpg
+        content: Content of testimonial 1
+
+paths:
+  /testimonials/:
+    get:
+      summary: Return a list of all testimonials
+      tags:
+        - Testimonials
+      responses:
+        '200':
+          description: Array of testimonials object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Testimonials'
+        '404':
+          description: There is no testimonials
+        '500':
+          description: Message of error
+    post:
+      summary: Create a new testimonial
+      tags:
+        - Testimonials
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/Testimonial'
+      responses:
+        '200':
+          description: Testimonial object
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Testimonial'
+        '400':
+          description: Message of error
+  /testimonials/${id}:
+    delete:
+      summary: delete one testimonial
+      tags:
+        - Testimonials
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id of the testimonial to delete
+      responses:
+        '200':
+          description: testimonial was deleted
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Testimonial deleted successfully' }
+
+        '404':
+          description: testimonial was not found
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Could not find testimonial' }
+    put:
+      summary: update one testimonial
+      tags:
+        - Testimonials
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/Testimonial'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: id of the testimonial to update
+      responses:
+        '200':
+          description: testimonial was updated succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Testimonial'
+
+        '404':
+          description: testimonial was not found
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Could not find testimonial' }
+        '400':
+          description: 'some error message'
+          default:
+            description: Message of unexpected error
