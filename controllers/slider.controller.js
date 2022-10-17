@@ -39,16 +39,19 @@ class SlidersController {
     const { id } = req.params;
     const { imageUrl, text, order, organizationId } = req.body;
     let decodedImage;
-    try {
-      decodedImage = await UploadFiles.decodeImage(imageUrl, id);
-    } catch (error) {
-      res.status(400).json({ msg: 'Could not decode image' });
+    let response = { text, order, organizationId, imageUrl };
+    if (imageUrl) {
+      try {
+        decodedImage = await UploadFiles.decodeImage(imageUrl, id);
+        response.imageUrl = decodedImage;
+      } catch (error) {
+        res.status(400).json({ msg: 'Could not decode image' });
+      }
+    } else {
+      delete response.imageUrl;
     }
     try {
-      const slideUpdated = await SlidesDao.updateSLide(
-        { imageUrl: decodedImage, text, order, organizationId },
-        +id
-      );
+      const slideUpdated = await SlidesDao.updateSLide({ id }, response);
       return res.status(200).json(slideUpdated);
     } catch (error) {
       res.status(500).send(error.message);

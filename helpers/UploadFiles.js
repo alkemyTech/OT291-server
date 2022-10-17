@@ -21,7 +21,8 @@ class UploadFiles {
         );
         const createdFileWithExtension = FileManager.createFile(
           imageFromB64toBuffer,
-          decodedImageWithExtension.extension, name
+          decodedImageWithExtension.extension,
+          name
         );
         return { createdFileWithExtension, name };
       }
