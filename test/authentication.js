@@ -49,22 +49,22 @@ describe('Authentication Unit Test', () => {
         sinon.restore();
       });
 
-      it('Should create a token whit the email', async () => {
+      it('Should create a token using the generateJWT function with a email', async () => {
         await RegisterController.post(this.mockReq, this.mockRes);
         expect(this.stubToken.calledWith(this.mockReq.body.email)).to.be.true;
       });
-      it('Should call to send Grid one time', async () => {
+      it('Should call to send Grid function one time with a email', async () => {
         await RegisterController.post(this.mockReq, this.mockRes);
         expect(this.stubEmail.calledWith(this.mockReq.body.email)).to.be.true;
         expect(this.stubEmail.calledOnce).to.be.true;
       });
-      it('Should call to bcrypt to create a hash password', async () => {
+      it('Should create a token using the bcrypt function with a email', async () => {
         await RegisterController.post(this.mockReq, this.mockRes);
         expect(this.stubBvrypt.calledWith(this.mockReq.body.password)).to.be
           .true;
         expect(this.stubEmail.calledOnce).to.be.true;
       });
-      it('Should call to a Data Base to creat a new User', async () => {
+      it('Should create a User using the User.create function with a object', async () => {
         await RegisterController.post(this.mockReq, this.mockRes);
         expect(this.stubDb.calledOnce).to.be.true;
       });
@@ -96,13 +96,13 @@ describe('Authentication Unit Test', () => {
         sinon.restore();
       });
 
-      it('Should throw Error when no email were passed in Token function', async () => {
+      it('Should throw Error when no email are passed in generateJWT function', async () => {
         this.stubToken = sinon.stub(Token, 'generateJWT').throws();
         await RegisterController.post(mockReq, this.mockRes);
         expect(this.stubToken).to.be.throw;
       });
 
-      it('Should throw Error when bcrypt its no resolved', async () => {
+      it('Should throw Error when no password are passed in hashSync function', async () => {
         this.stubBvrypt = sinon.stub(bcrypt, 'hashSync').rejects();
         await RegisterController.post(mockReq, this.mockRes);
         expect(this.stubBvrypt).to.be.throw;
@@ -143,17 +143,17 @@ describe('Authentication Unit Test', () => {
         sinon.restore();
       });
 
-      it('Should call the bCrypt function once', async () => {
+      it('Should call the generateJWT function once', async () => {
         await LoginController.loginUser(this.mockReq, this.mockRes);
         expect(this.stubBvrypt.calledOnce).to.be.true;
       });
 
-      it('Should call the token generate function once', async () => {
+      it('Should call the compareSync function once', async () => {
         await LoginController.loginUser(this.mockReq, this.mockRes);
         expect(this.stubToken.calledOnce).to.be.true;
       });
 
-      it('Should call the dao findUser function once', async () => {
+      it('Should call the dao.findUser function once', async () => {
         await LoginController.loginUser(this.mockReq, this.mockRes);
         expect(this.stubDb.calledOnce).to.be.true;
       });
@@ -178,7 +178,7 @@ describe('Authentication Unit Test', () => {
         sinon.restore();
       });
 
-      it('Should throw the error of the DB error', async () => {
+      it('Should throw if the DB throws an error', async () => {
         const mockReq = {
           body: {
             email: 'test@test.com',
@@ -247,7 +247,7 @@ describe('Authentication Unit Test', () => {
         sinon.restore();
       });
 
-      it('Should call the dao findUser function once', async () => {
+      it('Should call the dao.findUser function once', async () => {
         await RegisterController.getData(this.mockReq, this.mockRes);
         expect(this.stubDb.calledOnce).to.be.true;
       });
@@ -273,7 +273,7 @@ describe('Authentication Unit Test', () => {
         sinon.restore();
       });
 
-      it('Should throw the error of the DB error', async () => {
+      it('Should send a error if no user in the databese', async () => {
         const mockReq = {
           body: {
             email: 'test@test.com',
