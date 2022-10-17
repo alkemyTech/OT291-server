@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
     "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
-    "test": "mocha test"
+    "test": "mocha test --timeout 20000"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",

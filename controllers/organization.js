@@ -36,25 +36,24 @@ class OrganizationController {
     try {
       const { name, image, phone, address, email, welcomeText, aboutUsText } =
         req.body;
-      const organization = await Organization.findOne({
-        where: { name: 'Big Org' },
-      });
+      const organization = await Organization.update(
+        {
+          name,
+          image,
+          phone,
+          address,
+          email,
+          welcomeText,
+          aboutUsText,
+        },
+        { where: { name: 'Big Org' } }
+      );
 
       if (!organization) {
         return res.status(404).json({
           msg: 'There is no organization',
         });
       }
-
-      await organization.update({
-        name,
-        image,
-        phone,
-        address,
-        email,
-        welcomeText,
-        aboutUsText,
-      });
 
       return res.status(200).json({
         msg: `Organization info has been updated`,
