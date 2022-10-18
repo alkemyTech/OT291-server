@@ -1,5 +1,6 @@
 const { New } = require('../models');
 const NewDao = require('../dao/new');
+const Pagination = require('../helpers/pagination');
 class News {
   static async DetailNew(req, res) {
     try {
@@ -62,6 +63,54 @@ class News {
         error,
         msg: 'error in db',
       });
+    }
+  }
+
+  static async findAllNews(req, res) {
+    if (!req.query.page) {
+      try {
+        const allNews = await NewDao.findAll();
+        return res.status(200).json(allNews);
+      } catch (error) {
+        return res.status(500).json({
+          msg: 'Error while searching news in db',
+        });
+      }
+    } else {
+      try {
+        const pagination = new Pagination(req, res);
+        const { page, size } = pagination.getPaginationParams(req, res);
+
+        const allNewsPage = await NewDao.findAllNewsPages(size, page);
+
+        let totalPages = pagination.getNumberOfTotalPages(
+          allNewsPage.count,
+          size
+        );
+
+        const { nextPage, previousPage } = pagination.getNextAndPreviousPage(
+          page,
+          size,
+          totalPages
+        );
+
+        if (allNewsPage.count < 1) {
+          return res.status(404).json({
+            msg: 'There is no news',
+          });
+        }
+
+        return res.status(200).json({
+          content: allNewsPage.rows,
+          totalPages,
+          nextPage,
+          previousPage,
+        });
+      } catch (error) {
+        return res.status(500).json({
+          msg: 'Error while searching news in db',
+        });
+      }
     }
   }
 }

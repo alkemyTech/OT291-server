@@ -30,4 +30,6 @@ router.put(
   News.putNew
 );
 
+router.get('/', News.findAllNews);
+
 module.exports = router;
