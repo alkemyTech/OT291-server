@@ -4,7 +4,17 @@ const CommentsControllers = require('../controllers/commentsController');
 const RoleMiddleware = require('../middlewares/verify-role');
 const ValidationErrors = require('../middlewares/validationErrors');
 const CommentsController = require('../controllers/commentsController');
-const { commentsByIdSchema } = require('../schemas/comments');
+const {
+  createCommentSchema,
+  commentsByIdSchema,
+} = require('../schemas/comments');
+
+router.post(
+  '/',
+  createCommentSchema,
+  ValidationErrors.validateSchema,
+  CommentsController.createComment
+);
 
 router.delete('/:id',  RoleMiddleware.isOwnerOfComment, CommentsControllers.deleteComment)
 
