@@ -25,7 +25,7 @@ class UserDao {
       });
       return getOneUser;
     } catch (error) {
-      return error;
+      throw new Error(error);
     }
   }
 }
