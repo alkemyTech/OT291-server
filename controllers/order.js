@@ -12,13 +12,17 @@ class OrderController {
     console.log(data);
     if (category === OrderController.PaymentCategory.recurrent) {
       try {
-        const body = await PaymentService.createSubscription(amount);
+        const paymentLink = await PaymentService.createSubscription(amount);
         const user = await UserDao.findOneUser({ email: data.email });
-        console.log(user.id, 'asdasd');
-        res.status(200).send(body);
+        await OrderDao.createOrder({
+          category,
+          amount,
+          paymentLink,
+          user_id: user.id,
+        });
+        res.status(200).json(paymentLink);
       } catch (error) {
-        console.log(error);
-        res.status(402).send('Ocurrió un problema al hacer la subscripción');
+        res.status(402).send(error.message);
       }
     }
   }
