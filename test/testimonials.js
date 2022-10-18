@@ -120,6 +120,9 @@ describe('Testimonials', () => {
         })
         .expect(400)
         .end((err, response) => {
+          expect(response.body)
+            .to.have.property('msg')
+            .to.equal('Error while creating testimonial');
           done(err);
         });
     });
