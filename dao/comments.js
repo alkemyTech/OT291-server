@@ -1,5 +1,5 @@
 const { Comment } = require('../models');
-
+const MapperResponse = require('../utils/formatResponse');
 class CommentDao {
   /**
    * Asynchronously delete a comment from the database (table Comments)
@@ -16,7 +16,7 @@ class CommentDao {
       return error;
     }
   }
-      
+
   static async listCommentsByPost(id) {
     try {
       const comments = await Comment.findAll({
@@ -52,8 +52,8 @@ class CommentDao {
    * @returns {boolean}
    * @param   {Object} order - Order fields Ej: ['createdAt', 'ASC']
    * @returns {boolean}
-   */  
-  static async getAllComments(attributes, order)  {
+   */
+  static async getAllComments(attributes, order) {
     try {
       const getAllComments = await Comment.findAll({
         attributes,
@@ -61,10 +61,20 @@ class CommentDao {
       });
       return getAllComments;
     } catch (error) {
-      throw error;              
+      throw error;
     }
-  }  
+  }
 
+  static async createComment(body) {
+    try {
+      const comment = await Comment.create(body);
+      const result = MapperResponse.cleanDataDb(comment);
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw new Error('NO se pudo crear el comentario');
+    }
+  }
 }
 
 module.exports = CommentDao;

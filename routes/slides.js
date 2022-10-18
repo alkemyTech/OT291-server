@@ -5,7 +5,6 @@ const ValidationErrors = require('../middlewares/validationErrors');
 const SlidesController = require('../controllers/slider.controller');
 const RoleMiddleware = require('../middlewares/verify-role');
 const verifyRole = require('../middlewares/verify-role');
-
 router.get('/', verifyRole.isAdminRole, SlidesController.getSlides);
 
 router.get(

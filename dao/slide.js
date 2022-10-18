@@ -42,6 +42,7 @@ class SlidesDap {
       throw new Error(error);
     }
   }
+
   static async deleteSlides(where) {
     try {
       const deleteSlide = await Slide.destroy({
@@ -52,7 +53,7 @@ class SlidesDap {
     } catch (error) {
       throw new Error(error);
     }
-  } 
+  }
   /**
    * Asynchronously and extensible function return a Slide from the database.
    * @param {Object} attributes
@@ -65,7 +66,7 @@ class SlidesDap {
       const newSlide = await Slide.create(attributes, direction);
       return newSlide;
     } catch (error) {
-      throw Error(error)
+      throw Error(error);
     }
   }
   /**
@@ -79,11 +80,11 @@ class SlidesDap {
   static async sortSlides(column, direction) {
     try {
       const allSlides = await Slide.findAll({
-        order: [ [column, direction] ]
+        order: [[column, direction]],
       });
       return allSlides;
     } catch (error) {
-      return error
+      return error;
     }
   }
 }
