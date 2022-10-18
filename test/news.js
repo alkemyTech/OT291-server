@@ -5,11 +5,10 @@ const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 const rewire = require('rewire');
 const request = require('supertest');
-const New = require('../models');
+const { New } = require('../models');
 const RoleMiddleware = require('../middlewares/verify-role');
-const { response , req } = require('express');
-const News = require('../controllers/news');
 const sandbox = sinon.createSandbox();
+const assert = chai.assert;
 
 describe('News', () => {
   beforeEach(() => {
@@ -27,29 +26,168 @@ describe('News', () => {
   });
 
   context('GET /news/:id', () => {
-    it('Get news when id is not int', (done) => {
-      request(app)
-        .get(`/news/a`)
-        .expect(400)
-        .end((err, response) => {
-          expect(response.body.errors.errors[0])
-            .to.have.property('msg')
-            .to.equal('id must be a number');
-          done(err);
-        });
-    });
-    it('Get news with error in try catch', (done) => {
-        const mError = new Error('stub: Internal server error');
-        const DetailNewStub =  sandbox.stub( News , 'DetailNew').rejects(mError)
-        const parameters = (req , response)
+    it('Get news error when id is not int', async () => {
+      const idFake = 'a';
 
-      request(app)
-        .get(`/news/1`)
-        sinon.assert.calledWith(DetailNewStub , parameters)
-        .expect(500)
-        .end((err, response) => {
-          expect(response.body).to.be.equal('stub: Internal server error');
-        });
+      const response = await request(app).get(`/news/${idFake}`).expect(400);
+
+      expect(response.body.errors.errors[0])
+        .to.have.property('msg')
+        .to.equal('id must be a number');
+    });
+    it('Get news with params id successful', async () => {
+      const idFake = 1;
+      const fakeResponse = [
+        {
+          id: 1,
+          name: 'Title Example',
+          content: 'Content for a new with title 1',
+          image:
+            'https://is2-ssl.mzstatic.com/image/thumb/Purple112/v4/8b/a3/e9/8ba3e910-a240-549d-302c-7dacba2923d2/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/1200x630wa.png',
+          CategoryId: 1,
+        },
+      ];
+
+      sandbox.stub(New, 'findByPk').resolves(fakeResponse);
+      const response = await request(app).get(`/news/${idFake}`).expect(200);
+
+      expect(response.body).to.eql(fakeResponse);
+    });
+    it('Get/id news when throw error 500', async () => {
+      const objectError = { msg: 'error' };
+      sandbox.stub(New, 'findAll').rejects(objectError);
+
+      const response = await request(app).get('/news/1').expect(500);
+    });
+  });
+  context('GET /news', () => {
+    it('Get get all news', async () => {
+      const fakeResponse = [
+        {
+          id: 2,
+          name: 'Title Example',
+          content: 'Content for a new with title 1',
+          image:
+            'https://is2-ssl.mzstatic.com/image/thumb/Purple112/v4/8b/a3/e9/8ba3e910-a240-549d-302c-7dacba2923d2/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/1200x630wa.png',
+          CategoryId: 1,
+        },
+      ];
+
+      sandbox.stub(New, 'findAll').resolves(fakeResponse);
+      const res = await request(app).get('/news').expect(200);
+      expect(res.body.length).to.equal(1);
+      expect(res.body).to.eql(fakeResponse);
+    });
+    it('Get news when throw error 500', async () => {
+      const objectError = { msg: 'error' };
+      sandbox.stub(New, 'findAll').rejects(objectError);
+
+      const response = await request(app).get('/news').expect(500);
+    });
+  });
+  context('POST /news', () => {
+    it('POST news successfully', async () => {
+      const fakerequest = {
+        name: 'newName',
+        content: 'newContent',
+        image: 'urlImage',
+      };
+
+      sandbox.stub(New, 'create').resolves(fakerequest);
+      const res = await request(app)
+        .post('/news')
+        .send(fakerequest)
+        .expect(200);
+      expect(res.body).to.eql({ msg: 'New created successfully' });
+    });
+    it('POST news when throw error 500', async () => {
+      const objectError = { msg: 'error' };
+      const fakerequest = {
+        name: 'newName',
+        content: 'newContent',
+        image: 'urlImage',
+      };
+      sandbox.stub(New, 'create').rejects(objectError);
+
+      const response = await request(app)
+        .post('/news')
+        .send(fakerequest)
+        .expect(500);
+    });
+    it('POST news error with errors in req.body', async () => {
+      const objectError = { msg: 'error' };
+      const fakerequest = {
+        name: 6,
+        content: 4,
+        image: 8,
+      };
+      sandbox.stub(New, 'create').rejects(objectError);
+
+      const response = await request(app)
+        .post('/news')
+        .send(fakerequest)
+        .expect(400);
+      expect(response.body).to.have.property('errors');
+    });
+  });
+  context('PUT /news/:id successfully', () => {
+    it('PUT news ', async () => {
+      const idFake = 2;
+      const fakerequest = {
+        name: 'new test',
+        image: 'test233',
+        CategoryId: 8,
+      };
+
+      const fakeResponse = {
+        id: 2,
+        name: 'new test',
+        content: 'Content for a new with title 2',
+        image: 'test233',
+        type: null,
+        createdAt: '2022-10-12T22:57:05.000Z',
+        updatedAt: '2022-10-18T23:02:55.000Z',
+        deletedAt: null,
+        CategoryId: 8,
+      };
+
+      sandbox.stub(New, 'update').resolves(fakerequest);
+      const res = await request(app)
+        .put(`/news/${idFake}`)
+        .send(fakerequest)
+        .expect(201);
+      expect(res.body).to.eql(fakeResponse);
+    });
+    it('PUT news when throw error 500', async () => {
+      const objectError = { msg: 'error' };
+      const idFake = 2;
+      const fakerequest = {
+        name: 'new test',
+        image: 'test233',
+        CategoryId: 8,
+      };
+      sandbox.stub(New, 'update').rejects(objectError);
+
+      const response = await request(app)
+        .put(`/news/${idFake}`)
+        .send(fakerequest)
+        .expect(500);
+    });
+    it('PUT news error with errors in req.body', async () => {
+      const objectError = { msg: 'error' };
+      const idFake = 2;
+      const fakerequest = {
+        name: 234,
+        image: 4,
+        CategoryId: 8,
+      };
+      sandbox.stub(New, 'create').rejects(objectError);
+
+      const response = await request(app)
+        .put(`/news/${idFake}`)
+        .send(fakerequest)
+        .expect(400);
+      expect(response.body).to.have.property('errors');
     });
   });
 });
