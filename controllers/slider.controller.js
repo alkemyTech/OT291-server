@@ -1,6 +1,6 @@
 const SlidesDao = require('../dao/slide');
 const UploadFiles = require('../helpers/UploadFiles.js');
-
+const FileManager = require('../helpers/FileManager.js');
 class SlidersController {
   static async getDetails(req, res) {
     const { id } = req.params;

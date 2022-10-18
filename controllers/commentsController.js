@@ -1,4 +1,3 @@
-const { Comments } = require('../models');
 const CommentDao = require('../dao/comments');
 
 class CommentsControllers {
