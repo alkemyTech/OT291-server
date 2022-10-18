@@ -190,6 +190,122 @@ describe('contacts', () => {
             done(err);
           });
       });
+      it('Returns the same number of elements', (done) => {
+        const res = [
+          {
+            name: 'Contact1',
+            phone: 123456789,
+            email: 'contact1@gmail.com',
+            message: 'este es un mensaje de prueba',
+          },
+          {
+            name: 'Contact2',
+            phone: 123456789,
+            email: 'contact2@gmail.com',
+            message: 'este es un mensaje de prueba',
+          },
+          {
+            name: 'Contact3',
+            phone: 123456789,
+            email: 'contact3@gmail.com',
+            message: 'este es un mensaje de prueba',
+          },
+          {
+            name: 'Contact4',
+            phone: 123456789,
+            email: 'contact4@gmail.com',
+            message: 'este es un mensaje de prueba',
+          },
+          {
+            name: 'Contact5',
+            phone: 123456789,
+            email: 'contact5@gmail.com',
+            message: 'este es un mensaje de prueba',
+          },
+          {
+            name: 'Contact6',
+            phone: 123456789,
+            email: 'contact6@gmail.com',
+            message: 'este es un mensaje de prueba',
+          },
+          {
+            name: 'Contact7',
+            phone: 123456789,
+            email: 'contact7@gmail.com',
+            message: 'este es un mensaje de prueba',
+          },
+          {
+            name: 'asdasd',
+            phone: null,
+            email: 'alvaro@gmail.com',
+            message: null,
+          },
+          {
+            name: 'nombre1',
+            phone: null,
+            email: 'prueba@gmail.com',
+            message: null,
+          },
+          {
+            name: 'nombre1',
+            phone: null,
+            email: 'prueba@gmail.com',
+            message: null,
+          },
+          {
+            name: 'nombre1',
+            phone: null,
+            email: 'prueba@gmail.com',
+            message: null,
+          },
+          {
+            name: 'nombre1',
+            phone: null,
+            email: 'prueba@gmail.com',
+            message: null,
+          },
+          {
+            name: 'nombre1',
+            phone: null,
+            email: 'prueba@gmail.com',
+            message: null,
+          },
+          {
+            name: 'nombre1',
+            phone: null,
+            email: 'prueba@gmail.com',
+            message: null,
+          },
+          {
+            name: 'nombre1',
+            phone: null,
+            email: 'prueba@gmail.com',
+            message: null,
+          },
+          {
+            name: 'asdasd',
+            phone: null,
+            email: 'alvaro@gmail.com',
+            message: null,
+          },
+          {
+            name: 'asdasd',
+            phone: null,
+            email: 'alvaro@gmail.com',
+            message: null,
+          },
+        ];
+        sandbox.stub(ContactDao, 'getAllContacts').resolves(res);
+        request(app)
+          .get('/contacts')
+          .send({})
+          .expect(200)
+          .end((err, response) => {
+            expect(response.body.length).to.equal(res.length);
+
+            done(err);
+          });
+      });
     });
   });
 });
