@@ -15,11 +15,10 @@ describe('User', () => {
     authStub = sandbox.stub(RoleMiddleware, 'isAdminRole').callsFake(fakeAuth);
     authOwnerStub = sandbox.stub(RoleMiddleware, 'isOwner').callsFake(fakeAuth);
 
-    app = rewire('../app');
+    app = rewire('../app')
   });
 
   afterEach(() => {
-    app = rewire('../app');
     sandbox.restore();
   });
 
@@ -34,7 +33,7 @@ describe('User', () => {
         .to.equal('User deleted successfully');
     });
 
-    it('Should throw an error', async () => {
+    it('Should response with 404 status if user does not exist', async () => {
       sandbox.stub(User, 'destroy').resolves(0);
       const response = await request(app).delete('/users/123');
 
@@ -79,7 +78,7 @@ describe('User', () => {
         .to.equal('Could not find users');
     });
 
-    it('Should throw an error if something go wrong', async () => {
+    it('Should throw an error if user\'s table does not exist', async () => {
       sandbox.stub(User, 'findAll').throws();
       const response = await request(app).get('/users/users');
 
