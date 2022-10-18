@@ -17,15 +17,19 @@ class OrganizationController {
           'urlLinkedin',
         ],
       });
+      if (!response) {
+        return res.status(404).json({ msg: 'Could not find information' });
+      }
+
       const slides = await SlidesDao.findSlidebyOrganization({
         where: { organizationId: response.id },
         exclude: ['createdAt', 'updatedAt', 'deletedAt'],
         order: ['order', 'ASC'],
       });
-      response === null
-        ? res.status(404).json({ msg: 'Could not find information' })
-        : res.status(200).json({ response, slides });
+
+      return res.status(200).json({ response, slides });
     } catch (error) {
+      console.log(error);
       return res.status(500).json({
         msg: 'Error in db',
       });

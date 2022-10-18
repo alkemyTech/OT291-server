@@ -54,6 +54,7 @@ describe('organization', () => {
         .expect(200)
         .end((err, response) => {
           expect(response.body).to.have.property('response');
+          expect(response.body.response).to.have.property('name');
           expect(response.body).to.have.property('slides');
           done(err);
         });
@@ -61,18 +62,21 @@ describe('organization', () => {
 
     it('Cannot obtain organization info', (done) => {
       sandbox.stub(Organization, 'findOne').resolves(null);
-      sandbox.stub(SlidesDao, 'findSlidebyOrganization').resolves(null);
+
       request(app)
         .get('/organization/public')
-        .expect(500)
+        .expect(404)
         .end((err, response) => {
-          expect(response.body).to.have.property('msg').to.equal('Error in db');
+          expect(response.body)
+            .to.have.property('msg')
+            .to.equal('Could not find information');
           done(err);
         });
     });
   });
 
   context('POST /organization/pubic', () => {
+    before(() => {});
     it('Update organization succesfully', (done) => {
       sandbox.stub(Organization, 'update').resolves([1]);
       request(app)
