@@ -12,7 +12,7 @@ class UserDao {
       });
       return allUsers;
     } catch (error) {
-      return error;
+      throw Error();
     }
   }
 
