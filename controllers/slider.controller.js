@@ -34,6 +34,29 @@ class SlidersController {
     }
   }
 
+  static async updateSlide(req, res) {
+    const { id } = req.params;
+    const { imageUrl, text, order, organizationId } = req.body;
+    let decodedImage;
+    let response = { text, order, organizationId, imageUrl };
+    if (imageUrl) {
+      try {
+        decodedImage = await UploadFiles.decodeImage(imageUrl, id);
+        response.imageUrl = decodedImage;
+      } catch (error) {
+        res.status(400).json({ msg: 'Could not decode image' });
+      }
+    } else {
+      delete response.imageUrl;
+    }
+    try {
+      const slideUpdated = await SlidesDao.updateSLide({ id }, response);
+      return res.status(200).json(slideUpdated);
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  }
+
   static async deleteSlide(req, res) {
     const { id } = req.params;
     const where = { id };

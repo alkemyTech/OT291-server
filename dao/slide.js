@@ -1,4 +1,5 @@
 const { Slide } = require('../models');
+const MapperResponse = require('../utils/formatResponse');
 class SlidesDap {
   /**
    * Asynchronously and extensible function return a Slid from the database.
@@ -14,6 +15,14 @@ class SlidesDap {
         where: where,
         attributes: { exclude: exclude },
       });
+      return SlideData;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  static async findSlidebyPk(id) {
+    try {
+      const SlideData = await Slide.findByPk(+id);
       return SlideData;
     } catch (error) {
       throw new Error(error);
@@ -85,6 +94,19 @@ class SlidesDap {
       return allSlides;
     } catch (error) {
       return error;
+    }
+  }
+  static async updateSLide(where, data) {
+    try {
+      const slideUpdated = await Slide.update(data, {
+        where: where,
+      });
+      if (slideUpdated[0] < 1) {
+        return 'Slide not found';
+      }
+      return 'Slide updated succesfully';
+    } catch (error) {
+      throw new Error('Error Slide not updated');
     }
   }
 }
