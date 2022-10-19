@@ -1,0 +1,163 @@
+components:
+  schemas:
+    MembersCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Arthur
+        facebookUrl:
+          type: string
+          example: https://www.facebook.com/member1/
+        instagramUrl:
+          type: string
+          example: https://www.instagram.com/member1/
+        linkedinUrl:
+          type: string
+          example: https://www.linkedin.com/member1/
+        image:
+          type: string
+          example: https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png
+    MembersUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Arthur
+        facebookUrl:
+          type: string
+          example: https://www.facebook.com/member1/
+        instagramUrl:
+          type: string
+          example: https://www.instagram.com/member1/
+        linkedinUrl:
+          type: string
+          example: https://www.linkedin.com/member1/
+        image:
+          type: string
+          example: https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png
+
+    ArrayOfMembers:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+            example: member1
+          image:
+            type: string
+            example: https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png
+      example:
+        - name: Jessica
+          image: https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png
+        - name: Jessica2
+          image: https://www.designevo.com/res/templates/thumb_small/colorful-hand-and-warm-community.png
+
+paths:
+  /members:
+    get:
+      summary: Returns a list of members.
+      tags:
+        - Member
+      responses:
+        '200':
+          description: Array of members objects.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfMembers'
+        '400':
+          description: Error.
+        default:
+          description: Unexpected error
+  /members/{id}:
+    put:
+      summary: Edit a member and returns a object message
+      tags:
+        - Member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MembersUpdate'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The Id of the user to return.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A message of confirmation.
+          content:
+            application/json:
+              type: object
+              example: { msg: 'User update successfully' }
+        '404':
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Could not find user' }
+        '400':
+          description: Error.
+        default:
+          description: Unexpected error
+  /members/:
+    post:
+      summary: create member and returns a object message
+      tags:
+        - Member
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MembersCreate'
+      responses:
+        '200':
+          description: A message of confirmation.
+          content:
+            application/json:
+              type: object
+              example: { msg: "Member created successfully." }
+        '400':
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Something went wrong' }
+        default:
+          description: Unexpected error
+  /members/{id2}:
+    delete:
+      summary: Delete a member from data base.
+      tags:
+        - Member
+      parameters:
+        - name: id2
+          in: path
+          required: true
+          description: The Id of the member to delete.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A message of confirmation.
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Member deleted successfully' }
+        '404':
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Could not find member' }
+        '400':
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Something went wrong' }
+        default:
+          description: Unexpected error

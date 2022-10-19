@@ -1,4 +1,5 @@
 const { Slide } = require('../models');
+const MapperResponse = require('../utils/formatResponse');
 class SlidesDap {
   /**
    * Asynchronously and extensible function return a Slid from the database.
@@ -14,6 +15,14 @@ class SlidesDap {
         where: where,
         attributes: { exclude: exclude },
       });
+      return SlideData;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+  static async findSlidebyPk(id) {
+    try {
+      const SlideData = await Slide.findByPk(+id);
       return SlideData;
     } catch (error) {
       throw new Error(error);
@@ -42,6 +51,7 @@ class SlidesDap {
       throw new Error(error);
     }
   }
+
   static async deleteSlides(where) {
     try {
       const deleteSlide = await Slide.destroy({
@@ -52,7 +62,7 @@ class SlidesDap {
     } catch (error) {
       throw new Error(error);
     }
-  } 
+  }
   /**
    * Asynchronously and extensible function return a Slide from the database.
    * @param {Object} attributes
@@ -65,7 +75,7 @@ class SlidesDap {
       const newSlide = await Slide.create(attributes, direction);
       return newSlide;
     } catch (error) {
-      throw Error(error)
+      throw Error(error);
     }
   }
   /**
@@ -79,11 +89,24 @@ class SlidesDap {
   static async sortSlides(column, direction) {
     try {
       const allSlides = await Slide.findAll({
-        order: [ [column, direction] ]
+        order: [[column, direction]],
       });
       return allSlides;
     } catch (error) {
-      return error
+      return error;
+    }
+  }
+  static async updateSLide(where, data) {
+    try {
+      const slideUpdated = await Slide.update(data, {
+        where: where,
+      });
+      if (slideUpdated[0] < 1) {
+        return 'Slide not found';
+      }
+      return 'Slide updated succesfully';
+    } catch (error) {
+      throw new Error('Error Slide not updated');
     }
   }
 }

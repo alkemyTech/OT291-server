@@ -12,7 +12,7 @@ class UserDao {
       });
       return allUsers;
     } catch (error) {
-      return error;
+      throw Error();
     }
   }
 
@@ -25,7 +25,7 @@ class UserDao {
       });
       return getOneUser;
     } catch (error) {
-      return error;
+      throw new Error(error);
     }
   }
 }
