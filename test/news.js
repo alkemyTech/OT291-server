@@ -8,7 +8,6 @@ const request = require('supertest');
 const { New } = require('../models');
 const RoleMiddleware = require('../middlewares/verify-role');
 const sandbox = sinon.createSandbox();
-const assert = chai.assert;
 
 describe('News', () => {
   beforeEach(() => {
@@ -28,7 +27,7 @@ describe('News', () => {
   context('GET /news/:id', () => {
     it('Get news error when id is not int', async () => {
       const idFake = 'a';
-
+      sandbox.stub(New, 'findAll').resolves([]);
       const response = await request(app).get(`/news/${idFake}`).expect(400);
 
       expect(response.body.errors.errors[0])
@@ -39,7 +38,7 @@ describe('News', () => {
       const idFake = 1;
       const fakeResponse = [
         {
-          id: 1,
+          id: 15,
           name: 'Title Example',
           content: 'Content for a new with title 1',
           image:
@@ -50,12 +49,10 @@ describe('News', () => {
 
       sandbox.stub(New, 'findByPk').resolves(fakeResponse);
       const response = await request(app).get(`/news/${idFake}`).expect(200);
-
       expect(response.body).to.eql(fakeResponse);
     });
     it('Get/id news when throw error 500', async () => {
-      const objectError = { msg: 'error' };
-      sandbox.stub(New, 'findAll').rejects(objectError);
+      sandbox.stub(New, 'findAll').rejects({});
 
       const response = await request(app).get('/news/1').expect(500);
     });
@@ -64,7 +61,7 @@ describe('News', () => {
     it('Get get all news', async () => {
       const fakeResponse = [
         {
-          id: 2,
+          id: 2345434543,
           name: 'Title Example',
           content: 'Content for a new with title 1',
           image:
@@ -79,8 +76,7 @@ describe('News', () => {
       expect(res.body).to.eql(fakeResponse);
     });
     it('Get news when throw error 500', async () => {
-      const objectError = { msg: 'error' };
-      sandbox.stub(New, 'findAll').rejects(objectError);
+      sandbox.stub(New, 'findAll').rejects({});
 
       const response = await request(app).get('/news').expect(500);
     });
@@ -88,7 +84,7 @@ describe('News', () => {
   context('POST /news', () => {
     it('POST news successfully', async () => {
       const fakerequest = {
-        name: 'newName',
+        name: 'newName343',
         content: 'newContent',
         image: 'urlImage',
       };
@@ -101,13 +97,12 @@ describe('News', () => {
       expect(res.body).to.eql({ msg: 'New created successfully' });
     });
     it('POST news when throw error 500', async () => {
-      const objectError = { msg: 'error' };
       const fakerequest = {
         name: 'newName',
         content: 'newContent',
         image: 'urlImage',
       };
-      sandbox.stub(New, 'create').rejects(objectError);
+      sandbox.stub(New, 'create').rejects({});
 
       const response = await request(app)
         .post('/news')
@@ -115,13 +110,12 @@ describe('News', () => {
         .expect(500);
     });
     it('POST news error with errors in req.body', async () => {
-      const objectError = { msg: 'error' };
       const fakerequest = {
         name: 6,
         content: 4,
         image: 8,
       };
-      sandbox.stub(New, 'create').rejects(objectError);
+      sandbox.stub(New, 'create').rejects({});
 
       const response = await request(app)
         .post('/news')
@@ -137,51 +131,42 @@ describe('News', () => {
         name: 'new test',
         image: 'test233',
         CategoryId: 8,
-      };
-
-      const fakeResponse = {
-        id: 2,
-        name: 'new test',
-        content: 'Content for a new with title 2',
-        image: 'test233',
         type: null,
-        createdAt: '2022-10-12T22:57:05.000Z',
-        updatedAt: '2022-10-18T23:02:55.000Z',
-        deletedAt: null,
-        CategoryId: 8,
       };
 
-      sandbox.stub(New, 'update').resolves(fakerequest);
+      sandbox.stub(New, 'update').resolves([1]);
+      sandbox.stub(New, 'findByPk').resolves(fakerequest);
       const res = await request(app)
         .put(`/news/${idFake}`)
         .send(fakerequest)
         .expect(201);
-      expect(res.body).to.eql(fakeResponse);
+      expect(res.body).to.eql(fakerequest);
     });
     it('PUT news when throw error 500', async () => {
-      const objectError = { msg: 'error' };
       const idFake = 2;
       const fakerequest = {
         name: 'new test',
         image: 'test233',
         CategoryId: 8,
       };
-      sandbox.stub(New, 'update').rejects(objectError);
+      sandbox.stub(New, 'update').rejects({});
+      sandbox.stub(New, 'findByPk').resolves(fakerequest);
 
       const response = await request(app)
         .put(`/news/${idFake}`)
         .send(fakerequest)
         .expect(500);
     });
+
     it('PUT news error with errors in req.body', async () => {
-      const objectError = { msg: 'error' };
       const idFake = 2;
       const fakerequest = {
         name: 234,
         image: 4,
         CategoryId: 8,
       };
-      sandbox.stub(New, 'create').rejects(objectError);
+      sandbox.stub(New, 'create').rejects();
+      sandbox.stub(New, 'findByPk').resolves(fakerequest);
 
       const response = await request(app)
         .put(`/news/${idFake}`)
