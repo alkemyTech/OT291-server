@@ -74,9 +74,10 @@ class UserController {
         'lastName',
         'email',
       ]);
-      res.status(200).json(allUsers);
+      if (allUsers.length) return res.status(200).json(allUsers);
+      return res.status(404).json({ msg: 'Could not find users' })
     } catch (error) {
-      res.status(400).json(error);
+      res.status(400).json({ msg: 'Something went wrong' });
     }
   }
 
@@ -96,7 +97,7 @@ class UserController {
             where:{ id }
           })
     } catch (error) {
-      return res.status(400).json(error);
+      return res.status(400).json({ msg: 'Something went wrong' });
     }
     if(updatedUser) {
       return res.status(200).json({ msg: 'User update successfully'})
