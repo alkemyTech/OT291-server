@@ -39,7 +39,9 @@ class TestimonialController {
       });
       res.status(200).json('Testimonial created successfully.');
     } catch (error) {
-      res.status(400).json(error);
+      res.status(400).json({
+        msg: 'Error while creating testimonial',
+      });
     }
   }
   static async getTestimonials(req, res) {
