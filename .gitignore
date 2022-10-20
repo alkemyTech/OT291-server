@@ -4,3 +4,4 @@ docker_schemas
 docker-compose.yaml
 docker_schemas
 files
+.nyc_output 
