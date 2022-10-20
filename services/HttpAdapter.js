@@ -17,7 +17,6 @@ class HttpAdapter {
 
   static async post(url, body, Authorization) {
     try {
-      console.log(body);
       const data = await HttpAdapter.instance.post(url, body, {
         headers: {
           Authorization: `Bearer ${Authorization}`,
