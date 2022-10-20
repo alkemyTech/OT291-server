@@ -7,7 +7,6 @@ const OrderController = require('../controllers/order');
 
 router.post(
   '/',
-  RoleMiddleware.decryptTokenUser,
   orderSchema.orderSchema,
   ValidationErrors.validateSchema,
   OrderController.createOrder
