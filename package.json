@@ -5,11 +5,14 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all"
+    "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
+    "test": "mocha",
+    "coverage": "nyc npm run test"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.7.0",
     "aws-sdk": "^2.1221.0",
+    "axios": "^1.1.3",
     "bcrypt": "^5.0.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
@@ -27,8 +30,17 @@
     "swagger-ui-express": "^4.5.0"
   },
   "devDependencies": {
+    "chai": "^4.3.6",
+    "chai-as-promised": "^7.1.1",
+    "chai-http": "^4.3.0",
+    "mocha": "^10.0.0",
     "nodemon": "^2.0.20",
+    "nyc": "^15.1.0",
     "prettier": "^2.7.1",
-    "sequelize-cli": "^6.2.0"
+    "rewire": "^6.0.0",
+    "sequelize-cli": "^6.2.0",
+    "sinon": "^14.0.1",
+    "sinon-chai": "^3.7.0",
+    "supertest": "^6.3.0"
   }
 }

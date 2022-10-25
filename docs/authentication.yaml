@@ -1,0 +1,89 @@
+components:
+  schemas:
+    Login:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test1@user.com
+        password:
+          type: string
+          example: user
+    Register:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: user1
+        lastName:
+          type: string
+          example: test
+        email:
+          type: string
+          example: user1@test.com
+        password:
+          type: string
+          example: user
+paths:
+  /auth/login:
+    post:
+      summary: login a user
+      tags:
+        - Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: login successfully
+          content:
+            application/json:
+              example:
+                {
+                  user: 'test1@user.com',
+                  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6xQHVzZXIuY29tIiwiaWF0IjoxNjY1ODYzNzkxLCJleHAiOjE2NjU4NzgxOTF9.I8BIj6OYGVhfZSVVzD3SbnHgpWZwSfdLW35rFTn3g2I',
+                }
+        '400':
+          description: Login error
+          content:
+            application/json:
+              type: object
+              example: { ok: 'false' }
+        '500':
+          description: message of error
+        default:
+          description: message of unexpected error
+  /auth/register:
+    post:
+      summary: Register
+      tags:
+        - Register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/Register'
+      responses:
+        '200':
+          description: register successfully
+          content:
+            application/json:
+              example:
+                {
+                  firstName: user1,
+                  lastName: test,
+                  email: user1@test.com,
+                  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6xQHVzZXIuY29tIiwiaWF0IjoxNjY1ODYzNzkxLCJleHAiOjE2NjU4NzgxOTF9.I8BIj6OYGVhfZSVVzD3SbnHgpWZwSfdLW35rFTn3g2I',
+                }
+        '500':
+          description: Register error
+          content:
+            application/json:
+              type: object
+              example: { msg: 'Could not create user' }

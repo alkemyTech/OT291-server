@@ -8,11 +8,24 @@ class UserDao {
   static async getAllUsers(attributes) {
     try {
       const allUsers = await User.findAll({
-        attributes
-      })
+        attributes,
+      });
       return allUsers;
     } catch (error) {
-      return error;
+      throw Error();
+    }
+  }
+
+  static async findOneUser(where, attributes, include) {
+    try {
+      const getOneUser = await User.findOne({
+        where,
+        attributes,
+        include,
+      });
+      return getOneUser;
+    } catch (error) {
+      throw new Error(error);
     }
   }
 }

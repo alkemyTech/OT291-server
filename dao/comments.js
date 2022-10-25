@@ -1,6 +1,22 @@
 const { Comment } = require('../models');
-
+const MapperResponse = require('../utils/formatResponse');
 class CommentDao {
+  /**
+   * Asynchronously delete a comment from the database (table Comments)
+   * @param {Object} where - To filter by attribute/s Ej: {name: 'ong'}
+   * @returns {boolean}
+   */
+  static async deleteComment(id) {
+    try {
+      const deletedComment = await Comment.destroy({
+        where: { id },
+      });
+      return deletedComment;
+    } catch (error) {
+      return error;
+    }
+  }
+
   static async listCommentsByPost(id) {
     try {
       const comments = await Comment.findAll({
@@ -27,6 +43,36 @@ class CommentDao {
       return 'Comment updated succesfully';
     } catch (error) {
       throw new Error('Error Comment not updated');
+    }
+  }
+
+  /**
+   * Asynchronously getAllComments comments from the database (table Comments)
+   * @param   {Object} attributes - Attributes fields Ej: ['body', 'createdAt']
+   * @returns {boolean}
+   * @param   {Object} order - Order fields Ej: ['createdAt', 'ASC']
+   * @returns {boolean}
+   */
+  static async getAllComments(attributes, order) {
+    try {
+      const getAllComments = await Comment.findAll({
+        attributes,
+        order,
+      });
+      return getAllComments;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async createComment(body) {
+    try {
+      const comment = await Comment.create(body);
+      const result = MapperResponse.cleanDataDb(comment);
+      return result;
+    } catch (error) {
+      console.log(error);
+      throw new Error('NO se pudo crear el comentario');
     }
   }
 }

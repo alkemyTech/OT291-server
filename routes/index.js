@@ -12,8 +12,9 @@ const members = require('./members');
 const backoffice = require('./backoffice');
 const testimonialsRouter = require('./testimonials');
 const membersRouter = require('./members');
-const comments = require('./comment');
+const comments = require('./comments');
 const commentsRouter = require('./comments');
+const ordersRouter = require('./orders');
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', { title: 'Express' });
@@ -33,4 +34,6 @@ router.use('/testimonials', testimonialsRouter);
 router.use('/members', membersRouter);
 router.use('/comments', comments);
 router.use('/posts', commentsRouter);
+router.use('/orders', ordersRouter);
+
 module.exports = router;

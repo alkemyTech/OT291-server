@@ -1,24 +1,67 @@
 const { Member } = require('../models');
 const MemberDao = require('../dao/member');
+const Pagination = require('../helpers/pagination');
 
 class MemberController {
   static async getMembers(req, res) {
-    const attributes = [
-      'name',
-      'facebookUrl',
-      'instagramUrl',
-      'linkedinUrl',
-      'image',
-      'description',
-    ];
+    const { page } = req.query;
 
-    try {
-      const response = await MemberDao.getMembers(attributes);
-      return res.status(200).json(response);
-    } catch (error) {
-      return res.status(500).json({
-        msg: 'error while searching members in db',
-      });
+    if (!page) {
+      const attributes = [
+        'name',
+        'facebookUrl',
+        'instagramUrl',
+        'linkedinUrl',
+        'image',
+        'description',
+      ];
+
+      try {
+        const response = await MemberDao.getMembers(attributes);
+        return res.status(200).json(response);
+      } catch (error) {
+        return res.status(500).json({
+          msg: 'error while searching members in db',
+        });
+      }
+    }
+
+    if (page) {
+      try {
+        const pagination = new Pagination(req, res);
+        const { page, size } = pagination.getPaginationParams(req, res);
+
+        const allMembersPage = await MemberDao.findAllMembersPage(size, page);
+
+        let totalPages = pagination.getNumberOfTotalPages(
+          allMembersPage.count,
+          size
+        );
+
+        const { nextPage, previousPage } = pagination.getNextAndPreviousPage(
+          page,
+          size,
+          totalPages
+        );
+
+        if (allMembersPage.count < 1) {
+          return res.status(404).json({
+            msg: 'There is no members',
+          });
+        }
+
+        return res.status(200).json({
+          content: allMembersPage.rows,
+          totalPages,
+          nextPage,
+          previousPage,
+        });
+      } catch (error) {
+        console.error(error);
+        return res.status(400).json({
+          msg: 'Error while searching members in db',
+        });
+      }
     }
   }
 
